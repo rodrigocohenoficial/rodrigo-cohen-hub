@@ -14,6 +14,8 @@ export interface ArticleFrontmatter {
   atualizadoEm: string;
   imagem?: string;
   imagemAlt?: string;
+  unsplashFotografo?: string;
+  unsplashFotografoUrl?: string;
   tags: string[];
   faq: { q: string; a: string }[];
   relacionados: string[];

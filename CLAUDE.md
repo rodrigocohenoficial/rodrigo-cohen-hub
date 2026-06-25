@@ -35,7 +35,15 @@ Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional
 
 ## Capas automáticas (OG Image)
 
-- As capas dos artigos são **geradas automaticamente por código** via `next/og` (`app/[pilar]/[slug]/opengraph-image.tsx`).
-- A capa usa o `title` e o `pilar` do frontmatter — cor de fundo e texto definidos em `lib/pilares.ts` (`ogBg`, `ogText`).
-- Todo artigo MDX com `title` e `pilar` no frontmatter recebe capa automática na home (cards), na página do artigo (topo) e como `og:image`.
+- A `og:image` de compartilhamento é **gerada por código** via `next/og` (`app/[pilar]/[slug]/opengraph-image.tsx`).
+- Cor de fundo e texto definidos em `lib/pilares.ts` (`ogBg`, `ogText`).
 - **Nunca criar arquivos de imagem manuais para artigos nem pedir imagens ao usuário.**
+
+## Fotos de capa (Unsplash)
+
+- Artigos usam fotos reais do Unsplash como capa visual (cards e topo do artigo).
+- O script `npm run fetch-unsplash` busca fotos via API e grava no frontmatter: `imagem`, `imagemAlt`, `unsplashFotografo`, `unsplashFotografoUrl`.
+- A foto é estável (gravada no MDX, não muda a cada visita).
+- Atribuição ao fotógrafo é exibida abaixo da capa, conforme exigido pela API Unsplash.
+- Se não houver foto Unsplash, cards e capa usam a OG image tipográfica como fallback.
+- A `og:image` (para redes sociais) continua sendo a imagem tipográfica gerada por `opengraph-image.tsx`.

@@ -21,6 +21,7 @@ interface ArticleLayoutProps {
     pilarNome: string;
     slug: string;
     title: string;
+    imagem?: string;
   }[];
 }
 
@@ -73,14 +74,42 @@ export default function ArticleLayout({
             ]}
           />
 
-          {/* 2. Capa OG */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`/${frontmatter.pilar}/${frontmatter.slug}/opengraph-image`}
-            alt={frontmatter.title}
-            className="w-full rounded-xl mb-7 border border-line"
-            style={{ aspectRatio: "1200/630" }}
-          />
+          {/* 2. Capa */}
+          <div className="mb-7">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={
+                frontmatter.imagem?.startsWith("http")
+                  ? frontmatter.imagem
+                  : `/${frontmatter.pilar}/${frontmatter.slug}/opengraph-image`
+              }
+              alt={frontmatter.imagemAlt || frontmatter.title}
+              className="w-full rounded-xl border border-line object-cover"
+              style={{ aspectRatio: "16/9" }}
+            />
+            {frontmatter.unsplashFotografo && frontmatter.unsplashFotografoUrl && (
+              <p className="text-[12px] text-muted mt-2 text-right">
+                Foto:{" "}
+                <a
+                  href={frontmatter.unsplashFotografoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-brass transition-colors"
+                >
+                  {frontmatter.unsplashFotografo}
+                </a>
+                {" / "}
+                <a
+                  href="https://unsplash.com/?utm_source=rodrigo_cohen_hub&utm_medium=referral"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-brass transition-colors"
+                >
+                  Unsplash
+                </a>
+              </p>
+            )}
+          </div>
 
           {/* 3. Eyebrow */}
           <span className="text-[12px] tracking-[0.16em] uppercase font-semibold text-brass">

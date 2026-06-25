@@ -61,6 +61,7 @@ export default async function PilarPage({ params }: PageProps) {
               pilarNome={pilar.nome}
               slug={a.slug}
               title={a.title}
+              imagem={a.imagem}
             />
           ))}
         </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 interface ArticleCardHomeProps {
@@ -38,9 +37,7 @@ export default function ArticleCardHome({
   return (
     <Link
       href={`/${pilar}/${slug}`}
-      className={`group block bg-paper border border-line rounded-[14px] overflow-hidden transition-all duration-200 hover:-translate-y-[3px] hover:border-brass-soft hover:shadow-[0_14px_36px_-22px_rgba(18,46,36,0.25)] ${
-        isGrande ? "" : ""
-      }`}
+      className={`group block bg-paper border border-line rounded-[14px] overflow-hidden transition-all duration-200 hover:-translate-y-[3px] hover:border-brass-soft hover:shadow-[0_14px_36px_-22px_rgba(18,46,36,0.25)]`}
     >
       {/* Image area */}
       <div
@@ -51,13 +48,12 @@ export default function ArticleCardHome({
         {imgError ? (
           <ImagePlaceholder pilarNome={pilarNome} />
         ) : (
-          <Image
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
             src={src}
             alt={title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
             onError={() => setImgError(true)}
-            sizes={isGrande ? "(max-width: 768px) 100vw, 60vw" : "(max-width: 768px) 100vw, 33vw"}
           />
         )}
       </div>

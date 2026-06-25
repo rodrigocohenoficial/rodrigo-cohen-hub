@@ -83,6 +83,7 @@ export default async function ArticlePage({ params }: PageProps) {
           pilarNome: p?.nome ?? found.pilar,
           slug: found.slug,
           title: found.title,
+          imagem: found.imagem,
         };
       }
       // If not found in same pilar, return a placeholder
@@ -93,6 +94,7 @@ export default async function ArticlePage({ params }: PageProps) {
     pilarNome: string;
     slug: string;
     title: string;
+    imagem?: string;
   }[];
 
   return (

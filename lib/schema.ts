@@ -54,7 +54,9 @@ export function articleSchema(article: {
     dateModified: `${article.atualizadoEm}T09:00:00-03:00`,
     datePublished: `${article.atualizadoEm}T09:00:00-03:00`,
     image: article.imagem
-      ? `${SITE_URL}${article.imagem}`
+      ? article.imagem.startsWith("http")
+        ? article.imagem
+        : `${SITE_URL}${article.imagem}`
       : undefined,
     url: `${SITE_URL}/${article.pilar}/${article.slug}`,
     author: authorSchema(),
