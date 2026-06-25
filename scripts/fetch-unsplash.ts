@@ -27,6 +27,12 @@ const KEYWORD_MAP: Record<string, string> = {
 
   // investir
   "cdb-ou-tesouro-direto": "government bonds savings certificate bank",
+  "como-declarar-investimentos-no-ir": "tax return documents calculator filing papers",
+  "o-que-e-dividendo": "dividend income cash payment stock shareholder",
+  "o-que-e-etf": "stock exchange index fund diversification portfolio",
+  "o-que-olhar-num-fii": "commercial building office real estate analysis",
+  "o-que-sao-lci-e-lca": "bank vault safe deposit fixed income security",
+  "renda-fixa-ou-renda-variavel": "crossroads choice decision path direction sign",
   "comecar-a-investir-em-acoes": "stock market beginner investor growth",
   "o-que-e-fii": "real estate buildings skyline property investment",
   "quanto-para-viver-de-dividendos": "passive income dividends retirement freedom",
@@ -34,6 +40,8 @@ const KEYWORD_MAP: Record<string, string> = {
 
   // macro-cripto-ia
   "halving-do-bitcoin": "bitcoin mining hardware cryptocurrency halving",
+  "ia-nos-investimentos": "artificial intelligence robot technology finance data",
+  "taxa-de-juros-americana": "US treasury bonds dollar interest rates wall street",
   "o-que-e-bitcoin": "bitcoin digital currency blockchain network",
   "o-que-faz-o-dolar-subir": "US dollar bills exchange rate currency",
 
