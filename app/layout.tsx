@@ -37,6 +37,7 @@ const PILARES_NAV = [
   { slug: "mente", label: "Mente" },
   { slug: "macro-cripto-ia", label: "Macro & Cripto" },
   { slug: "vida", label: "Vida" },
+  { slug: "sobre", label: "Sobre" },
 ];
 
 const organizationJsonLd = organizationSchema();

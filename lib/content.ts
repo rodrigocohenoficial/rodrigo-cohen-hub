@@ -17,6 +17,8 @@ export interface ArticleFrontmatter {
   tags: string[];
   faq: { q: string; a: string }[];
   relacionados: string[];
+  destaque?: boolean;
+  destaqueHome?: boolean;
 }
 
 export interface Article {
@@ -74,6 +76,14 @@ export function getAllArticles(): ArticleFrontmatter[] {
   });
 
   return pilares.flatMap((pilar) => getArticlesByPilar(pilar));
+}
+
+export function getAllArticlesSorted(): ArticleFrontmatter[] {
+  return getAllArticles().sort(
+    (a, b) =>
+      new Date(b.atualizadoEm).getTime() -
+      new Date(a.atualizadoEm).getTime()
+  );
 }
 
 export function getAllSlugs(): { pilar: string; slug: string }[] {
