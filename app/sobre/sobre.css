@@ -1,0 +1,599 @@
+/*
+  CSS escopado da página /sobre.
+  Todo seletor vive dentro de .pagina-sobre para não vazar no resto do hub.
+  Cores, fontes e variáveis são locais.
+*/
+
+.pagina-sobre {
+  --sobre-gold: #d6b05e;
+  --sobre-gold-light: #f0cf7b;
+  --sobre-gold-alpha: rgba(214, 176, 94, 0.38);
+  --sobre-bg: #0a0908;
+  --sobre-fg: #f7f1e7;
+  --sobre-fg-72: rgba(247, 241, 231, 0.72);
+  --sobre-fg-62: rgba(247, 241, 231, 0.62);
+  --sobre-fg-48: rgba(247, 241, 231, 0.48);
+  --sobre-border: rgba(247, 241, 231, 0.09);
+
+  min-height: 100vh;
+  color: var(--sobre-fg);
+  background:
+    radial-gradient(circle at 74% 6%, rgba(205, 164, 82, 0.13), transparent 28rem),
+    linear-gradient(180deg, #0a0908 0%, #11100e 48%, #0a0908 100%);
+  overflow-x: hidden;
+  font-family: var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pagina-sobre ::selection {
+  background: rgba(214, 176, 94, 0.28);
+  color: #fff8ea;
+}
+
+/* ---- NAV ---- */
+
+.pagina-sobre .nav-shell {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem clamp(1.1rem, 5vw, 5rem);
+  border-bottom: 1px solid var(--sobre-border);
+  background: rgba(10, 9, 8, 0.82);
+  backdrop-filter: blur(18px);
+}
+
+.pagina-sobre .brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--sobre-fg);
+  text-decoration: none;
+}
+
+.pagina-sobre .brand-mark span {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(214, 176, 94, 0.42);
+  color: var(--sobre-gold);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.pagina-sobre .brand-mark strong {
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.pagina-sobre .nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.6vw, 2.4rem);
+}
+
+.pagina-sobre .nav-links a {
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sobre-fg-62);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.pagina-sobre .nav-links a:hover {
+  color: var(--sobre-fg);
+}
+
+/* ---- HERO ---- */
+
+.pagina-sobre .hero-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(20rem, 0.4fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: calc(100vh - 4.5rem);
+  padding: clamp(2.2rem, 4vw, 4.2rem) clamp(1.15rem, 5vw, 5rem);
+}
+
+.pagina-sobre .hero-copy {
+  max-width: 50rem;
+}
+
+.pagina-sobre .eyebrow {
+  display: flex;
+  align-items: center;
+  margin: 0 0 1.25rem;
+  color: var(--sobre-gold);
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.pagina-sobre .hero-copy h1 {
+  margin: 0;
+  max-width: 52rem;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-weight: 780;
+  font-size: clamp(3.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.072em;
+  color: #fffaf1;
+}
+
+.pagina-sobre .hero-bio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.85rem;
+  max-width: 44rem;
+  margin-top: clamp(1.15rem, 2.4vw, 1.8rem);
+}
+
+.pagina-sobre .hero-bio p,
+.pagina-sobre .section-body p,
+.pagina-sobre .quiet-card p,
+.pagina-sobre .book-copy p,
+.pagina-sobre .qg-copy p {
+  margin: 0;
+  color: var(--sobre-fg-72);
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.72;
+}
+
+.pagina-sobre .hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: clamp(1.25rem, 2.6vw, 2rem);
+}
+
+.pagina-sobre .hero-portrait {
+  position: relative;
+  justify-self: end;
+  width: min(100%, 31rem);
+  min-height: min(62vh, 38rem);
+  margin: 0;
+  overflow: hidden;
+  background: var(--sobre-bg);
+  box-shadow: 0 2.8rem 7rem rgba(0, 0, 0, 0.48);
+}
+
+.pagina-sobre .hero-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, #0a0908 0%, rgba(10, 9, 8, 0.58) 15%, rgba(10, 9, 8, 0) 42%),
+    linear-gradient(180deg, rgba(10, 9, 8, 0) 60%, rgba(10, 9, 8, 0.55) 100%);
+  pointer-events: none;
+}
+
+.pagina-sobre .hero-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  object-position: center top;
+  filter: saturate(0.86) contrast(1.04) brightness(0.88);
+}
+
+/* ---- BUTTONS ---- */
+
+.pagina-sobre .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.62rem;
+  min-height: 3.35rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--sobre-gold-alpha);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.pagina-sobre .btn svg,
+.pagina-sobre .text-link svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pagina-sobre .btn:hover,
+.pagina-sobre .text-link:hover {
+  transform: translateY(-2px);
+}
+
+.pagina-sobre .btn-primary {
+  color: var(--sobre-bg);
+  background: var(--sobre-gold);
+  border-color: var(--sobre-gold);
+}
+
+.pagina-sobre .btn-primary:hover {
+  background: var(--sobre-gold-light);
+  border-color: var(--sobre-gold-light);
+}
+
+.pagina-sobre .btn-secondary {
+  color: var(--sobre-fg);
+  background: rgba(247, 241, 231, 0.04);
+  border-color: rgba(214, 176, 94, 0.34);
+}
+
+.pagina-sobre .btn-secondary:hover {
+  border-color: rgba(214, 176, 94, 0.7);
+  background: rgba(214, 176, 94, 0.08);
+}
+
+/* ---- CREDENTIAL STRIP ---- */
+
+.pagina-sobre .credential-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.15rem;
+  padding: 1rem clamp(1.15rem, 5vw, 5rem);
+  border-top: 1px solid var(--sobre-border);
+  border-bottom: 1px solid var(--sobre-border);
+  background: rgba(247, 241, 231, 0.035);
+}
+
+.pagina-sobre .credential-strip span {
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(247, 241, 231, 0.7);
+  white-space: nowrap;
+}
+
+/* ---- CONTENT SECTIONS ---- */
+
+.pagina-sobre .content-section {
+  padding: clamp(4.8rem, 9vw, 9rem) clamp(1.15rem, 5vw, 5rem);
+  border-bottom: 1px solid rgba(247, 241, 231, 0.08);
+}
+
+.pagina-sobre .content-section h2 {
+  margin: 0;
+  max-width: 70rem;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-weight: 780;
+  font-size: clamp(2.45rem, 5.8vw, 6.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.072em;
+  color: #fffaf1;
+}
+
+.pagina-sobre .split-section,
+.pagina-sobre .book-section,
+.pagina-sobre .qg-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(18rem, 0.72fr);
+  gap: clamp(2rem, 7vw, 7rem);
+  align-items: center;
+}
+
+.pagina-sobre .section-body,
+.pagina-sobre .book-copy,
+.pagina-sobre .qg-copy {
+  max-width: 39rem;
+}
+
+.pagina-sobre .section-body .btn {
+  margin-top: 2rem;
+}
+
+/* ---- QUIET / TORO ---- */
+
+.pagina-sobre .quiet-section {
+  padding-top: clamp(3.5rem, 7vw, 7rem);
+  padding-bottom: clamp(3.5rem, 7vw, 7rem);
+}
+
+.pagina-sobre .quiet-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(18rem, 0.85fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: end;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid rgba(247, 241, 231, 0.1);
+  background: rgba(247, 241, 231, 0.035);
+}
+
+.pagina-sobre .quiet-card .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: -0.5rem;
+}
+
+.pagina-sobre .quiet-card p {
+  align-self: end;
+}
+
+.pagina-sobre .text-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  margin-top: 1.6rem;
+  color: var(--sobre-gold);
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 180ms ease, color 180ms ease;
+}
+
+.pagina-sobre .text-link:hover {
+  color: var(--sobre-fg);
+}
+
+/* ---- BOOK ---- */
+
+.pagina-sobre .book-section {
+  background:
+    linear-gradient(90deg, rgba(214, 176, 94, 0.045), transparent 48%),
+    var(--sobre-bg);
+}
+
+.pagina-sobre .book-cover {
+  justify-self: center;
+  width: min(100%, 18.5rem);
+  margin: 0;
+  padding: 0.7rem;
+  border: 1px solid rgba(214, 176, 94, 0.22);
+  background: rgba(247, 241, 231, 0.055);
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.38);
+}
+
+.pagina-sobre .book-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---- QG ---- */
+
+.pagina-sobre .qg-section {
+  align-items: start;
+  border-bottom: 0;
+}
+
+.pagina-sobre .qg-entry-card {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid rgba(214, 176, 94, 0.2);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(214, 176, 94, 0.11), transparent 16rem),
+    rgba(247, 241, 231, 0.045);
+}
+
+.pagina-sobre .qg-entry-card p {
+  margin: 0;
+  color: rgba(247, 241, 231, 0.74);
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.68;
+}
+
+.pagina-sobre .qg-entry-card .btn {
+  width: 100%;
+  min-height: 3.6rem;
+}
+
+.pagina-sobre .qg-entry-card small {
+  color: var(--sobre-fg-48);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* ---- PAGE FOOTER ---- */
+
+.pagina-sobre .sobre-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem clamp(1.15rem, 5vw, 5rem) 2.4rem;
+  color: rgba(247, 241, 231, 0.52);
+  border-top: 1px solid var(--sobre-border);
+}
+
+.pagina-sobre .footer-brand {
+  flex-shrink: 0;
+}
+
+.pagina-sobre .sobre-footer p {
+  margin: 0;
+  color: rgba(247, 241, 231, 0.58);
+  font-size: 0.74rem;
+  font-weight: 820;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.pagina-sobre .footer-copy {
+  display: flex;
+  max-width: 42rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  text-align: right;
+}
+
+.pagina-sobre .footer-copy small {
+  color: var(--sobre-fg-48);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+/* ---- FLOATING WHATSAPP ---- */
+
+.pagina-sobre .floating-whatsapp {
+  position: fixed;
+  right: clamp(1rem, 2vw, 1.5rem);
+  bottom: clamp(1rem, 2vw, 1.5rem);
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 4.25rem;
+  min-height: 4.25rem;
+  padding: 0 1.15rem;
+  color: #0f0d09;
+  background: linear-gradient(135deg, #d6b05e 0%, #f5d985 48%, #b98b35 100%);
+  border: 1px solid rgba(255, 242, 196, 0.44);
+  border-radius: 999px;
+  box-shadow:
+    0 1.15rem 2.8rem rgba(0, 0, 0, 0.38),
+    0 0 0 0.42rem rgba(214, 176, 94, 0.08);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.pagina-sobre .floating-whatsapp svg {
+  width: 1.28rem;
+  height: 1.28rem;
+  stroke-width: 2.4;
+}
+
+.pagina-sobre .floating-whatsapp:hover,
+.pagina-sobre .floating-whatsapp:focus-visible {
+  transform: translateY(-3px);
+  filter: saturate(1.05);
+  box-shadow:
+    0 1.45rem 3.25rem rgba(0, 0, 0, 0.46),
+    0 0 0 0.52rem rgba(214, 176, 94, 0.12);
+}
+
+.pagina-sobre .floating-whatsapp:focus-visible {
+  outline: 2px solid rgba(255, 250, 241, 0.9);
+  outline-offset: 4px;
+}
+
+/* ---- RESPONSIVE ---- */
+
+@media (max-width: 980px) {
+  .pagina-sobre .nav-links {
+    display: none;
+  }
+
+  .pagina-sobre .hero-section {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .pagina-sobre .hero-portrait {
+    justify-self: start;
+    width: min(100%, 34rem);
+    min-height: 28rem;
+  }
+
+  .pagina-sobre .hero-bio,
+  .pagina-sobre .split-section,
+  .pagina-sobre .quiet-card,
+  .pagina-sobre .book-section,
+  .pagina-sobre .qg-section {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-sobre .book-cover {
+    justify-self: start;
+  }
+
+  .pagina-sobre .sobre-footer {
+    flex-direction: column;
+  }
+
+  .pagina-sobre .footer-copy {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 620px) {
+  .pagina-sobre .nav-shell {
+    padding: 0.85rem 1rem;
+  }
+
+  .pagina-sobre .brand-mark strong {
+    font-size: 0.68rem;
+  }
+
+  .pagina-sobre .hero-copy h1 {
+    font-size: clamp(2.65rem, 11vw, 4.1rem);
+    letter-spacing: -0.058em;
+  }
+
+  .pagina-sobre .hero-portrait {
+    min-height: 24rem;
+  }
+
+  .pagina-sobre .content-section h2 {
+    font-size: clamp(2.35rem, 11vw, 3.8rem);
+    letter-spacing: -0.055em;
+  }
+
+  .pagina-sobre .hero-actions,
+  .pagina-sobre .hero-actions .btn,
+  .pagina-sobre .section-body .btn {
+    width: 100%;
+  }
+
+  .pagina-sobre .credential-strip span {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .pagina-sobre .quiet-card,
+  .pagina-sobre .qg-entry-card {
+    padding: 1.15rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .pagina-sobre .floating-whatsapp {
+    right: 1rem;
+    bottom: 1rem;
+    min-width: 3.65rem;
+    min-height: 3.65rem;
+    padding: 0;
+  }
+
+  .pagina-sobre .floating-whatsapp span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .pagina-sobre .floating-whatsapp svg {
+    width: 1.38rem;
+    height: 1.38rem;
+  }
+}

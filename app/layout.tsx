@@ -102,6 +102,12 @@ export default function RootLayout({
 
         <footer className="py-[46px] border-t border-line text-muted text-[13.5px] text-center">
           <div className="max-w-[1180px] mx-auto px-7">
+            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4" aria-label="Links parceiros">
+              <a href="https://robosb3.tradernation.com.br" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">Robôs Cohen</a>
+              <a href="https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">Toro/Santander</a>
+              <a href="https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">Livro</a>
+              <a href="https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">QG WhatsApp</a>
+            </nav>
             &copy; {new Date().getFullYear()} Rodrigo Cohen &middot; Menos tela.
             Mais vida.
           </div>
