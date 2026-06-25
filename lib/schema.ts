@@ -51,8 +51,8 @@ export function articleSchema(article: {
     headline: article.title,
     description: article.resumoMeta,
     abstract: article.respostaRapida,
-    dateModified: article.atualizadoEm,
-    datePublished: article.atualizadoEm,
+    dateModified: `${article.atualizadoEm}T09:00:00-03:00`,
+    datePublished: `${article.atualizadoEm}T09:00:00-03:00`,
     image: article.imagem
       ? `${SITE_URL}${article.imagem}`
       : undefined,
