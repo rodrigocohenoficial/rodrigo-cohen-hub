@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
+import rehypeSlug from "rehype-slug";
 import ArticleLayout from "@/components/ArticleLayout";
 import DefinitionBox from "@/components/DefinitionBox";
 import {
@@ -53,9 +54,6 @@ export async function generateMetadata({
       title: article.frontmatter.metaTitle || article.frontmatter.title,
       description: article.frontmatter.resumoMeta,
       type: "article",
-      images: article.frontmatter.imagem
-        ? [{ url: article.frontmatter.imagem }]
-        : undefined,
     },
   };
 }
@@ -104,7 +102,11 @@ export default async function ArticlePage({ params }: PageProps) {
       headings={headings}
       relacionados={relacionados}
     >
-      <MDXRemote source={article.content} components={mdxComponents} />
+      <MDXRemote
+        source={article.content}
+        components={mdxComponents}
+        options={{ mdxOptions: { rehypePlugins: [rehypeSlug] } }}
+      />
     </ArticleLayout>
   );
 }

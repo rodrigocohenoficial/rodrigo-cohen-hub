@@ -50,6 +50,7 @@ body {
   font-weight: 600;
   margin: 42px 0 4px;
   letter-spacing: -0.01em;
+  scroll-margin-top: 90px;
 }
 
 .art-body h3 {
@@ -58,6 +59,7 @@ body {
   color: var(--color-evergreen-700);
   font-weight: 600;
   margin: 28px 0 2px;
+  scroll-margin-top: 90px;
 }
 
 .art-body table {

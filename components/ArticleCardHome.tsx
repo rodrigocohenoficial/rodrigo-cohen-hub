@@ -32,7 +32,7 @@ export default function ArticleCardHome({
   size = "normal",
 }: ArticleCardHomeProps) {
   const [imgError, setImgError] = useState(false);
-  const src = imagem || `/img/${slug}.webp`;
+  const src = imagem || `/${pilar}/${slug}/opengraph-image`;
   const isGrande = size === "grande";
 
   return (

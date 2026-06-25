@@ -4,6 +4,8 @@ export interface Pilar {
   descricao: string;
   categoria: string;
   numero: string;
+  ogBg: string;
+  ogText: string;
 }
 
 export const PILARES: Pilar[] = [
@@ -13,6 +15,8 @@ export const PILARES: Pilar[] = [
     descricao: "WIN, WDO, robôs e gestão de risco.",
     categoria: "Operação",
     numero: "01",
+    ogBg: "#122E24",
+    ogText: "#F2EDE2",
   },
   {
     slug: "investir",
@@ -20,6 +24,8 @@ export const PILARES: Pilar[] = [
     descricao: "Ações, FIIs, renda fixa, dividendos.",
     categoria: "Patrimônio",
     numero: "02",
+    ogBg: "#1B4234",
+    ogText: "#F2EDE2",
   },
   {
     slug: "primeiro-passo",
@@ -27,6 +33,8 @@ export const PILARES: Pilar[] = [
     descricao: "Organizar, reservar, começar do zero.",
     categoria: "Base",
     numero: "03",
+    ogBg: "#F2EDE2",
+    ogText: "#122E24",
   },
   {
     slug: "mente",
@@ -34,6 +42,8 @@ export const PILARES: Pilar[] = [
     descricao: "Disciplina, erro, consistência.",
     categoria: "Cabeça",
     numero: "04",
+    ogBg: "#1C1B17",
+    ogText: "#F2EDE2",
   },
   {
     slug: "macro-cripto-ia",
@@ -41,6 +51,8 @@ export const PILARES: Pilar[] = [
     descricao: "Ciclos, juros e tecnologia.",
     categoria: "Mundo",
     numero: "05",
+    ogBg: "#27574A",
+    ogText: "#F2EDE2",
   },
   {
     slug: "vida",
@@ -48,6 +60,8 @@ export const PILARES: Pilar[] = [
     descricao: "Propósito, família, fé, legado.",
     categoria: "Vida",
     numero: "06",
+    ogBg: "#FBF8F1",
+    ogText: "#122E24",
   },
 ];
 

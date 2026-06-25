@@ -73,12 +73,21 @@ export default function ArticleLayout({
             ]}
           />
 
-          {/* 2. Eyebrow */}
+          {/* 2. Capa OG */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/${frontmatter.pilar}/${frontmatter.slug}/opengraph-image`}
+            alt={frontmatter.title}
+            className="w-full rounded-xl mb-7 border border-line"
+            style={{ aspectRatio: "1200/630" }}
+          />
+
+          {/* 3. Eyebrow */}
           <span className="text-[12px] tracking-[0.16em] uppercase font-semibold text-brass">
             {pilarNome}
           </span>
 
-          {/* 3. H1 */}
+          {/* 4. H1 */}
           <h1 className="font-serif font-semibold text-evergreen text-[clamp(30px,4.4vw,46px)] leading-[1.08] tracking-[-0.015em] mt-3.5">
             {frontmatter.title}
           </h1>
