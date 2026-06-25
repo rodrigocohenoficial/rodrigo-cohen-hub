@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PilarCard from "@/components/PilarCard";
 import Newsletter from "@/components/Newsletter";
+import ImageWithFallback from "@/components/ImageWithFallback";
 import { PILARES } from "@/lib/pilares";
 import { AUTHOR } from "@/lib/author";
 
@@ -126,7 +127,7 @@ export default function Home() {
       {/* AUTORIDADE */}
       <section className="bg-paper border-t border-b border-line py-16">
         <div className="max-w-[1180px] mx-auto px-7 flex items-center gap-[46px] flex-wrap">
-          <img
+          <ImageWithFallback
             src="/img/rodrigo-cohen.jpg"
             alt="Rodrigo Cohen"
             width={148}

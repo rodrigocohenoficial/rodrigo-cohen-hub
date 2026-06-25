@@ -6,6 +6,7 @@ import FAQ from "./FAQ";
 import AuthorBox from "./AuthorBox";
 import ArticleCard from "./ArticleCard";
 import Newsletter from "./Newsletter";
+import ImageWithFallback from "./ImageWithFallback";
 import { getPilarBySlug } from "@/lib/pilares";
 import { articleSchema, authorSchema } from "@/lib/schema";
 import type { ArticleFrontmatter } from "@/lib/content";
@@ -91,7 +92,7 @@ export default function ArticleLayout({
               href="/sobre"
               className="flex items-center gap-[9px] font-semibold text-ink"
             >
-              <img
+              <ImageWithFallback
                 src="/img/rodrigo-cohen.jpg"
                 alt="Rodrigo Cohen"
                 width={30}

@@ -4,6 +4,7 @@ import { AUTHOR } from "@/lib/author";
 import { authorSchema } from "@/lib/schema";
 import { PILARES } from "@/lib/pilares";
 import Breadcrumb from "@/components/Breadcrumb";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 export const metadata: Metadata = {
   title: "Sobre Rodrigo Cohen — Trader, CNPI, Embaixador B3 e Santander",
@@ -33,7 +34,7 @@ export default function SobrePage() {
 
         {/* Header */}
         <div className="flex items-center gap-6 mb-10 flex-wrap">
-          <img
+          <ImageWithFallback
             src="/img/rodrigo-cohen.jpg"
             alt="Rodrigo Cohen"
             width={120}

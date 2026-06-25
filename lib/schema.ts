@@ -1,6 +1,5 @@
 import { AUTHOR } from "./author";
-
-const SITE_URL = "https://rodrigocohen.com.br";
+import { SITE_URL } from "./site";
 
 export function organizationSchema() {
   return {

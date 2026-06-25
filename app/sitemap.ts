@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/content";
 import { PILARES } from "@/lib/pilares";
-
-const SITE_URL = "https://rodrigocohen.com.br";
+import { SITE_URL } from "@/lib/site";
 
 const FERRAMENTAS = [
   "juros-compostos",

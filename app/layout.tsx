@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
 import Link from "next/link";
+import { SITE_URL } from "@/lib/site";
+import { organizationSchema } from "@/lib/schema";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
   },
   description:
     "Hub de autoridade de Rodrigo Cohen: trader profissional, engenheiro e analista CNPI. Conteudo sobre investimentos, day trade, automacao e mentalidade.",
-  metadataBase: new URL("https://rodrigocohen.com.br"),
+  metadataBase: new URL(SITE_URL),
 };
 
 const PILARES_NAV = [
@@ -37,23 +39,7 @@ const PILARES_NAV = [
   { slug: "vida", label: "Vida" },
 ];
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Rodrigo Cohen",
-  url: "https://rodrigocohen.com.br",
-  logo: "https://rodrigocohen.com.br/img/logo.png",
-  description:
-    "Hub de autoridade de Rodrigo Cohen: trader profissional, engenheiro e analista CNPI, embaixador da B3 e do Santander.",
-  founder: {
-    "@type": "Person",
-    name: "Rodrigo Cohen",
-    jobTitle: "Trader profissional, analista CNPI",
-  },
-  sameAs: [
-    "https://instagram.com/rodrigocohenoficial",
-  ],
-};
+const organizationJsonLd = organizationSchema();
 
 export default function RootLayout({
   children,

@@ -1,10 +1,10 @@
-import Image from "next/image";
+import ImageWithFallback from "./ImageWithFallback";
 import { AUTHOR } from "@/lib/author";
 
 export default function AuthorBox() {
   return (
     <div className="flex gap-5 items-start bg-evergreen text-bone rounded-2xl p-7 my-10">
-      <Image
+      <ImageWithFallback
         src="/img/rodrigo-cohen.jpg"
         alt="Rodrigo Cohen"
         width={64}
