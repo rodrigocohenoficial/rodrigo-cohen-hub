@@ -38,6 +38,7 @@ const PILARES_NAV = [
   { slug: "macro-cripto-ia", label: "Macro & Cripto" },
   { slug: "vida", label: "Vida" },
   { slug: "sobre", label: "Sobre" },
+  { slug: "contato", label: "Contato" },
 ];
 
 const organizationJsonLd = organizationSchema();
@@ -101,16 +102,85 @@ export default function RootLayout({
 
         <main className="flex-1">{children}</main>
 
-        <footer className="py-[46px] border-t border-line text-muted text-[13.5px] text-center">
+        <footer className="py-12 border-t border-line text-muted text-[13.5px]">
           <div className="max-w-[1180px] mx-auto px-7">
-            <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4" aria-label="Links parceiros">
-              <a href="https://robosb3.tradernation.com.br" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">Robôs Cohen</a>
-              <a href="https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">Toro/Santander</a>
-              <a href="https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">Livro</a>
-              <a href="https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t" target="_blank" rel="noreferrer" className="hover:text-evergreen transition-colors">QG WhatsApp</a>
-            </nav>
-            &copy; {new Date().getFullYear()} Rodrigo Cohen &middot; Menos tela.
-            Mais vida.
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+              {/* Redes */}
+              <div>
+                <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                  Redes
+                </span>
+                <ul className="space-y-2">
+                  <li>
+                    <a href="https://instagram.com/rodrigocohenoficial" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Instagram</a>
+                  </li>
+                  <li>
+                    <a href="https://www.youtube.com/@RodrigoCohenOficial" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">YouTube</a>
+                  </li>
+                  <li>
+                    <a href="https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">QG WhatsApp</a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Contato */}
+              <div>
+                <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                  Contato
+                </span>
+                <ul className="space-y-2">
+                  <li>
+                    <a href="https://wa.me/5521996730588" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">WhatsApp comercial</a>
+                  </li>
+                  <li>
+                    <a href="mailto:cohen@rodrigocohen.com.br" className="hover:text-evergreen transition-colors">cohen@rodrigocohen.com.br</a>
+                  </li>
+                  <li>
+                    <Link href="/contato" className="hover:text-evergreen transition-colors">Página de contato</Link>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Parceiros */}
+              <div>
+                <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                  Parceiros
+                </span>
+                <ul className="space-y-2">
+                  <li>
+                    <a href="https://robosb3.tradernation.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Robôs Cohen</a>
+                  </li>
+                  <li>
+                    <a href="https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Toro/Santander</a>
+                  </li>
+                  <li>
+                    <a href="https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Livro</a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Navegação */}
+              <div>
+                <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                  Navegação
+                </span>
+                <ul className="space-y-2">
+                  <li>
+                    <Link href="/sobre" className="hover:text-evergreen transition-colors">Sobre</Link>
+                  </li>
+                  <li>
+                    <Link href="/ferramentas" className="hover:text-evergreen transition-colors">Ferramentas</Link>
+                  </li>
+                  <li>
+                    <Link href="/contato" className="hover:text-evergreen transition-colors">Contato</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="text-center pt-6 border-t border-line">
+              &copy; {new Date().getFullYear()} Rodrigo Cohen &middot; Menos tela. Mais vida.
+            </div>
           </div>
         </footer>
       </body>
