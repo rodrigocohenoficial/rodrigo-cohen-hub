@@ -49,6 +49,12 @@ const KEYWORD_MAP: Record<string, string> = {
 
   // vida
   "dinheiro-meio-ou-fim": "work life balance family nature purpose",
+  "ensinar-filhos-sobre-dinheiro": "father daughter learning counting coins allowance",
+  "fe-e-dinheiro": "church light faith prayer gratitude spiritual",
+  "o-custo-de-viver-correndo-atras-de-mais": "burnout exhaustion rat race treadmill stress",
+  "o-que-a-escola-nao-ensina-sobre-dinheiro": "classroom school education books learning",
+  "operar-sem-viver-na-tela": "laptop closed sunset beach freedom outdoors",
+  "por-que-legado-vale-mais-que-patrimonio": "grandfather grandchild generations family legacy wisdom",
   "investir-e-ter-vida": "freedom outdoor nature hiking adventure lifestyle",
 };
 
@@ -144,24 +150,31 @@ async function main() {
     .readdirSync(CONTENT_DIR)
     .filter((f) => fs.statSync(path.join(CONTENT_DIR, f)).isDirectory());
 
-  const files: { pilar: string; slug: string; filePath: string }[] = [];
+  // Collect ALL MDX files (for dedup), then filter for processing
+  const allFiles: { pilar: string; slug: string; filePath: string }[] = [];
 
   for (const pilar of pilares) {
     const dir = path.join(CONTENT_DIR, pilar);
     for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".mdx"))) {
       const slug = f.replace(/\.mdx$/, "");
-      if (onlySlug && `${pilar}/${slug}` !== onlySlug) continue;
-      files.push({ pilar, slug, filePath: path.join(dir, f) });
+      allFiles.push({ pilar, slug, filePath: path.join(dir, f) });
     }
   }
 
-  // First pass: collect already-used Unsplash photo IDs (for deduplication)
+  // Files to process (filtered by --slug if provided)
+  const files = onlySlug
+    ? allFiles.filter((f) => `${f.pilar}/${f.slug}` === onlySlug)
+    : allFiles;
+
+  // First pass: collect already-used Unsplash photo IDs from ALL articles (for deduplication)
+  // Always scan all files, but only skip IDs of articles we're NOT re-processing
   const usedIds = new Set<string>();
-  for (const { filePath } of files) {
+  for (const { pilar, slug, filePath } of allFiles) {
     const raw = fs.readFileSync(filePath, "utf-8");
     const { data } = matter(raw);
     if (typeof data.imagem === "string" && data.imagem.includes("unsplash.com")) {
-      if (!forceAll) {
+      const isBeingProcessed = files.some((f) => f.pilar === pilar && f.slug === slug);
+      if (!isBeingProcessed || !forceAll) {
         usedIds.add(extractPhotoId(data.imagem));
       }
     }
