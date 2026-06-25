@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest:*)"
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm run build:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run lint:*)"
     ]
   }
 }

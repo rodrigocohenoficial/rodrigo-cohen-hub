@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub Rodrigo Cohen — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --evergreen:#122E24;
+    --evergreen-700:#1B4234;
+    --evergreen-600:#27574A;
+    --bone:#F2EDE2;
+    --bone-2:#EDE6D8;
+    --paper:#FBF8F1;
+    --brass:#B0843B;
+    --brass-soft:#C7A263;
+    --ink:#1C1B17;
+    --muted:#6E6A5E;
+    --line:#DAD2C2;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bone);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .serif{font-family:'Fraunces',Georgia,serif}
+  .eyebrow{
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    font-weight:600;color:var(--brass);
+  }
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:3px}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(242,237,226,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand .logo{font-family:'Fraunces';font-weight:600;font-size:22px;color:var(--evergreen)}
+  .brand .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:500;color:var(--ink)}
+  .nav-links a{padding:6px 0;border-bottom:2px solid transparent;transition:border-color .2s,color .2s}
+  .nav-links a:hover{color:var(--evergreen);border-color:var(--brass)}
+  .nav-right{display:flex;align-items:center;gap:16px}
+  .search-ic{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--muted);background:var(--paper)}
+  .toggle{display:flex;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:3px}
+  .toggle button{border:none;background:transparent;font-size:13px;font-weight:600;color:var(--muted);padding:7px 15px;border-radius:999px;transition:.2s}
+  .toggle button.on{background:var(--evergreen);color:var(--paper)}
+
+  .view{display:none}
+  .view.show{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:78px 0 64px;border-bottom:1px solid var(--line)}
+  .hero h1{
+    font-family:'Fraunces';font-weight:600;color:var(--evergreen);
+    font-size:clamp(34px,5.4vw,62px);line-height:1.04;letter-spacing:-.015em;
+    max-width:16ch;
+  }
+  .hero h1 em{font-style:italic;color:var(--brass)}
+  .hero p{margin-top:24px;font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:48ch}
+  .hero-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn{
+    background:var(--evergreen);color:var(--paper);font-weight:600;font-size:15px;
+    padding:14px 26px;border-radius:8px;border:none;transition:.2s;display:inline-flex;gap:8px;align-items:center;
+  }
+  .btn:hover{background:var(--evergreen-700)}
+  .btn.ghost{background:transparent;color:var(--evergreen);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--brass);background:var(--paper)}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:64px 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:34px;gap:20px}
+  .sec-head h2{font-family:'Fraunces';font-weight:600;font-size:clamp(24px,3vw,34px);color:var(--evergreen);letter-spacing:-.01em}
+  .sec-head p{color:var(--muted);font-size:15px;max-width:40ch}
+
+  /* portas */
+  .portas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .porta{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px 26px;
+    transition:.25s;position:relative;overflow:hidden;
+  }
+  .porta:hover{transform:translateY(-4px);border-color:var(--brass-soft);box-shadow:0 14px 36px -22px rgba(18,46,36,.45)}
+  .porta .num{font-family:'Fraunces';font-size:15px;color:var(--brass);font-weight:600}
+  .porta h3{font-family:'Fraunces';font-size:21px;color:var(--evergreen);margin:14px 0 8px;font-weight:600}
+  .porta p{font-size:14.5px;color:var(--muted)}
+  .porta .go{margin-top:18px;font-size:13.5px;font-weight:600;color:var(--evergreen);display:inline-flex;gap:6px;align-items:center}
+
+  /* pilares */
+  .pilares{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .pilar{
+    background:var(--evergreen);color:var(--bone);border-radius:14px;padding:26px;min-height:158px;
+    display:flex;flex-direction:column;justify-content:space-between;transition:.25s;position:relative;
+  }
+  .pilar:nth-child(6){background:linear-gradient(150deg,#1B4234,#0E251D)}
+  .pilar:hover{transform:translateY(-4px)}
+  .pilar .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-soft);font-weight:600}
+  .pilar h3{font-family:'Fraunces';font-size:23px;font-weight:600;margin-top:auto;line-height:1.1}
+  .pilar p{font-size:13px;color:#C5D1C9;margin-top:8px}
+  .pilar.fosso .k{color:#E4C98C}
+
+  /* autoridade */
+  .auth{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .auth-grid{display:flex;align-items:center;gap:46px;flex-wrap:wrap}
+  .auth-photo{
+    width:148px;height:148px;border-radius:50%;flex-shrink:0;
+    background:radial-gradient(circle at 35% 30%,#2A5C49,#0E251D);
+    display:grid;place-items:center;font-family:'Fraunces';font-size:46px;color:var(--brass-soft);
+    border:3px solid var(--brass);
+  }
+  .auth-txt{flex:1;min-width:280px}
+  .auth-txt h2{font-family:'Fraunces';font-size:clamp(22px,2.6vw,30px);color:var(--evergreen);font-weight:600;margin-bottom:10px}
+  .auth-txt p{color:var(--muted);max-width:52ch;font-size:15.5px}
+  .creds{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .cred{font-size:12.5px;font-weight:600;color:var(--evergreen);background:var(--bone-2);border:1px solid var(--line);padding:7px 13px;border-radius:999px}
+
+  /* newsletter */
+  .news{background:var(--evergreen);color:var(--bone);border-radius:20px;padding:52px 46px;text-align:center}
+  .news .eyebrow{color:var(--brass-soft)}
+  .news h2{font-family:'Fraunces';font-size:clamp(26px,3.4vw,38px);font-weight:600;margin:14px auto 12px;max-width:18ch;line-height:1.08}
+  .news p{color:#C5D1C9;max-width:46ch;margin:0 auto 26px;font-size:15.5px}
+  .news-form{display:flex;gap:10px;max-width:440px;margin:0 auto}
+  .news-form input{flex:1;padding:14px 18px;border-radius:8px;border:1px solid #2E5848;background:#0E251D;color:var(--bone);font-size:15px}
+  .news-form input::placeholder{color:#7E9389}
+  .news-form .btn{background:var(--brass);color:#1A1206}
+  .news-form .btn:hover{background:var(--brass-soft)}
+  .news small{display:block;margin-top:14px;color:#7E9389;font-size:12.5px}
+
+  /* footer */
+  footer{padding:46px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;text-align:center}
+
+  /* ---------- ARTIGO ---------- */
+  .art-head{padding:46px 0 0}
+  .crumb{font-size:13px;color:var(--muted);margin-bottom:22px}
+  .crumb a:hover{color:var(--brass)}
+  .art-col{max-width:720px;margin:0 auto}
+  .art-col h1{font-family:'Fraunces';font-weight:600;color:var(--evergreen);font-size:clamp(30px,4.4vw,46px);line-height:1.08;letter-spacing:-.015em;margin:14px 0 0}
+  /* SIGNATURE BLOCK — resposta-relâmpago */
+  .flash{
+    position:relative;background:var(--paper);border:1px solid var(--line);
+    border-left:4px solid var(--brass);border-radius:0 12px 12px 0;
+    padding:24px 26px 24px 28px;margin:30px 0 8px;
+  }
+  .flash .lbl{position:absolute;top:-11px;left:24px;background:var(--brass);color:#1A1206;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .flash p{font-family:'Fraunces';font-size:19px;line-height:1.5;color:var(--evergreen)}
+  .art-meta{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:22px 0 30px;padding-bottom:24px;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+  .art-meta .who{display:flex;align-items:center;gap:9px;font-weight:600;color:var(--ink)}
+  .who .av{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2A5C49,#0E251D);display:grid;place-items:center;color:var(--brass-soft);font-family:'Fraunces';font-size:14px}
+  .toc{background:var(--bone-2);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:36px}
+  .toc .eyebrow{margin-bottom:12px;display:block}
+  .toc a{display:block;padding:5px 0;font-size:14.5px;color:var(--ink);border-bottom:1px dashed transparent}
+  .toc a:hover{color:var(--brass);border-color:var(--brass-soft)}
+  .art-body p{font-size:17px;margin:18px 0;color:#2A2823}
+  .art-body h2{font-family:'Fraunces';font-size:27px;color:var(--evergreen);font-weight:600;margin:42px 0 4px;letter-spacing:-.01em}
+  .art-body h3{font-family:'Fraunces';font-size:20px;color:var(--evergreen-700);font-weight:600;margin:28px 0 2px}
+  /* definition box */
+  .defbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:26px 0}
+  .defbox .eyebrow{display:block;margin-bottom:8px}
+  .defbox strong{color:var(--evergreen);font-weight:700}
+  /* table */
+  .art-body table{width:100%;border-collapse:collapse;margin:26px 0;font-size:14.5px;background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .art-body th{background:var(--evergreen);color:var(--bone);text-align:left;padding:13px 16px;font-weight:600;font-size:13px}
+  .art-body td{padding:12px 16px;border-top:1px solid var(--line);color:#2A2823}
+  /* FAQ */
+  .faq{margin:44px 0}
+  .faq h2{font-family:'Fraunces';font-size:27px;color:var(--evergreen);font-weight:600;margin-bottom:18px}
+  .qa{border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:12px;background:var(--paper)}
+  .qa h4{font-size:16px;color:var(--evergreen);font-weight:600;margin-bottom:6px}
+  .qa p{font-size:15px;color:var(--muted)}
+  /* author box */
+  .authorbox{display:flex;gap:20px;align-items:flex-start;background:var(--evergreen);color:var(--bone);border-radius:16px;padding:28px;margin:40px 0}
+  .authorbox .av{width:64px;height:64px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 35% 30%,#2A5C49,#0E251D);display:grid;place-items:center;color:var(--brass-soft);font-family:'Fraunces';font-size:26px;border:2px solid var(--brass)}
+  .authorbox h4{font-family:'Fraunces';font-size:19px;font-weight:600;margin-bottom:4px}
+  .authorbox p{font-size:14px;color:#C5D1C9}
+  /* related */
+  .related{margin:36px 0 10px}
+  .related .eyebrow{display:block;margin-bottom:16px}
+  .rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .rel-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px;transition:.2s}
+  .rel-card:hover{transform:translateY(-3px);border-color:var(--brass-soft)}
+  .rel-card .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);font-weight:600}
+  .rel-card h4{font-family:'Fraunces';font-size:17px;color:var(--evergreen);font-weight:600;margin-top:8px;line-height:1.2}
+
+  @media(max-width:860px){
+    .nav-links{display:none}
+    .portas,.pilares,.rel-grid{grid-template-columns:1fr}
+    .pilares{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){
+    .pilares{grid-template-columns:1fr}
+    .news{padding:38px 22px}
+    .news-form{flex-direction:column}
+    .brand .tag{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <span class="logo">Rodrigo Cohen</span>
+      <span class="tag">Menos tela. Mais vida.</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#">Day Trade</a>
+      <a href="#">Investir</a>
+      <a href="#">Primeiro Passo</a>
+      <a href="#">Mente</a>
+      <a href="#">Macro & Cripto</a>
+      <a href="#">Vida</a>
+    </nav>
+    <div class="nav-right">
+      <div class="toggle" role="tablist">
+        <button id="t-home" class="on" onclick="show('home')">Home</button>
+        <button id="t-art" onclick="show('art')">Artigo</button>
+      </div>
+      <div class="search-ic" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<main id="home" class="view show">
+
+  <div class="hero">
+    <div class="wrap">
+      <h1 class="serif">O mercado não paga quem fica mais tempo na tela. Paga quem <em>entende</em> o que faz.</h1>
+      <p>Day trade, automação, investimento de verdade e cabeça no lugar — sem economês e sem promessa fácil. Comece pelo seu momento.</p>
+      <div class="hero-cta">
+        <button class="btn">Comece por aqui →</button>
+        <button class="btn ghost">Conheça o Rodrigo</button>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Comece por aqui</span>
+          <h2 class="serif" style="margin-top:8px">Qual é o seu momento?</h2>
+        </div>
+        <p>Três portas de entrada. Escolha a sua e siga uma trilha pronta.</p>
+      </div>
+      <div class="portas">
+        <div class="porta">
+          <span class="num">01</span>
+          <h3 class="serif">Tô começando agora</h3>
+          <p>Você quer organizar o dinheiro e dar o primeiro passo sem se enrolar. Começa do zero, no seu ritmo.</p>
+          <span class="go">Ver a trilha →</span>
+        </div>
+        <div class="porta">
+          <span class="num">02</span>
+          <h3 class="serif">Eu opero day trade</h3>
+          <p>WIN, WDO, risco e automação. O que funciona de verdade e o que só promete. Direto ao ponto.</p>
+          <span class="go">Ver a trilha →</span>
+        </div>
+        <div class="porta">
+          <span class="num">03</span>
+          <h3 class="serif">Invisto no longo prazo</h3>
+          <p>Ações, fundos imobiliários, renda fixa e dividendos. Construir patrimônio sem ansiedade.</p>
+          <span class="go">Ver a trilha →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:18px">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Os 6 pilares</span>
+          <h2 class="serif" style="margin-top:8px">Tudo que a gente cobre aqui</h2>
+        </div>
+        <p>Cada pilar é um guia que cresce todo dia. Escolha por onde se aprofundar.</p>
+      </div>
+      <div class="pilares">
+        <a class="pilar"><span class="k">01 · Operação</span><h3 class="serif">Day Trade & Automação</h3><p>WIN, WDO, robôs e gestão de risco.</p></a>
+        <a class="pilar"><span class="k">02 · Patrimônio</span><h3 class="serif">Investir de Verdade</h3><p>Ações, FIIs, renda fixa, dividendos.</p></a>
+        <a class="pilar"><span class="k">03 · Base</span><h3 class="serif">Primeiro Passo</h3><p>Organizar, reservar, começar do zero.</p></a>
+        <a class="pilar"><span class="k">04 · Cabeça</span><h3 class="serif">Mente de Trader</h3><p>Disciplina, erro, consistência.</p></a>
+        <a class="pilar"><span class="k">05 · Mundo</span><h3 class="serif">Macro, Cripto & IA</h3><p>Ciclos, juros e tecnologia.</p></a>
+        <a class="pilar fosso"><span class="k">06 · Vida</span><h3 class="serif">Menos Tela, Mais Vida</h3><p>Propósito, família, fé, legado.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="auth">
+    <div class="wrap auth-grid">
+      <div class="auth-photo serif">RC</div>
+      <div class="auth-txt">
+        <span class="eyebrow">Quem está por trás</span>
+        <h2 class="serif" style="margin-top:10px">17 anos de mercado. Nenhum atalho vendido.</h2>
+        <p>Rodrigo Cohen é trader profissional, engenheiro e analista CNPI. Pioneiro em automação no Brasil desde 2012. Aqui ele escreve do jeito que fala: reto, humano e sem firula.</p>
+        <div class="creds">
+          <span class="cred">Embaixador B3</span>
+          <span class="cred">Embaixador Santander</span>
+          <span class="cred">Analista CNPI</span>
+          <span class="cred">Prêmio Anbima 2020</span>
+          <span class="cred">Autor & podcaster</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="news">
+        <span class="eyebrow">Menos Tela, Mais Vida</span>
+        <h2 class="serif">Um e-mail por semana. Clareza, não barulho.</h2>
+        <p>O essencial sobre mercado e dinheiro com cabeça no lugar — pra você decidir melhor e viver mais.</p>
+        <div class="news-form">
+          <input type="email" placeholder="seu melhor e-mail" aria-label="e-mail">
+          <button class="btn">Quero receber</button>
+        </div>
+        <small>Sem spam. Sai quando quiser.</small>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">© 2026 Rodrigo Cohen · Menos tela. Mais vida.</div>
+  </footer>
+</main>
+
+<!-- ============ ARTIGO ============ -->
+<main id="art" class="view">
+  <div class="art-head">
+    <div class="wrap art-col">
+      <nav class="crumb"><a href="#">Início</a> › <a href="#">Day Trade</a> › RLP no day trade</nav>
+      <span class="eyebrow">Day Trade & Automação</span>
+      <h1 class="serif">O que é RLP no day trade e por que ela mexe no seu preço?</h1>
+
+      <div class="flash">
+        <span class="lbl">Resposta rápida</span>
+        <p>RLP é quando a própria corretora fica do outro lado da sua ordem, em vez de mandar ela pro mercado. Isso pode dar mais liquidez, mas também pode te dar um preço pior. Por isso muita gente prefere operar sem RLP — pra negociar direto com o mercado, com tudo às claras.</p>
+      </div>
+
+      <div class="art-meta">
+        <span class="who"><span class="av serif">RC</span> Rodrigo Cohen</span>
+        <span>· Analista CNPI</span>
+        <span>· 6 min de leitura</span>
+        <span>· Atualizado em jun/2026</span>
+      </div>
+
+      <div class="toc">
+        <span class="eyebrow">Neste artigo</span>
+        <a href="#a1">O que significa RLP, em português claro</a>
+        <a href="#a2">Por que ela existe (e quem ganha com isso)</a>
+        <a href="#a3">RLP ligada x desligada: o que muda pra você</a>
+        <a href="#a4">Como saber se você está operando com RLP</a>
+      </div>
+
+      <div class="art-body">
+        <p>Você manda uma ordem de compra no mini índice. Acha que ela foi direto pro mercado. Mas em muitos casos quem ficou do outro lado foi a sua própria corretora. Isso tem nome: RLP. E quase ninguém explica isso de um jeito simples. Vamos resolver isso agora.</p>
+
+        <h2 class="serif" id="a1">O que significa RLP, em português claro</h2>
+        <p>RLP vem de <em>Retail Liquidity Provider</em> — em bom português, "provedor de liquidez para o varejo". É um mecanismo que a B3 permite onde a corretora (ou um parceiro dela) pode ser a contraparte direta da sua operação.</p>
+
+        <div class="defbox">
+          <span class="eyebrow">Definição</span>
+          <p><strong>RLP (Retail Liquidity Provider):</strong> mecanismo no qual a corretora atua como contraparte da ordem do cliente no varejo, em vez de enviá-la para o livro central de ofertas da bolsa.</p>
+        </div>
+
+        <p>Na prática: em vez da sua ordem encontrar outro trader no mercado, ela encontra a casa. Em alguns momentos isso te dá execução mais rápida. Em outros, te dá um preço um pouco diferente do que estava no book.</p>
+
+        <h2 class="serif" id="a2">Por que ela existe (e quem ganha com isso)</h2>
+        <p>A RLP é o que costuma bancar a famosa "corretagem zero". A casa abre mão de cobrar a corretagem porque ganha de outro jeito: ficando do outro lado das ordens. Não é ilegal nem escondido — é uma regra da própria B3. Mas é importante você saber que existe.</p>
+
+        <h2 class="serif" id="a3">RLP ligada x desligada: o que muda pra você</h2>
+        <table>
+          <thead><tr><th>Ponto</th><th>Com RLP</th><th>Sem RLP</th></tr></thead>
+          <tbody>
+            <tr><td>Quem é a contraparte</td><td>A corretora</td><td>O mercado (book)</td></tr>
+            <tr><td>Corretagem</td><td>Costuma ser zero</td><td>Pode ter custo</td></tr>
+            <tr><td>Preço de execução</td><td>Pode variar</td><td>O do livro de ofertas</td></tr>
+            <tr><td>Transparência</td><td>Menor</td><td>Total</td></tr>
+          </tbody>
+        </table>
+        <p>Não existe certo e errado absoluto. Existe o que combina com você. Pra quem faz scalp fino, cada ponto conta — e operar sem RLP, direto com o mercado, costuma fazer mais sentido.</p>
+
+        <h2 class="serif" id="a4">Como saber se você está operando com RLP</h2>
+        <p>Procure nas configurações da sua plataforma, ou pergunte direto pro suporte da corretora se a RLP está ligada e se dá pra desligar. Corretora séria responde isso na hora e sem enrolação. Transparência não é favor — é o mínimo.</p>
+      </div>
+
+      <div class="faq">
+        <h2 class="serif">Perguntas frequentes</h2>
+        <div class="qa"><h4>RLP é ruim?</h4><p>Não é ruim nem boa por si só. É um mecanismo. O que importa é você saber que existe e escolher com consciência.</p></div>
+        <div class="qa"><h4>Dá pra desligar a RLP?</h4><p>Em muitas corretoras sim. Algumas já operam sem RLP por padrão. Vale confirmar com o suporte.</p></div>
+        <div class="qa"><h4>RLP tem a ver com corretagem zero?</h4><p>Tem. Em geral é a RLP que banca a corretagem zero. A casa ganha ficando do outro lado da ordem.</p></div>
+      </div>
+
+      <div class="authorbox">
+        <div class="av serif">RC</div>
+        <div>
+          <h4 class="serif">Rodrigo Cohen</h4>
+          <p>Trader profissional há 17 anos, engenheiro e analista CNPI. Embaixador da B3 e do Santander. Pioneiro em automação no Brasil desde 2012.</p>
+        </div>
+      </div>
+
+      <div class="related">
+        <span class="eyebrow">Leia depois</span>
+        <div class="rel-grid">
+          <a class="rel-card"><span class="k">Day Trade</span><h4 class="serif">Quanto custa de verdade operar mini índice</h4></a>
+          <a class="rel-card"><span class="k">Mente</span><h4 class="serif">Por que você sai cedo do trade certo</h4></a>
+          <a class="rel-card"><span class="k">Day Trade</span><h4 class="serif">Stop: onde colocar sem ser estopado à toa</h4></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="wrap">© 2026 Rodrigo Cohen · Menos tela. Mais vida.</div></footer>
+</main>
+
+<script>
+  function show(v){
+    document.getElementById('home').classList.toggle('show', v==='home');
+    document.getElementById('art').classList.toggle('show', v==='art');
+    document.getElementById('t-home').classList.toggle('on', v==='home');
+    document.getElementById('t-art').classList.toggle('on', v==='art');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+</script>
+</body>
+</html>
