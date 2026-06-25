@@ -32,3 +32,10 @@ Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional
 - Arquivos `.mdx` em `content/[pilar]/`.
 - Frontmatter padrão obrigatório: `title`, `slug`, `pilar`, `respostaRapida`, `faq`, `relacionados`.
 - O sistema gera a página sozinho a partir do frontmatter e do conteúdo MDX.
+
+## Capas automáticas (OG Image)
+
+- As capas dos artigos são **geradas automaticamente por código** via `next/og` (`app/[pilar]/[slug]/opengraph-image.tsx`).
+- A capa usa o `title` e o `pilar` do frontmatter — cor de fundo e texto definidos em `lib/pilares.ts` (`ogBg`, `ogText`).
+- Todo artigo MDX com `title` e `pilar` no frontmatter recebe capa automática na home (cards), na página do artigo (topo) e como `og:image`.
+- **Nunca criar arquivos de imagem manuais para artigos nem pedir imagens ao usuário.**
