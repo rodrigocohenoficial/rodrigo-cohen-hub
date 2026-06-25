@@ -40,31 +40,42 @@ export default function Home() {
 
   return (
     <>
-      {/* 1 — HERO COMPACTO */}
+      {/* 1 — HERO */}
       <section className="py-14 border-b border-line">
-        <div className="max-w-[1180px] mx-auto px-7">
-          <h1 className="font-serif font-semibold text-evergreen text-[clamp(30px,4.8vw,52px)] leading-[1.06] tracking-[-0.015em] max-w-[18ch]">
-            O mercado não paga quem fica mais tempo na tela. Paga quem{" "}
-            <em className="italic text-brass">entende</em> o que faz.
-          </h1>
-          <p className="mt-5 text-[clamp(16px,1.8vw,19px)] text-muted max-w-[50ch]">
-            Day trade, automação, investimento de verdade e cabeça no lugar —
-            sem economês e sem promessa fácil.
-          </p>
-          <div className="mt-7 flex gap-3.5 flex-wrap items-center">
-            <Link
-              href="/primeiro-passo"
-              className="bg-evergreen text-paper font-semibold text-[15px] px-[26px] py-3.5 rounded-lg border-none transition-colors hover:bg-evergreen-700 inline-flex gap-2 items-center"
-            >
-              Comece por aqui &rarr;
-            </Link>
-            <Link
-              href="/ferramentas"
-              className="bg-transparent text-evergreen font-semibold text-[15px] px-[26px] py-3.5 rounded-lg border border-line transition-colors hover:border-brass hover:bg-paper inline-flex gap-2 items-center"
-            >
-              Ver ferramentas
-            </Link>
+        <div className="max-w-[1180px] mx-auto px-7 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-14 items-center">
+          {/* Texto */}
+          <div>
+            <h1 className="font-serif font-semibold text-evergreen text-[clamp(30px,4.8vw,52px)] leading-[1.06] tracking-[-0.015em] max-w-[18ch]">
+              O mercado não paga quem fica mais tempo na tela. Paga quem{" "}
+              <em className="italic text-brass">entende</em> o que faz.
+            </h1>
+            <p className="mt-5 text-[clamp(16px,1.8vw,19px)] text-muted max-w-[50ch]">
+              Day trade, automação, investimento de verdade e cabeça no lugar —
+              sem economês e sem promessa fácil.
+            </p>
+            <div className="mt-7 flex gap-3.5 flex-wrap items-center">
+              <Link
+                href="/primeiro-passo"
+                className="bg-evergreen text-paper font-semibold text-[15px] px-[26px] py-3.5 rounded-lg border-none transition-colors hover:bg-evergreen-700 inline-flex gap-2 items-center"
+              >
+                Comece por aqui &rarr;
+              </Link>
+              <Link
+                href="/ferramentas"
+                className="bg-transparent text-evergreen font-semibold text-[15px] px-[26px] py-3.5 rounded-lg border border-line transition-colors hover:border-brass hover:bg-paper inline-flex gap-2 items-center"
+              >
+                Ver ferramentas
+              </Link>
+            </div>
           </div>
+
+          {/* Foto */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/img/rodrigo-hero.jpg"
+            alt="Rodrigo Cohen"
+            className="w-full lg:w-[340px] xl:w-[400px] aspect-[3/4] object-cover rounded-2xl shadow-[0_8px_30px_-12px_rgba(176,132,59,0.3)] border border-brass/20 order-first lg:order-last"
+          />
         </div>
       </section>
 
