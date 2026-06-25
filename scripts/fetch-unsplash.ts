@@ -38,11 +38,22 @@ const KEYWORD_MAP: Record<string, string> = {
   "o-que-faz-o-dolar-subir": "US dollar bills exchange rate currency",
 
   // mente
+  "comprar-na-alta-vender-na-baixa": "stock market crash panic sell crowd herd",
+  "disciplina-para-investir-todo-mes": "calendar routine consistency habit planner",
   "dobrar-aposta-depois-de-perder": "poker chips gambling risk emotion control",
+  "lidar-com-sequencia-de-prejuizos": "storm resilience recovery setback perseverance",
+  "o-que-e-tilt": "frustrated man head hands stress anger emotion",
   "sair-cedo-do-trade": "anxiety impatience clock pressure decision",
+  "seguir-o-proprio-plano": "compass direction plan strategy map navigation",
 
   // primeiro-passo
+  "como-montar-orcamento": "budget notebook pen calculator household expenses",
+  "o-que-e-a-selic": "central bank interest rate economy brazil",
+  "o-que-e-inflacao": "grocery prices supermarket shopping inflation cost",
+  "o-que-fazer-com-o-primeiro-salario": "young professional first paycheck celebration money",
   "o-que-sao-juros-compostos": "compound interest growth snowball wealth",
+  "quanto-juntar-para-aposentar": "retirement senior couple beach sunset relaxation",
+  "vale-a-pena-cartao-de-credito": "credit card payment shopping contactless tap",
   "organizar-financas-sobrar-dinheiro": "budget spreadsheet financial organization wallet",
   "reserva-de-emergencia-quanto-guardar": "emergency fund umbrella safety savings jar",
   "sair-das-dividas-e-investir": "debt freedom breaking chains fresh start",
@@ -121,7 +132,8 @@ function pickUnused(
   usedIds: Set<string>
 ): UnsplashPhoto | null {
   for (const photo of results) {
-    if (!usedIds.has(photo.id)) {
+    const photoKey = extractPhotoId(photo.urls.regular);
+    if (!usedIds.has(photoKey)) {
       return photo;
     }
   }
@@ -244,7 +256,7 @@ async function main() {
       }
 
       // Track this photo as used
-      usedIds.add(photo.id);
+      usedIds.add(extractPhotoId(photo.urls.regular));
 
       data.imagem = photo.urls.regular;
       if (photo.alt_description) {
