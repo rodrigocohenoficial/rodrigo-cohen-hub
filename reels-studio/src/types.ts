@@ -13,8 +13,10 @@ export type ReelDef = {
   Scenes: React.FC;
   /** Etiqueta no topo, ex: "RODRIGO COHEN · AUTOMAÇÃO 01/05" */
   tag?: string;
-  /** Enquadramento do rosto na metade de baixo (CSS object-position). */
+  /** Enquadramento da metade de baixo (CSS object-position). */
   facePosition?: string;
+  /** Enquadramentos diferentes ao longo do vídeo, ex: tela da plataforma e depois o rosto. */
+  faceSegments?: { from: number; position: string }[];
   /** Só para a demo: transcrição embutida e sem gravação. */
   demo?: { transcript: Transcript };
 };

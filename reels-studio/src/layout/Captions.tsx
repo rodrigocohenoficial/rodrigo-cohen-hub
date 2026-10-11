@@ -26,7 +26,8 @@ const toChunks = (words: Word[]): Chunk[] => {
   return chunks;
 };
 
-const clean = (w: string) => w.replace(/[.,!?;:"“”]/g, "").toUpperCase();
+// Tira pontuação só das pontas: "R$2.823," vira "R$2.823" e "96,3%" fica intacto.
+const clean = (w: string) => w.replace(/^["“]+|[.,!?;:"”]+$/g, "").toUpperCase();
 
 /** Legenda palavra por palavra na divisa entre animação e rosto. A palavra falada acende em dourado. */
 export const Captions: React.FC<{ words: Word[] }> = ({ words }) => {

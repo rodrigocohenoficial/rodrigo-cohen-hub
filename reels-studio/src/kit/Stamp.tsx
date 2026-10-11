@@ -4,12 +4,9 @@ import { color, font } from "../theme";
 import { useSince } from "./time";
 
 /** Carimbo batendo na tela (ex: "NÃO", "PROIBIDO", "APROVADO"). */
-export const Stamp: React.FC<{ at: number; text: string; tone?: "loss" | "gain" | "brass"; rotate?: number }> = ({
-  at,
-  text,
-  tone = "loss",
-  rotate = -8,
-}) => {
+type Props = { at: number; text: string; tone?: "loss" | "gain" | "brass"; rotate?: number; size?: number };
+
+export const Stamp: React.FC<Props> = ({ at, text, tone = "loss", rotate = -8, size = 96 }) => {
   const { fps } = useVideoConfig();
   const since = useSince(at);
   const p = spring({ frame: since, fps, config: { damping: 9, stiffness: 180 } });
@@ -25,8 +22,9 @@ export const Stamp: React.FC<{ at: number; text: string; tone?: "loss" | "gain" 
         padding: "10px 40px",
         fontFamily: font.body,
         fontWeight: 800,
-        fontSize: 96,
+        fontSize: size,
         letterSpacing: 6,
+        whiteSpace: "nowrap",
       }}
     >
       {text}

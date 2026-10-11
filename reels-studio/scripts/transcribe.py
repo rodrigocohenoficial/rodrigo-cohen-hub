@@ -1,7 +1,7 @@
 """Transcreve o áudio com o tempo exato de cada palavra (faster-whisper).
 
 Uso: python3 scripts/transcribe.py <audio.wav> <saida.json> <saida.txt> <duracao_s>
-Modelo: variável WHISPER_MODEL (padrão "medium"; "small" é mais rápido).
+Modelo: variável WHISPER_MODEL (padrão "large-v3-turbo"; "small" é mais rápido e erra mais).
 """
 import json
 import os
@@ -27,7 +27,7 @@ def read_wav(path: str) -> np.ndarray:
 
 def main() -> None:
     audio, out_json, out_txt, duration = sys.argv[1], sys.argv[2], sys.argv[3], float(sys.argv[4])
-    model = WhisperModel(os.environ.get("WHISPER_MODEL", "medium"), device="cpu", compute_type="int8")
+    model = WhisperModel(os.environ.get("WHISPER_MODEL", "large-v3-turbo"), device="cpu", compute_type="int8")
     segments, info = model.transcribe(
         read_wav(audio),
         language="pt",

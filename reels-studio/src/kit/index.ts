@@ -8,3 +8,6 @@ export { CandleChart } from "./CandleChart";
 export { GateCard } from "./GateCard";
 export { Checklist } from "./Checklist";
 export { Terminal } from "./Terminal";
+export { TradeDots } from "./TradeDots";
+export { EquityCurve } from "./EquityCurve";
+export { Disclaimer } from "./Disclaimer";

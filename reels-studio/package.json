@@ -6,6 +6,7 @@
   "scripts": {
     "studio": "remotion studio",
     "novo": "node scripts/novo.mjs",
+    "cortar": "node scripts/cortar.mjs",
     "preview": "node scripts/preview.mjs",
     "render": "node scripts/render.mjs",
     "typecheck": "tsc --noEmit"

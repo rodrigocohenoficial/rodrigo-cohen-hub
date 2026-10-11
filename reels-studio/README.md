@@ -44,7 +44,7 @@ npm run preview -- reel-01 2 8 15
 npm run render -- reel-01
 ```
 
-O Whisper roda local: `pip install faster-whisper numpy`. Modelo padrão `medium`; `WHISPER_MODEL=small` é mais rápido.
+O Whisper roda local: `pip install faster-whisper numpy`. Modelo padrão `large-v3-turbo` (acerta termos de mercado); `WHISPER_MODEL=small` é mais rápido e erra mais.
 
 ## Pastas
 
