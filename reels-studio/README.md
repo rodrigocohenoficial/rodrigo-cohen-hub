@@ -33,6 +33,15 @@ No `raiz` (`src/raiz`): `zooms` no ReelDef dão zoom no vídeo (com `freeze: tru
 No `jornal` (`src/jornal`): `manchetes` no ReelDef define o cartão (`*trecho*` sai marcado de amarelo; várias manchetes
 trocam no segundo `from`). Zooms e peças do raiz também funcionam aqui. Exemplo: `exemplo-jornal`.
 
+## Temas e ritmo (por Reel, em `src/reels/index.ts`)
+
+- `tema`: `"rodrigo"` (padrão: verde, dourado, Fraunces + Inter) ou `"flavia"` (rosé, Playfair Display + Montserrat,
+  caixas de gancho amarela/branca, legenda sem maiúscula). Peças da Flávia em `src/flavia`.
+- `velocidade`: acelera o vídeo (ex: `1.1`) sem mudar o tom da voz. As cenas continuam escritas em segundos da fala.
+  Só no estilo split por enquanto.
+- `npm run cortar -- <id> <cortes> --pausas`: encurta todo silêncio maior que 0,3s para um respiro de 0,15s.
+  Depois de cortar, os tempos das cenas mudam: refazer o plano em cima da transcrição nova.
+
 ## Kit de animações do split (`src/kit`)
 
 Tudo recebe `at` = o segundo da fala em que o elemento entra (vem da transcrição).

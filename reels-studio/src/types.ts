@@ -15,6 +15,8 @@ export type ReelDef = {
   id: string;
   /** Paleta e fontes (padrão "rodrigo"). */
   tema?: TemaId;
+  /** Aceleração do vídeo (ex: 1.1). Os tempos das cenas continuam em segundos da fala. Só no estilo split. */
+  velocidade?: number;
   /**
    * "split" = animação em cima + vídeo embaixo (padrão).
    * "raiz" = vídeo em tela cheia com intervenções.

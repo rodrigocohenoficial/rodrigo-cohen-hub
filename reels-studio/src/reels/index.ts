@@ -31,11 +31,12 @@ export const reels: ReelDef[] = [
   {
     id: "flavia-01",
     tema: "flavia",
+    velocidade: 1.1,
     Scenes: Flavia01Scenes,
     tag: "@flaviavcohen",
     faceSegments: [
       { from: 0, position: "50% 0%" }, // em pé, andando
-      { from: 22, position: "50% 8%" }, // sentada à mesa
+      { from: 20.45, position: "50% 8%" }, // sentada à mesa
     ],
   },
 ];

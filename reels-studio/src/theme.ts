@@ -81,8 +81,8 @@ const flavia: Palette = {
 };
 
 export const temas = {
-  rodrigo: { color: rodrigo, font: { title: "Fraunces", body: "Inter" }, legenda: { maiuscula: true } },
-  flavia: { color: flavia, font: { title: "Playfair Display", body: "Montserrat" }, legenda: { maiuscula: false } },
+  rodrigo: { color: rodrigo, font: { title: "Fraunces", body: "Inter" }, legenda: { maiuscula: true, quebraAntes: false } },
+  flavia: { color: flavia, font: { title: "Playfair Display", body: "Montserrat" }, legenda: { maiuscula: false, quebraAntes: true } },
 };
 export type TemaId = keyof typeof temas;
 
@@ -90,6 +90,9 @@ export type TemaId = keyof typeof temas;
 export const color: Palette = { ...rodrigo };
 export const font = { ...temas.rodrigo.font };
 export const legenda = { ...temas.rodrigo.legenda };
+
+// Velocidade do Reel ativo (1 = normal).
+export const ritmo = { velocidade: 1 };
 
 export const aplicarTema = (id: TemaId = "rodrigo") => {
   Object.assign(color, temas[id].color);

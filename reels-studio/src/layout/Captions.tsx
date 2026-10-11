@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { color, font, legenda, STAGE_HEIGHT } from "../theme";
+import { color, font, legenda, ritmo, STAGE_HEIGHT } from "../theme";
 import type { Word } from "../types";
 
 type Chunk = { words: Word[]; start: number; end: number };
@@ -16,6 +16,8 @@ const toChunks = (words: Word[]): Chunk[] => {
     cur = [];
   };
   words.forEach((w, i) => {
+    // Tema com quebraAntes: palavra longa que estouraria a linha começa um bloco novo.
+    if (legenda.quebraAntes && cur.length && [...cur, w].map((c) => c.word).join(" ").length > MAX_CHARS + 4) flush();
     cur.push(w);
     const next = words[i + 1];
     const chars = cur.map((c) => c.word).join(" ").length;
@@ -36,7 +38,7 @@ const clean = (w: string) => {
 export const Captions: React.FC<{ words: Word[] }> = ({ words }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const t = frame / fps;
+  const t = (frame / fps) * ritmo.velocidade;
   const chunks = useMemo(() => toChunks(words), [words]);
   const idx = chunks.findIndex((c, i) => t >= c.start && t < (chunks[i + 1]?.start ?? c.end + 0.4));
   if (idx < 0) return null;
