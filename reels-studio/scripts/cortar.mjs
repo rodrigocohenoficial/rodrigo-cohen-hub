@@ -10,7 +10,7 @@ import path from "node:path";
 const [id, ...args] = process.argv.slice(2);
 const pausas = args.includes("--pausas");
 const specs = args.filter((a) => !a.startsWith("--"));
-if (!id || specs.length === 0) {
+if (!id || (specs.length === 0 && !pausas)) {
   console.error("Uso: npm run cortar -- <id> <inicio-fim> [inicio-fim...]");
   process.exit(1);
 }
