@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Estúdio de Reels (Remotion): projeto separado, fora do site.
+    "reels-studio/**",
   ]),
 ]);
 

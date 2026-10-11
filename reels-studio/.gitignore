@@ -1,0 +1,6 @@
+node_modules
+out/
+work/
+input/
+public/reels/**/*.mp4
+public/reels/**/*.mov
