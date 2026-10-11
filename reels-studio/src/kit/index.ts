@@ -11,3 +11,5 @@ export { Terminal } from "./Terminal";
 export { TradeDots } from "./TradeDots";
 export { EquityCurve } from "./EquityCurve";
 export { Disclaimer } from "./Disclaimer";
+export { Caixinha } from "./Caixinha";
+export { Lupa } from "./Lupa";

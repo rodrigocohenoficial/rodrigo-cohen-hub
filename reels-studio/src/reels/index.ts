@@ -2,6 +2,7 @@ import type { ReelDef } from "../types";
 import { DemoScenes, demoTranscript } from "./demo/Scenes";
 import { Flavia01Scenes } from "./flavia-01/Scenes";
 import { Reel01Scenes } from "./reel-01/Scenes";
+import { Reel02Scenes } from "./reel-02/Scenes";
 import { Reel01RaizScenes, reel01RaizZooms } from "./reel-01-raiz/Scenes";
 
 // Cada Reel novo entra aqui.
@@ -38,5 +39,12 @@ export const reels: ReelDef[] = [
       { from: 0, position: "50% 0%" }, // em pé, andando
       { from: 20.45, position: "50% 8%" }, // sentada à mesa
     ],
+  },
+  {
+    id: "reel-02",
+    Scenes: Reel02Scenes,
+    tag: "Rodrigo Cohen · Primeiro passo",
+    velocidade: 1.1,
+    facePosition: "50% 42%",
   },
 ];
