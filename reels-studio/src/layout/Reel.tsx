@@ -12,7 +12,7 @@ export const Reel: React.FC<{ def: ReelDef; transcript: Transcript }> = ({ def, 
       <Stage tag={def.tag}>
         <Scenes />
       </Stage>
-      <Face src={def.demo ? undefined : `reels/${def.id}/video.mp4`} position={def.facePosition} segments={def.faceSegments} />
+      <Face src={def.demo ? undefined : `reels/${def.media ?? def.id}/video.mp4`} position={def.facePosition} segments={def.faceSegments} />
       <Captions words={transcript.words} />
     </AbsoluteFill>
   );

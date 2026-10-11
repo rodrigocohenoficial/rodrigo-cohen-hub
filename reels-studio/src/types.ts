@@ -7,8 +7,17 @@ export type Transcript = {
   words: Word[];
 };
 
+/** Zoom no vídeo (modo raiz). x/y = ponto em % do quadro que fica parado na tela. */
+export type Zoom = { from: number; to: number; scale: number; x: number; y: number; freeze?: boolean; slow?: boolean };
+
 export type ReelDef = {
   id: string;
+  /** "split" = animação em cima + vídeo embaixo (padrão). "raiz" = vídeo em tela cheia com intervenções. */
+  style?: "split" | "raiz";
+  /** Pasta da gravação em public/reels, quando difere do id (ex: versão raiz do mesmo vídeo). */
+  media?: string;
+  /** Modo raiz: zooms e congelamentos do vídeo. */
+  zooms?: Zoom[];
   /** Camada de animação (metade de cima). Os tempos dentro dela são os segundos da fala. */
   Scenes: React.FC;
   /** Etiqueta no topo, ex: "RODRIGO COHEN · AUTOMAÇÃO 01/05" */

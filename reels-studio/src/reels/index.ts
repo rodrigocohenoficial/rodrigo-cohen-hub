@@ -1,6 +1,7 @@
 import type { ReelDef } from "../types";
 import { DemoScenes, demoTranscript } from "./demo/Scenes";
 import { Reel01Scenes } from "./reel-01/Scenes";
+import { Reel01RaizScenes, reel01RaizZooms } from "./reel-01-raiz/Scenes";
 
 // Cada Reel novo entra aqui.
 export const reels: ReelDef[] = [
@@ -14,4 +15,5 @@ export const reels: ReelDef[] = [
       { from: 47.37, position: "50% 26%" }, // rosto
     ],
   },
+  { id: "reel-01-raiz", style: "raiz", media: "reel-01", Scenes: Reel01RaizScenes, zooms: reel01RaizZooms },
 ];
