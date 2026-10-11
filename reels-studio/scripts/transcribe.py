@@ -2,6 +2,7 @@
 
 Uso: python3 scripts/transcribe.py <audio.wav> <saida.json> <saida.txt> <duracao_s>
 Modelo: variável WHISPER_MODEL (padrão "large-v3-turbo"; "small" é mais rápido e erra mais).
+Vocabulário: WHISPER_VOCAB=rodrigo (padrão) ou flavia.
 """
 import json
 import os
@@ -11,11 +12,20 @@ import wave
 import numpy as np
 from faster_whisper import WhisperModel
 
-# Vocabulário do Rodrigo: ajuda o Whisper a escrever certo os termos do mercado.
-VOCAB = (
-    "Rodrigo Cohen, Trader Nation, day trade, mini índice, mini dólar, WIN, WDO, B3, Santander, "
-    "robô, automação híbrida, stop, alvo, gain, loss, setup, candle, Ibovespa, CNPI, cripto, bitcoin."
-)
+# Vocabulário por pessoa: ajuda o Whisper a escrever certo os termos de cada nicho.
+# Escolha com WHISPER_VOCAB=rodrigo (padrão) ou WHISPER_VOCAB=flavia.
+VOCABS = {
+    "rodrigo": (
+        "Rodrigo Cohen, Trader Nation, day trade, mini índice, mini dólar, WIN, WDO, B3, Santander, "
+        "robô, automação híbrida, stop, alvo, gain, loss, setup, candle, Ibovespa, CNPI, cripto, bitcoin."
+    ),
+    "flavia": (
+        "Dra. Flávia Cohen, menopausa, perimenopausa, reposição hormonal, testosterona, progesterona, estrogênio, "
+        "suplementação, creatina, whey, colágeno, ômega 3, vitamina D, vitamina E, magnésio, lipedema, emagrecimento, "
+        "tirzepatida, semaglutida, biohacking, câmara hiperbárica, infectologista, Always Fit, ácido gama-linolênico."
+    ),
+}
+VOCAB = VOCABS.get(os.environ.get("WHISPER_VOCAB", "rodrigo"), VOCABS["rodrigo"])
 
 
 def read_wav(path: str) -> np.ndarray:
