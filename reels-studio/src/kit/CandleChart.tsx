@@ -70,7 +70,7 @@ export const CandleChart: React.FC<Props> = ({
   return (
     <svg width={width} height={height} style={{ overflow: "visible", opacity: since < 0 ? 0 : 1 }}>
       {[0.25, 0.5, 0.75].map((f) => (
-        <line key={f} x1={0} x2={plotW} y1={height * f} y2={height * f} stroke="rgba(242,237,226,0.08)" strokeWidth={2} />
+        <line key={f} x1={0} x2={plotW} y1={height * f} y2={height * f} stroke={color.line} strokeWidth={2} />
       ))}
       {data.map((d, i) => {
         const grow = Math.min(1, Math.max(0, shown - i));

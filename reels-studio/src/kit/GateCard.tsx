@@ -24,7 +24,7 @@ export const GateCard: React.FC<Props> = ({ at, question, options, choose, choos
           border: `2px solid ${color.brass}`,
           borderRadius: 28,
           padding: "40px 46px",
-          boxShadow: `0 0 80px rgba(176,132,59,0.25)`,
+          boxShadow: `0 0 80px ${color.glow}`,
         }}
       >
         <div style={{ fontFamily: font.body, fontWeight: 700, fontSize: 30, color: color.brassLight, letterSpacing: 4 }}>
@@ -46,7 +46,7 @@ export const GateCard: React.FC<Props> = ({ at, question, options, choose, choos
                 borderRadius: 16,
                 marginTop: 12,
                 color: active ? color.ink : color.bone,
-                background: active ? color.brassLight : "rgba(242,237,226,0.06)",
+                background: active ? color.brassLight : color.surface,
                 opacity: chosen && !active ? 0.4 : 1,
               }}
             >

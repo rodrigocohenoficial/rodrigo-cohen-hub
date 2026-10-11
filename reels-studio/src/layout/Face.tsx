@@ -14,7 +14,7 @@ export const Face: React.FC<Props> = ({ src, position = "50% 30%", segments = []
         <OffthreadVideo src={staticFile(src)} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: current }} />
       ) : (
         <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", background: `linear-gradient(${color.ink}, #2A2822)` }}>
-          <div style={{ fontFamily: font.body, fontWeight: 700, fontSize: 40, letterSpacing: 6, color: "rgba(242,237,226,0.35)" }}>
+          <div style={{ fontFamily: font.body, fontWeight: 700, fontSize: 40, letterSpacing: 6, color: color.textDim }}>
             SUA GRAVAÇÃO AQUI
           </div>
         </AbsoluteFill>

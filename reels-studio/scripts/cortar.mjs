@@ -23,10 +23,11 @@ const cuts = specs.map((s) => s.split("-").map(Number)).sort((a, b) => a[0] - b[
 const keep = [];
 let t = 0;
 for (const [a, b] of cuts) {
-  if (a > t) keep.push([t, a]);
+  if (a - t > 0.05) keep.push([t, a]);
   t = b;
 }
-if (t < transcript.duration) keep.push([t, transcript.duration]);
+// Sobra menor que 0,05s no fim (arredondamento) não vira trecho.
+if (transcript.duration - t > 0.05) keep.push([t, transcript.duration]);
 
 const FADE = 0.03; // evita estalo de áudio na emenda
 const filters = keep.map(([a, b], i) => {

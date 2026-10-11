@@ -13,7 +13,7 @@ export const Stage: React.FC<{ tag?: string; children: React.ReactNode }> = ({ t
     <AbsoluteFill
       style={{
         backgroundImage:
-          "linear-gradient(rgba(242,237,226,0.045) 2px, transparent 2px), linear-gradient(90deg, rgba(242,237,226,0.045) 2px, transparent 2px)",
+          `linear-gradient(${color.grid} 2px, transparent 2px), linear-gradient(90deg, ${color.grid} 2px, transparent 2px)`,
         backgroundSize: "72px 72px",
         maskImage: "radial-gradient(ellipse at center, black 30%, transparent 80%)",
       }}
@@ -30,7 +30,7 @@ export const Stage: React.FC<{ tag?: string; children: React.ReactNode }> = ({ t
           fontWeight: 700,
           fontSize: 26,
           letterSpacing: 5,
-          color: "rgba(242,237,226,0.55)",
+          color: color.textDim,
         }}
       >
         {tag.toUpperCase()}

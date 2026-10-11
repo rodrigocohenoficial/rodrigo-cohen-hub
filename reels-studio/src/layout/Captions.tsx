@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { color, font, STAGE_HEIGHT } from "../theme";
+import { color, font, legenda, STAGE_HEIGHT } from "../theme";
 import type { Word } from "../types";
 
 type Chunk = { words: Word[]; start: number; end: number };
@@ -27,7 +27,10 @@ const toChunks = (words: Word[]): Chunk[] => {
 };
 
 // Tira pontuação só das pontas: "R$2.823," vira "R$2.823" e "96,3%" fica intacto.
-const clean = (w: string) => w.replace(/^["“]+|[.,!?;:"”]+$/g, "").toUpperCase();
+const clean = (w: string) => {
+  const s = w.replace(/^["“]+|[.,!?;:"”]+$/g, "");
+  return legenda.maiuscula ? s.toUpperCase() : s;
+};
 
 /** Legenda palavra por palavra na divisa entre animação e rosto. A palavra falada acende em dourado. */
 export const Captions: React.FC<{ words: Word[] }> = ({ words }) => {
@@ -64,8 +67,8 @@ export const Captions: React.FC<{ words: Word[] }> = ({ words }) => {
               fontSize: 64,
               padding: "6px 16px",
               borderRadius: 14,
-              color: active ? color.ink : color.bone,
-              background: active ? color.brassLight : "rgba(10,28,21,0.82)",
+              color: active ? color.captionActiveText : color.captionText,
+              background: active ? color.captionActiveBg : color.captionBg,
               boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
             }}
           >

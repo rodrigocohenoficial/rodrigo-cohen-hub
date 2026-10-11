@@ -9,18 +9,19 @@ type Props = {
   tone?: "brass" | "gain" | "loss";
   from?: "up" | "left" | "right" | "scale";
   width?: number;
+  valueSize?: number;
 };
 
 /** Cartão com rótulo e valor (ex: "STOP" / "150 pts"). */
-export const Card: React.FC<Props> = ({ at, label, value, tone = "brass", from = "up", width = 420 }) => {
+export const Card: React.FC<Props> = ({ at, label, value, tone = "brass", from = "up", width = 420, valueSize = 64 }) => {
   const accent = { brass: color.brassLight, gain: color.gain, loss: color.loss }[tone];
   return (
     <Appear at={at} from={from}>
       <div
         style={{
           width,
-          background: "rgba(242,237,226,0.06)",
-          border: `2px solid rgba(242,237,226,0.14)`,
+          background: color.surface,
+          border: `2px solid ${color.line}`,
           borderTop: `6px solid ${accent}`,
           borderRadius: 24,
           padding: "26px 32px",
@@ -31,7 +32,7 @@ export const Card: React.FC<Props> = ({ at, label, value, tone = "brass", from =
           {label.toUpperCase()}
         </div>
         {value && (
-          <div style={{ fontFamily: font.title, fontWeight: 800, fontSize: 64, color: color.bone, marginTop: 6 }}>
+          <div style={{ fontFamily: font.title, fontWeight: 800, fontSize: valueSize, color: color.bone, marginTop: 6 }}>
             {value}
           </div>
         )}

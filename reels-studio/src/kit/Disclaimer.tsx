@@ -1,5 +1,5 @@
 import React from "react";
-import { font } from "../theme";
+import { color, font } from "../theme";
 
 /** Aviso discreto no pé da animação (compliance). */
 export const Disclaimer: React.FC<{ text?: string }> = ({ text = "Resultado passado não garante resultado futuro." }) => (
@@ -14,7 +14,7 @@ export const Disclaimer: React.FC<{ text?: string }> = ({ text = "Resultado pass
       fontWeight: 500,
       fontSize: 24,
       letterSpacing: 1,
-      color: "rgba(242,237,226,0.5)",
+      color: color.textDim,
     }}
   >
     {text}

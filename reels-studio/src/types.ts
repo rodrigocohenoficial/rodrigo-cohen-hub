@@ -1,4 +1,5 @@
 import type React from "react";
+import type { TemaId } from "./theme";
 
 export type Word = { word: string; start: number; end: number };
 
@@ -12,6 +13,8 @@ export type Zoom = { from: number; to: number; scale: number; x: number; y: numb
 
 export type ReelDef = {
   id: string;
+  /** Paleta e fontes (padrão "rodrigo"). */
+  tema?: TemaId;
   /**
    * "split" = animação em cima + vídeo embaixo (padrão).
    * "raiz" = vídeo em tela cheia com intervenções.

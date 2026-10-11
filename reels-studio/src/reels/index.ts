@@ -1,5 +1,6 @@
 import type { ReelDef } from "../types";
 import { DemoScenes, demoTranscript } from "./demo/Scenes";
+import { Flavia01Scenes } from "./flavia-01/Scenes";
 import { Reel01Scenes } from "./reel-01/Scenes";
 import { Reel01RaizScenes, reel01RaizZooms } from "./reel-01-raiz/Scenes";
 
@@ -25,6 +26,16 @@ export const reels: ReelDef[] = [
     manchetes: [
       { from: 0, text: "*8 operações, 8 acertos:* o que realmente importa no resultado do dia?" },
       { from: 47.37, text: "*Mentoria Trader 360* começa semana que vem: como participar?" },
+    ],
+  },
+  {
+    id: "flavia-01",
+    tema: "flavia",
+    Scenes: Flavia01Scenes,
+    tag: "@flaviavcohen",
+    faceSegments: [
+      { from: 0, position: "50% 0%" }, // em pé, andando
+      { from: 22, position: "50% 8%" }, // sentada à mesa
     ],
   },
 ];
