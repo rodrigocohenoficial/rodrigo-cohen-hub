@@ -18,16 +18,20 @@ Projeto separado do site (fora do build do Next e do deploy da Vercel).
 | 6 | Prévia | Claude | `npm run preview -- <id> 2 8 15`: quadros nos segundos pedidos, para conferir |
 | 7 | Render | Claude | `npm run render -- <id>` gera `out/<id>.mp4` (1080x1920, 30 fps, com áudio) |
 
-## Dois estilos
+## Três estilos
 
 | Estilo | Visual | Quando usar |
 |--------|--------|-------------|
 | `split` (padrão) | Animação de marca em cima, vídeo embaixo | Conteúdo explicativo: macro, conceito, como funciona o robô |
 | `raiz` | Vídeo em tela cheia, legenda grossa branca/amarela, intervenções pontuais | Resultado, opinião, polêmica, bastidor: onde a prova e o rosto são o conteúdo |
+| `jornal` | Vídeo em tela cheia, cartão de manchete fixo com marca-texto, legenda em frase | Macro e notícia (Copom, juros, payroll, dólar, cripto), com o ângulo "o que muda no WIN/WDO" |
 
 No `raiz` (`src/raiz`): `zooms` no ReelDef dão zoom no vídeo (com `freeze: true` o quadro congela e o áudio segue),
 `Scribble` risca um círculo vermelho em volta do número, `Pop` estoura um número/texto, `TopText` é a faixa do gancho,
 `StampRaiz` é o carimbo e `DisclaimerRaiz` o aviso. O mesmo vídeo pode ter as duas versões (`media` aponta para a pasta da gravação).
+
+No `jornal` (`src/jornal`): `manchetes` no ReelDef define o cartão (`*trecho*` sai marcado de amarelo; várias manchetes
+trocam no segundo `from`). Zooms e peças do raiz também funcionam aqui. Exemplo: `exemplo-jornal`.
 
 ## Kit de animações do split (`src/kit`)
 

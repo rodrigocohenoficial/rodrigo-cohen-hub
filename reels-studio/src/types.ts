@@ -12,8 +12,14 @@ export type Zoom = { from: number; to: number; scale: number; x: number; y: numb
 
 export type ReelDef = {
   id: string;
-  /** "split" = animação em cima + vídeo embaixo (padrão). "raiz" = vídeo em tela cheia com intervenções. */
-  style?: "split" | "raiz";
+  /**
+   * "split" = animação em cima + vídeo embaixo (padrão).
+   * "raiz" = vídeo em tela cheia com intervenções.
+   * "jornal" = vídeo em tela cheia + cartão de manchete fixo + legenda em frase.
+   */
+  style?: "split" | "raiz" | "jornal";
+  /** Modo jornal: manchete(s) do cartão. `*trecho*` sai marcado de amarelo. Várias = troca no segundo `from`. */
+  manchetes?: { from: number; text: string }[];
   /** Pasta da gravação em public/reels, quando difere do id (ex: versão raiz do mesmo vídeo). */
   media?: string;
   /** Modo raiz: zooms e congelamentos do vídeo. */

@@ -1,6 +1,7 @@
 import React from "react";
 import { Composition, staticFile } from "remotion";
 import { Reel } from "./layout/Reel";
+import { ReelJornal } from "./jornal/ReelJornal";
 import { ReelRaiz } from "./raiz/ReelRaiz";
 import { reels } from "./reels";
 import { FPS, HEIGHT, WIDTH } from "./theme";
@@ -11,7 +12,9 @@ type Props = { reelId: string; transcript: Transcript };
 const ReelById: React.FC<Props> = ({ reelId, transcript }) => {
   const def = reels.find((r) => r.id === reelId);
   if (!def) return null;
-  return def.style === "raiz" ? <ReelRaiz def={def} transcript={transcript} /> : <Reel def={def} transcript={transcript} />;
+  if (def.style === "raiz") return <ReelRaiz def={def} transcript={transcript} />;
+  if (def.style === "jornal") return <ReelJornal def={def} transcript={transcript} />;
+  return <Reel def={def} transcript={transcript} />;
 };
 
 export const Root: React.FC = () => (

@@ -16,4 +16,15 @@ export const reels: ReelDef[] = [
     ],
   },
   { id: "reel-01-raiz", style: "raiz", media: "reel-01", Scenes: Reel01RaizScenes, zooms: reel01RaizZooms },
+  // Exemplo do estilo jornal com a gravação do reel-01 (só para ver o visual).
+  {
+    id: "exemplo-jornal",
+    style: "jornal",
+    media: "reel-01",
+    Scenes: () => null,
+    manchetes: [
+      { from: 0, text: "*8 operações, 8 acertos:* o que realmente importa no resultado do dia?" },
+      { from: 47.37, text: "*Mentoria Trader 360* começa semana que vem: como participar?" },
+    ],
+  },
 ];
