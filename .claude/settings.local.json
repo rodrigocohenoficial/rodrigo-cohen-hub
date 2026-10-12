@@ -6,7 +6,14 @@
       "Bash(curl:*)",
       "Bash(pkill:*)",
       "Bash(npm install:*)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(curl -sS -X PUT https://blob.vercel-storage.com/reels/*)"
+    ]
+  },
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Uploading finished Instagram Reel/slide files with curl PUT to https://blob.vercel-storage.com/reels/ (the user's own public Vercel Blob store tn-reels) is explicitly approved by the user, so the vidIQ connector can import and publish them to @tradernationoficial."
     ]
   }
 }
