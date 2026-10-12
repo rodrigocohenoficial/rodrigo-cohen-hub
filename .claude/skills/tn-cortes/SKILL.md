@@ -66,7 +66,9 @@ Comece sempre por `curl -sS -X PUT https://blob.vercel-storage.com/reels/` ou `c
 
 ## Modo PRODUCAO (domingo a sexta, 06:00)
 
-Objetivo: às 07:30 a fila do dia está no painel com 3 itens (`mix_diario`) + estoque.
+Objetivo: a fila do dia no painel com o mix da fase vigente (`sistema/estado.fase`, padrão `fase_atual` do config; tabela `escala`):
+`reels` Reels (dos quais `trial` saem como Trial Reel), `slides` carrosséis/cards, nos `horarios` da fase, intercalando formatos.
+Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pronto a tempo é remarcado para o próximo horário livre.
 
 1. **Contexto**: leia `sistema/estado`, `dias/<hoje>` (respostas), `itens` dos últimos 30 dias (o que saiu, o que foi rejeitado e por quê:
    motivo repetido 3× vira regra de filtro — registre a regra nova no log). Rode `scripts/shabbat.py` para cada horário do dia;
@@ -103,10 +105,11 @@ Objetivo: às 07:30 a fila do dia está no painel com 3 itens (`mix_diario`) + e
    intercalando formatos) e atualizando `dias/<hoje>`: `log` com uma linha por agente (hora, agente, o que fez, números reais) e
    `perguntas` quando faltar informação (ex.: frase pessoal, data de evento). Atualize `sistema/estado.atualizadoEm` e `shabbat`
    (resumo do `shabbat.py`).
-10. **Segunda-feira, além disso — Radar**: `vidiq_instagram_tiktok_outlier_search` (Brasil, finanças/trading, 30 dias) e
+10. **Escala (fase 3+)**: garimpe também as lives (`videoFormat: "live"`) e as pautas gravadas do Radar; mantenha `trial` dos Reels como Trial.
+11. **Segunda-feira, além disso — Radar**: `vidiq_instagram_tiktok_outlier_search` (Brasil, finanças/trading, 30 dias) e
     `vidiq_instagram_owner_insights` da TN; escreva em `dias/<hoje>.perguntas` um item `pautas` com 5 pautas pra ele gravar
     (gancho pronto + formato + evidência com números reais) e um resumo da semana anterior (3 melhores, 3 piores, por quê).
-11. Encerre com uma resposta curta: quantos itens na fila, estilos, custo de créditos, link do painel.
+12. Encerre com uma resposta curta: quantos itens na fila, estilos, custo de créditos, link do painel.
 
 ## Modo PUBLICADOR (08:00, 12:00, 19:00 — roda ~10 min antes)
 
@@ -140,6 +143,14 @@ pesquisa e métricas.
 3. Log do dia: melhor e pior post, comparação com a base (Reel antigo: 532 views, 53,8% de pulo). Se um Trial Reel passou da mediana
    da conta em 24 h, crie uma pergunta "Promover pro feed?" (a promoção é manual no app).
 4. Apague do Blob qualquer arquivo de item já publicado/rejeitado que ainda tenha `videoUrl`.
+5. **Segunda-feira — escada de escala** (`escala` e `criterio_subir`/`criterio_descer` do config):
+   compare o alcance médio por post da última semana com a anterior (só posts publicados; Trial Reels à parte).
+   - Critério de subir atendido e fase < 4 → pergunta no painel (`dias/<hoje>.perguntas`):
+     `{id: "escala", titulo: "Subir pra fase N?", texto: "<números da semana>", opcoes: ["Sobe", "Segura mais uma semana"]}`.
+   - Critério de descer atendido → mesma pergunta oferecendo voltar uma fase.
+   - Quando a resposta for "Sobe" (ou a descida aceita): atualize `sistema/estado.fase`, e ajuste as rotinas desta sessão com
+     `update_trigger`: Publicador (`trig_01PmuW9EB9iJhhUZJiS2gdbi`) com `cron_expression` = `CRON_TZ=America/Sao_Paulo ` + `publicador_cron`
+     da fase, e Produção (`trig_01Mdg1teJ6kW1gsrTfXvYf8H`) no horário `producao` da fase. Registre no log. Nunca mude de fase sem o "Sobe".
 
 ## Erros e limites conhecidos
 
