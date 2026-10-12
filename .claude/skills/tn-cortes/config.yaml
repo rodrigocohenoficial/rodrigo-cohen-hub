@@ -9,10 +9,14 @@ conta:
 painel:
   url: https://claude.ai/artifact/D6jTX4W1U2kB3Fp94gTm7r   # fila de aprovação (db: itens, dias, sistema)
 
-modo: ensaio            # ensaio | ativo  (o valor vivo fica em sistema/estado no painel; este é o padrão)
-ensaio_ate: 2026-10-15  # último dia de ensaio; a partir daí só vira "ativo" quando o Rodrigo mandar
+modo: ativo             # ensaio | ativo  (o valor vivo fica em sistema/estado no painel)
+# Ensaio cancelado pelo Rodrigo em 12/10: publica de verdade a partir de 13/10.
 
-aprovacao: manual       # manual (semanas 1-4) | hibrido | auto
+aprovacao: auto_com_veto  # manual | auto_com_veto
+# auto_com_veto (decisão do Rodrigo em 12/10): a Produção aprova sozinha o que tiver nota >= 8 e todos os
+# checks de compliance ok; o resto fica "pendente" esperando ele. Ele pode rejeitar qualquer item no painel
+# até o horário de publicação.
+nota_minima_auto: 8
 
 horarios: ["08:00", "12:00", "19:00"]   # Reels/carrosséis; 3 posts por dia
 mix_diario:             # o que a Produção monta por dia (domingo a sexta)

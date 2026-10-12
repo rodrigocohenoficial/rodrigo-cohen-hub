@@ -49,7 +49,9 @@ Comece sempre por `curl -sS -X PUT https://blob.vercel-storage.com/reels/` ou `c
 
 ## Regras que não se negociam
 
-1. **Nada sobe sem `status: "aprovado"`** dado pelo Rodrigo no painel (aprovação manual até ele mudar `config.yaml`).
+1. **Nada sobe sem `status: "aprovado"`.** Com `aprovacao: auto_com_veto` (atual), a Produção marca `aprovado` sozinha só quando
+   a nota é ≥ `nota_minima_auto` E nenhum check tem `ok: false`; qualquer dúvida de compliance, fala pessoal nova ou nota menor fica
+   `pendente` pro Rodrigo. Com `aprovacao: manual`, tudo nasce `pendente`. O Rodrigo pode rejeitar no painel até o horário.
 2. **Modo ensaio**: o Publicador marca `teria-publicado` e não chama `vidiq_instagram_publish_reel`.
 3. **Shabbat**: sexta do pôr do sol −18 min até sábado pôr do sol +42 min, e sábado inteiro: zero posts, zero itens agendados nesse intervalo.
 4. **Compliance CNPI/CVM**: sem promessa de ganho, sem recomendação de ativo, resultado mostrado leva
@@ -97,7 +99,7 @@ Objetivo: às 07:30 a fila do dia está no painel com 3 itens (`mix_diario`) + e
    comentar palavra-chave). Até `cta.trader360.ate`, 1 item por dia leva `primeiroComentario` = `cta.trader360.texto`.
    "Link na bio" leva pra sala ao vivo. Hashtags: no máximo 3, no fim.
 8. **Subir os Reels pro Blob** (comando acima) → `videoUrl` = url pública (o Rodrigo assiste por esse link no painel).
-9. **Montar a fila**: um `batch` no painel criando `itens/<hoje>-<slug>` (`status: "pendente"`, `hora` = horários livres do dia,
+9. **Montar a fila**: um `batch` no painel criando `itens/<hoje>-<slug>` (`status` conforme a regra 1, `hora` = horários livres do dia,
    intercalando formatos) e atualizando `dias/<hoje>`: `log` com uma linha por agente (hora, agente, o que fez, números reais) e
    `perguntas` quando faltar informação (ex.: frase pessoal, data de evento). Atualize `sistema/estado.atualizadoEm` e `shabbat`
    (resumo do `shabbat.py`).
