@@ -81,7 +81,7 @@ const flavia: Palette = {
 };
 
 export const temas = {
-  rodrigo: { color: rodrigo, font: { title: "Fraunces", body: "Inter" }, legenda: { maiuscula: true, quebraAntes: false } },
+  rodrigo: { color: rodrigo, font: { title: "Fraunces", body: "Inter" }, legenda: { maiuscula: true, quebraAntes: true } },
   flavia: { color: flavia, font: { title: "Playfair Display", body: "Montserrat" }, legenda: { maiuscula: false, quebraAntes: true } },
 };
 export type TemaId = keyof typeof temas;
@@ -105,3 +105,5 @@ export const WIDTH = 1080;
 export const HEIGHT = 1920;
 // Metade de cima = animação. Metade de baixo = vídeo.
 export const STAGE_HEIGHT = 960;
+/** Altura da área de animação do Reel ativo (muda com `divisao` no ReelDef; padrão 50/50). */
+export const layout = { stageHeight: STAGE_HEIGHT };

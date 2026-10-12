@@ -1,9 +1,10 @@
 import React from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { font } from "../theme";
+import { font, ritmo } from "../theme";
 import { YELLOW } from "./CaptionsRaiz";
 
-const useT = () => useCurrentFrame() / useVideoConfig().fps;
+// Segundo da fala (considera a velocidade do Reel).
+const useT = () => (useCurrentFrame() / useVideoConfig().fps) * ritmo.velocidade;
 
 /** Faixa de texto no topo (gancho): caixa branca, letra preta. */
 export const TopText: React.FC<{ from: number; to: number; text: string }> = ({ from, to, text }) => {
@@ -51,7 +52,7 @@ export const Pop: React.FC<{ from: number; to: number; text: string; sub?: strin
   const p = spring({ frame: Math.round((t - from) * fps), fps, config: { damping: 8, stiffness: 200 } });
   const c = { white: "#FFFFFF", yellow: YELLOW, green: "#3DDC84" }[color];
   return (
-    <div style={{ position: "absolute", top: y, left: 0, right: 0, textAlign: "center", transform: `scale(${p}) rotate(-3deg)` }}>
+    <div style={{ position: "absolute", top: y, left: 60, right: 60, textAlign: "center", transform: `scale(${p}) rotate(-3deg)` }}>
       <div
         style={{
           fontFamily: font.body,

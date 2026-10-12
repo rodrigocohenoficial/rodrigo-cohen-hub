@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { color, font, legenda, ritmo, STAGE_HEIGHT } from "../theme";
+import { color, font, legenda, ritmo, layout } from "../theme";
 import type { Word } from "../types";
 
 type Chunk = { words: Word[]; start: number; end: number };
@@ -49,7 +49,7 @@ export const Captions: React.FC<{ words: Word[] }> = ({ words }) => {
     <div
       style={{
         position: "absolute",
-        top: STAGE_HEIGHT - 62,
+        top: layout.stageHeight - 62,
         left: 40,
         right: 40,
         display: "flex",

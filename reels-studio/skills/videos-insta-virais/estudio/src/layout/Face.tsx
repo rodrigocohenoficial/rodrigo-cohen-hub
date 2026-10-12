@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, OffthreadVideo, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
-import { color, font, HEIGHT, ritmo, STAGE_HEIGHT } from "../theme";
+import { color, font, HEIGHT, ritmo, layout } from "../theme";
 
 type Props = { src?: string; position?: string; segments?: { from: number; position: string }[] };
 
@@ -9,7 +9,7 @@ export const Face: React.FC<Props> = ({ src, position = "50% 30%", segments = []
   const t = (useCurrentFrame() / useVideoConfig().fps) * ritmo.velocidade;
   const current = [...segments].reverse().find((s) => t >= s.from)?.position ?? position;
   return (
-    <AbsoluteFill style={{ top: STAGE_HEIGHT, height: HEIGHT - STAGE_HEIGHT, overflow: "hidden", background: color.ink }}>
+    <AbsoluteFill style={{ top: layout.stageHeight, height: HEIGHT - layout.stageHeight, overflow: "hidden", background: color.ink }}>
       {src ? (
         <OffthreadVideo src={staticFile(src)} playbackRate={ritmo.velocidade} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: current }} />
       ) : (

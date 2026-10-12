@@ -1,6 +1,6 @@
 # Exemplos reais
 
-Índice: [Registro](#registro) · [Design/split](#designsplit--reel-01-resultado-do-dia-reel-01) · [Raiz](#raiz--mesmo-vídeo-reel-01-raiz) · [Flávia](#flávia--promeno-flavia-01-tema-flavia-11x) · [Plano aprovado](#plano-aprovado-do-reel-01)
+Índice: [Registro](#registro) · [Design/split](#designsplit--reel-01-resultado-do-dia-reel-01) · [Raiz](#raiz--mesmo-vídeo-reel-01-raiz) · [Flávia](#flávia--promeno-flavia-01-tema-flavia-11x) · [Plano aprovado](#plano-aprovado-do-reel-01) · [Design 60/40](#design-6040--reel-02-quanto-dinheiro-pra-começar-reel-02-6040) · [Jornal longo](#jornal-longo--reel-03-resposta-de-caixinha-reel-03)
 
 Os tempos são segundos da fala depois dos cortes de cada vídeo; servem de modelo de estrutura, não de valores.
 
@@ -391,3 +391,176 @@ Resultado: cerca de 83s.
 
 - Nome da mentoria: "Trader 360"?
 - Legenda "digita aqui embaixo 360" (você falou "dita")
+
+## Design 60/40 — Reel 02, quanto dinheiro pra começar (`reel-02-6040`)
+
+Registro: `{ id: "reel-02-6040", media: "reel-02", Scenes: Reel02Scenes, velocidade: 1.1, divisao: 0.4, facePosition: "50% 40%" }`
+
+```tsx
+import React from "react";
+import { Caixinha, Card, Checklist, Headline, Lupa, Scene, Stamp } from "../../kit";
+
+// Tempos = segundos da fala depois de encurtar as pausas. Vídeo a 1,1x.
+
+const Gap: React.FC<{ h?: number }> = ({ h = 40 }) => <div style={{ height: h }} />;
+const Row: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div style={{ display: "flex", gap: 30, justifyContent: "center" }}>{children}</div>
+);
+
+export const Reel02Scenes: React.FC = () => (
+  <>
+    {/* 1 · "Várias caixinhas me perguntando quanto dinheiro preciso pra começar… pra ser consistente" */}
+    <Scene from={0} to={8.1}>
+      <Headline at={0.05} text="Quanto dinheiro eu preciso pra *começar?*" size={84} />
+      <Gap h={50} />
+      <Caixinha at={0.5} pergunta="Quanto preciso pra começar?" rotate={-3} />
+      <Gap h={24} />
+      <Caixinha at={4.96} pergunta="E pra ser consistente?" rotate={2} />
+    </Scene>
+
+    {/* 2 · "o dinheiro não tem nada a ver com a consistência… com começar" */}
+    <Scene from={8.1} to={12.95}>
+      <Checklist
+        title="O dinheiro não decide"
+        titleAt={8.22}
+        items={[
+          { text: "Sua consistência", at: 9.1, ok: false },
+          { text: "Seu começo", at: 11.12, ok: false },
+        ]}
+      />
+    </Scene>
+
+    {/* 3 · "o dinheiro é só uma lupa… aumenta quem a gente realmente é" */}
+    <Scene from={12.95} to={20.15}>
+      <Headline at={13.17} text="Dinheiro é só uma *lupa*" size={84} />
+      <Gap h={30} />
+      <Lupa at={14.39} texto={"quem você\nrealmente é"} aumentaAt={18.03} size={380} />
+    </Scene>
+
+    {/* 4 · "se você me fez essa pergunta: não tem conhecimento… não tem dinheiro" */}
+    <Scene from={20.15} to={24.5}>
+      <Headline at={20.37} text="Se você fez essa pergunta:" size={66} serif={false} />
+      <Gap h={50} />
+      <Row>
+        <Card at={22.25} label="Falta" value="Conhecimento" width={440} valueSize={52} tone="loss" />
+        <Card at={23.63} label="Falta" value="Dinheiro" width={440} valueSize={52} tone="loss" />
+      </Row>
+    </Scene>
+
+    {/* 5 · sem dinheiro: junta aos poucos, renda fixa, não depender do dinheiro do trade, reserva de emergência */}
+    <Scene from={24.5} to={37.5}>
+      <Checklist
+        title="Sem dinheiro?"
+        titleAt={24.59}
+        items={[
+          { text: "Junte aos poucos", at: 26.16 },
+          { text: "Tudo na renda fixa", at: 28.27 },
+          { text: "Depender do trade", at: 31.71, ok: false },
+          { text: "Reserva de emergência", at: 36.61 },
+        ]}
+      />
+    </Scene>
+
+    {/* 6 · sem conhecimento: siga quem vai te levar onde você quer chegar */}
+    <Scene from={37.5} to={45.0}>
+      <Headline at={37.61} text="Sem conhecimento?" size={66} serif={false} />
+      <Gap h={40} />
+      <Headline at={39.74} text="Siga quem *já chegou* onde você quer chegar" size={84} />
+    </Scene>
+
+    {/* 7 · "pessoas que já chegaram… comprovadamente" */}
+    <Scene from={45.0} to={50.4}>
+      <Headline at={45.13} text="Quem já chegou," size={84} />
+      <Gap h={50} />
+      <Stamp at={47.58} text="COM PROVA" tone="gain" rotate={-5} />
+    </Scene>
+
+    {/* 8 · "não pessoas exibindo um milhão de coisas pra enganar trouxa" */}
+    <Scene from={50.4} to={54.8}>
+      <Headline at={50.45} text="Não quem vive de *exibir*" size={84} />
+      <Gap h={50} />
+      <Stamp at={53.57} text="EXIBIR ≠ PROVAR" tone="loss" rotate={-4} size={84} />
+    </Scene>
+
+    {/* 9 · "Pensa nisso." + CTA de compartilhamento */}
+    <Scene from={54.8} to={56.6}>
+      <Headline at={54.86} text="Pensa *nisso*." size={110} />
+      <Gap h={40} />
+      <Headline at={55.3} text="Manda pra quem vive te perguntando isso" size={46} serif={false} />
+    </Scene>
+  </>
+);
+
+```
+
+## Jornal longo — Reel 03, resposta de caixinha (`reel-03`)
+
+Registro: `{ id: "reel-03", style: "jornal", Scenes: Reel03Scenes, zooms: reel03Zooms, velocidade: 1.1, videoY: 260, mancheteTop: 200, mancheteSize: 52, legendaY: 1380, manchetes: [{ from: 0, text: "*Como eu faço a transição de carreira corretamente?* Quero empreender no trade" }] }`
+
+```tsx
+import React from "react";
+import { Capitulos } from "../../jornal/Capitulo";
+import { Pop, StampRaiz } from "../../raiz/kit";
+import type { Zoom } from "../../types";
+
+// Vídeo longo (resposta à caixinha sobre transição de carreira), estilo jornal com a pergunta fixa.
+// Tempos = segundos da fala depois de encurtar as pausas. Vídeo a 1,1x.
+
+const Y = 1540; // frases estourando na altura do peito, abaixo da legenda
+const destaques: { at: number; text: string; dur?: number; cor?: "white" | "yellow" | "green" }[] = [
+  { at: 17.37, text: "O PROBLEMA É VOCÊ?" },
+  { at: 37.77, text: "ASSESSOR", cor: "white" },
+  { at: 45.21, text: "ANALISTA", cor: "white" },
+  { at: 55.06, text: "PROFESSOR", cor: "white" },
+  { at: 69.75, text: "ROBÔS E AUTOMAÇÃO", cor: "white" },
+  { at: 80.89, text: "INFLUENCIADOR", cor: "white" },
+  { at: 121.84, text: "\"NÃO TENHO PLANO B\"" },
+  { at: 143.09, text: "TENHA UM LIMITE" },
+  { at: 159.3, text: "1 · RESERVA", cor: "green" },
+  { at: 173.79, text: "2 · PLANO DEFINIDO", cor: "green" },
+  { at: 196.81, text: "HUMILDADE PRA AJUSTAR", cor: "white" },
+  { at: 217.35, text: "3 · SEGUIR O PLANO", cor: "green" },
+  { at: 229.85, text: "TI → MERCADO", cor: "white" },
+  { at: 280.51, text: "PENSE EM LONGO PRAZO" },
+  { at: 296.99, text: "DEFINA AS MÉTRICAS", cor: "white" },
+  { at: 311.42, text: "CONSISTÊNCIA = PLANO + SEGUIR", dur: 3.5 },
+  { at: 351.59, text: "METAS MENORES E MENSURÁVEIS", dur: 3.5 },
+  { at: 364.55, text: "MUDA O AMBIENTE" },
+  { at: 412.88, text: "A GENTE FALA, A GENTE FAZ" },
+];
+
+const carimbos: { at: number; text: string }[] = [
+  { at: 60.33, text: "RESPONSABILIDADE" },
+  { at: 152.43, text: "STOP DE CARREIRA" },
+  { at: 235.17, text: "ERREI MUITO" },
+  { at: 331.13, text: "SEM ALMOÇO GRÁTIS" },
+];
+
+// Zoom leve no rosto nos pontos fortes (rosto fica em ~28% do quadro deslocado).
+export const reel03Zooms: Zoom[] = [...destaques, ...carimbos]
+  .map(({ at }) => ({ from: at, to: at + 2.2, scale: 1.12, x: 50, y: 30 }))
+  .sort((a, b) => a.from - b.from);
+
+export const Reel03Scenes: React.FC = () => (
+  <>
+    <Capitulos
+      capitulos={[
+        { from: 22.1, to: 100.8, text: "1 · Jeitos de empreender no trade" },
+        { from: 100.8, to: 155.6, text: "2 · O seu limite" },
+        { from: 155.6, to: 227.4, text: "3 · Reserva, plano e disciplina" },
+        { from: 227.4, to: 337.5, text: "4 · A minha transição" },
+        { from: 337.5, to: 414.1, text: "5 · Fatia a meta, muda o ambiente" },
+      ]}
+      y={470}
+    />
+    {destaques.map((d) => (
+      <Pop key={d.at} from={d.at} to={d.at + (d.dur ?? 2.6)} text={d.text} color={d.cor ?? "yellow"} y={Y} size={d.text.length > 14 ? 58 : 70} />
+    ))}
+    {carimbos.map((c) => (
+      <StampRaiz key={c.at} from={c.at} to={c.at + 2.4} text={c.text} y={Y - 20} />
+    ))}
+    <Pop from={419.08} to={422.2} text="FICOU ATÉ O FINAL?" sub="COMENTA AQUI 👇" color="yellow" y={Y - 40} size={70} />
+  </>
+);
+
+```

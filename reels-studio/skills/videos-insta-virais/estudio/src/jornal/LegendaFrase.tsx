@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useCurrentFrame, useVideoConfig } from "remotion";
-import { font } from "../theme";
+import { font, ritmo } from "../theme";
 import type { Word } from "../types";
 
 type Frase = { text: string; start: number; end: number };
@@ -26,7 +26,7 @@ const toFrases = (words: Word[]): Frase[] => {
 
 /** Legenda em frase (jeito "jornal"): amarela, contorno preto, frase inteira de uma vez. */
 export const LegendaFrase: React.FC<{ words: Word[]; y?: number }> = ({ words, y = 1330 }) => {
-  const t = useCurrentFrame() / useVideoConfig().fps;
+  const t = (useCurrentFrame() / useVideoConfig().fps) * ritmo.velocidade;
   const frases = useMemo(() => toFrases(words), [words]);
   const atual = frases.find((f, i) => t >= f.start && t < (frases[i + 1]?.start ?? f.end + 0.5));
   if (!atual) return null;

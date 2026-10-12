@@ -34,42 +34,57 @@ const silencios = () => {
   ]);
 };
 const dentroDeCorte = ([a, b]) => manual.some(([c, d]) => a < d && b > c);
+// Fala baixa pode parecer silêncio: pausa em que alguma palavra COMEÇA não é cortada.
+// (O Whisper estica o fim das palavras por cima do silêncio; isso não conta.)
+const temPalavra = ([a, b]) => transcript.words.some((w) => w.start > a && w.start < b);
 const automaticos = pausas
   ? silencios()
       .filter((s) => !dentroDeCorte(s))
       .map(([a, b]) => [a + 0.08, b - 0.07])
-      .filter(([a, b]) => b - a > 0.1)
+      .filter(([a, b]) => b - a > 0.1 && !temPalavra([a, b]))
   : [];
 if (pausas) console.log(`${automaticos.length} pausas encurtadas`);
 const cuts = [...manual, ...automaticos].sort((a, b) => a[0] - b[0]);
 
 // Trechos que ficam.
+// Bordas alinhadas aos quadros (30 fps): áudio e vídeo cortam exatamente no mesmo ponto, sem perder sincronia.
+const q = (x) => Math.round(x * 30) / 30;
 const keep = [];
 let t = 0;
 for (const [a, b] of cuts) {
-  if (a - t > 0.05) keep.push([t, a]);
-  t = b;
+  if (q(a) - t > 0.05) keep.push([t, q(a)]);
+  t = Math.max(t, q(b));
 }
 // Sobra menor que 0,05s no fim (arredondamento) não vira trecho.
-if (transcript.duration - t > 0.05) keep.push([t, transcript.duration]);
+if (transcript.duration - t > 0.05) keep.push([t, q(transcript.duration)]);
 
 const FADE = 0.03; // evita estalo de áudio na emenda
-const filters = keep.map(([a, b], i) => {
-  const len = b - a;
-  return (
-    `[0:v]trim=${a}:${b},setpts=PTS-STARTPTS[v${i}];` +
-    `[0:a]atrim=${a}:${b},asetpts=PTS-STARTPTS,afade=t=in:d=${FADE},afade=t=out:st=${Math.max(0, len - FADE)}:d=${FADE}[a${i}]`
-  );
-});
-const concat = `${keep.map((_, i) => `[v${i}][a${i}]`).join("")}concat=n=${keep.length}:v=1:a=1[v][a]`;
-execFileSync("ffmpeg", [
-  "-y", "-loglevel", "error", "-i", rawVideo,
-  "-filter_complex", `${filters.join(";")};${concat}`,
-  "-map", "[v]", "-map", "[a]",
-  "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-r", "30",
-  "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
-  path.join(dir, "video.mp4"),
-], { stdio: "inherit" });
+const saida = path.join(dir, "video.mp4");
+const encode = ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-r", "30",
+  "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", saida];
+
+if (keep.length <= 20) {
+  // Poucos trechos: trim + concat, com fade curto em cada emenda.
+  const filters = keep.map(([a, b], i) => {
+    const len = b - a;
+    return (
+      `[0:v]trim=${a}:${b},setpts=PTS-STARTPTS[v${i}];` +
+      `[0:a]atrim=${a}:${b},asetpts=PTS-STARTPTS,afade=t=in:d=${FADE},afade=t=out:st=${Math.max(0, len - FADE)}:d=${FADE}[a${i}]`
+    );
+  });
+  const concat = `${keep.map((_, i) => `[v${i}][a${i}]`).join("")}concat=n=${keep.length}:v=1:a=1[v][a]`;
+  execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", rawVideo, "-filter_complex", `${filters.join(";")};${concat}`,
+    "-map", "[v]", "-map", "[a]", ...encode], { stdio: "inherit" });
+} else {
+  // Muitos trechos (vídeo longo com --pausas): seleção numa passada só, sem estourar memória.
+  const vexpr = keep.map(([a, b]) => `between(t,${(a - 0.001).toFixed(4)},${(b - 0.002).toFixed(4)})`).join("+");
+  const aexpr = keep.map(([a, b]) => `between(t,${a.toFixed(4)},${b.toFixed(4)})`).join("+");
+  const script = path.join(dir, "cortes.filtro");
+  fs.writeFileSync(script, `[0:v]select='${vexpr}',setpts=N/FRAME_RATE/TB[v];[0:a]asetnsamples=n=48:p=0,aselect='${aexpr}',asetpts=N/SR/TB[a]`);
+  execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", rawVideo, "-filter_complex_script", script,
+    "-map", "[v]", "-map", "[a]", ...encode], { stdio: "inherit" });
+  fs.unlinkSync(script);
+}
 
 // Novo tempo de um instante do bruto. Se cair num corte, encaixa na borda
 // (lado "inicio" = começo do próximo trecho; lado "fim" = fim do trecho anterior).
@@ -85,8 +100,9 @@ const remap = (x, lado = "inicio") => {
 };
 const words = transcript.words
   .map((w) => ({ ...w, start: remap(w.start, "inicio"), end: remap(w.end, "fim") }))
-  // Só some a palavra que estava inteira dentro de um corte.
-  .filter((w) => w.end > w.start);
+  // Só some a palavra que estava inteira dentro de um corte (o encaixe deixa o fim antes do começo).
+  // Palavra de duração zero fora de corte continua.
+  .filter((w) => w.end >= w.start);
 const duration = +keep.reduce((s, [a, b]) => s + b - a, 0).toFixed(3);
 fs.writeFileSync(path.join(dir, "transcript.json"), JSON.stringify({ ...transcript, duration, words }, null, 1));
 

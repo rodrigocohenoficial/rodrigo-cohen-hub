@@ -29,7 +29,8 @@ Se o repositório do usuário já tiver uma pasta `reels-studio/` com este estú
 |---|---|---|
 | Resultado, opinião forte, polêmica, bastidor, oferta | **raiz** (padrão, ~70% dos Reels) | Formato que mais estoura no nicho de finanças: rosto + prova crua parecem reais; design muito produzido lê como anúncio |
 | Notícia e macro (Copom, juros, payroll, dólar, cripto) | **jornal** (~20%) | Manchete fixa segura retenção: quem chega no meio entende o assunto. Ângulo obrigatório: "o que muda no WIN/WDO" |
-| Explicativo: conceito, como funciona o robô, passo a passo | **design** (split, ~10%) | Quando o diagrama é a entrega |
+| Explicativo: conceito, como funciona o robô, passo a passo | **design** (split, ~10%) | Quando o diagrama é a entrega. Preferência dele: **60/40** (`divisao: 0.4`, rosto maior) |
+| Resposta de caixinha / pergunta de seguidor | **jornal** com a pergunta fixa como manchete | Identificação imediata; mostre só o texto da pergunta, nunca @ ou foto de quem perguntou |
 
 Na dúvida, proponha raiz. Para testar estilo, faça duas versões do mesmo vídeo (mesmos cortes, mesmo áudio) e
 sugira postar uma normal e a outra como "Reel de teste"; compare retenção dos 3s iniciais e comentários em 48h.
@@ -70,7 +71,9 @@ com o `start` da primeira e o `end` da última. Confira os números contra a tel
 
 - Gancho fraco no começo ("Bom, vamos lá…") → corte e abra na frase que provoca.
 - Frase de promessa de ganho junto de oferta → proponha cortar (risco CNPI/CVM, ver marca).
-- Pausas: `--pausas` encurta silêncios > 0,3s para 0,15s. `velocidade: 1.1` acelera sem mudar o tom (só no estilo design por enquanto).
+- Pausas: `--pausas` encurta silêncios > 0,3s para 0,15s (não corta pausa onde começa palavra: protege fala baixa;
+  bordas alinhadas aos quadros, sincronia exata). `velocidade: 1.1` acelera sem mudar o tom, nos 3 estilos.
+  Ele liberou ritmo mais dinâmico nos vídeos novos: use `--pausas` + `1.1` por padrão e diga no plano.
 
 ```bash
 npm run cortar -- <id> 0-6.05 75.62-80.72 [--pausas]   # segundos do vídeo original; sempre parte do bruto
@@ -89,6 +92,13 @@ conteúdo é ele.
 `src/reels/<id>/Scenes.tsx` + registro em `src/reels/index.ts`. Peças e opções de cada estilo em
 `references/estilos.md`; Reels reais completos em `references/exemplos.md`. Todo tempo é **segundo da fala**.
 
+### Vídeo longo (> 3 min)
+
+Antes de editar, pergunte: série de Reels curtos (recomendado: 2–4 cortes de ~70s com gancho próprio), um Reel com os
+melhores trechos, ou o vídeo longo inteiro (vira vídeo de feed, alcance menor fora dos seguidores). No longo: capítulos
+(`Capitulos`) abaixo da manchete e uma intervenção a cada 30–40s. Render leva ~6 min por minuto de vídeo: rode em
+segundo plano. Entrega em alta qualidade pelo Descript (abaixo), prévia comprimida na conversa.
+
 ### 7. Prévia, render, entrega
 
 ```bash
@@ -97,8 +107,11 @@ npm run render -- <id>
 ```
 
 Confira a prévia de verdade: texto estourando, cena vazia > 1,5s, rosto/boca cortados, número tapando o rosto,
-círculo fora do número. Para mandar pela conversa (limite ~30 MB), comprima em 2 passadas a ~2,5 Mbps
-(comando em `references/estilos.md`).
+círculo fora do número, legenda em cima da boca. Para mandar pela conversa (limite ~30 MB), comprima em 2 passadas
+(comando em `references/estilos.md`). Arquivo maior (vídeo longo ou qualidade de postagem): suba no **Descript** com o
+conector (`import_media` com `content_type`/`file_size`, depois `curl -X PUT --upload-file` na `upload_url`,
+`wait_for_job`) e mande o link do projeto — ele baixa de lá. Gere antes uma versão ~8 Mbps
+(`-crf 20 -maxrate 8M -bufsize 16M`), o render bruto é grande demais.
 
 Entregue com a **[LEGENDA]** do post: 3–4 linhas, começa com a frase mais forte do vídeo, termina com CTA
 alinhado à métrica-alvo, e "Resultado passado não garante resultado futuro." quando mostrar resultado.
@@ -121,4 +134,6 @@ alinhado à métrica-alvo, e "Resultado passado não garante resultado futuro." 
 | Círculo/zoom fora do número na gravação de tela | A câmera mexe: use `freeze: true` no zoom e marque o ponto no quadro congelado com grade (`drawgrid`) |
 | Pausas não detectadas | Gravação com ruído: o corte usa -24 dB com filtro de grave; ajuste testando `silencedetect` |
 | "Ficou sem áudio" | `ffmpeg -i out/<id>.mp4 -af volumedetect -f null -`. Com volume, é player mudo/iPhone no silencioso |
+| Manchete do jornal cobre o rosto | `videoY` desce o vídeo (faixa escura em cima); ajuste `mancheteTop`/`mancheteSize` e `legendaY` |
+| ffmpeg morto (SIGKILL) ao cortar vídeo longo | Já tratado: com muitos trechos o `cortar` usa seleção em passada única |
 | Render baixa navegador e falha | Na nuvem o `remotion.config.ts` usa o Chromium da máquina (`/opt/pw-browsers`) |

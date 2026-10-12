@@ -21,7 +21,7 @@ export const ProdutoCard: React.FC<{ at: number; src: string; nome: string; marc
   </Appear>
 );
 
-type IngredienteId = "linhaca" | "borragem" | "primula" | "vitaminaE";
+export type IngredienteId = "linhaca" | "borragem" | "primula" | "vitaminaE" | "capsula";
 
 const Ilustracao: React.FC<{ id: IngredienteId; size: number }> = ({ id, size }) => {
   const c = size / 2;
@@ -69,6 +69,19 @@ const Ilustracao: React.FC<{ id: IngredienteId; size: number }> = ({ id, size })
           />
         ))}
         <circle cx={c} cy={c} r={12} fill="#9BB65A" />
+      </svg>
+    );
+  }
+  if (id === "capsula") {
+    // Cápsula genérica bicolor (rosé + branco), serve para qualquer suplemento
+    const w = size * 0.78;
+    const h = size * 0.3;
+    return (
+      <svg width={size} height={size}>
+        <g transform={`rotate(-30 ${c} ${c})`}>
+          <path d={`M${c} ${c - h / 2} H${c - w / 2 + h / 2} A${h / 2} ${h / 2} 0 0 0 ${c - w / 2 + h / 2} ${c + h / 2} H${c} Z`} fill="#C9798F" />
+          <path d={`M${c} ${c - h / 2} H${c + w / 2 - h / 2} A${h / 2} ${h / 2} 0 0 1 ${c + w / 2 - h / 2} ${c + h / 2} H${c} Z`} fill="#FFFFFF" stroke="#E9CDD2" strokeWidth={3} />
+        </g>
       </svg>
     );
   }

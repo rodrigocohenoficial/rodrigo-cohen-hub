@@ -1,14 +1,14 @@
 import React from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { font } from "../theme";
+import { font, ritmo } from "../theme";
 
 const MARKER = "#F7E35B";
 
 /** Cartão de manchete fixo no topo. `*trecho*` sai marcado como marca-texto. */
-export const Manchete: React.FC<{ manchetes: { from: number; text: string }[] }> = ({ manchetes }) => {
+export const Manchete: React.FC<{ manchetes: { from: number; text: string }[]; top?: number; size?: number }> = ({ manchetes, top = 250, size = 66 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const t = frame / fps;
+  const t = (frame / fps) * ritmo.velocidade;
   const current = [...manchetes].reverse().find((m) => t >= m.from);
   if (!current) return null;
 
@@ -16,7 +16,7 @@ export const Manchete: React.FC<{ manchetes: { from: number; text: string }[] }>
   const parts = current.text.split(/(\*[^*]+\*)/g).filter(Boolean);
 
   return (
-    <div style={{ position: "absolute", top: 250, left: 70, right: 70, transform: `translateY(${(1 - p) * -40}px)`, opacity: p }}>
+    <div style={{ position: "absolute", top, left: 70, right: 70, transform: `translateY(${(1 - p) * -40}px)`, opacity: p }}>
       <div
         style={{
           background: "#FFFFFF",
@@ -25,7 +25,7 @@ export const Manchete: React.FC<{ manchetes: { from: number; text: string }[] }>
           boxShadow: "0 16px 50px rgba(0,0,0,0.35)",
           fontFamily: font.body,
           fontWeight: 800,
-          fontSize: 66,
+          fontSize: size,
           lineHeight: 1.18,
           letterSpacing: -1.5,
           color: "#111111",

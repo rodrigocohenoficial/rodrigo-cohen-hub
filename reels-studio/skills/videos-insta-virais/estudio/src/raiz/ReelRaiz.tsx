@@ -8,7 +8,7 @@ export const ReelRaiz: React.FC<{ def: ReelDef; transcript: Transcript }> = ({ d
   const { Scenes } = def;
   return (
     <AbsoluteFill>
-      <VideoLayer src={`reels/${def.media ?? def.id}/video.mp4`} zooms={def.zooms ?? []} />
+      <VideoLayer src={`reels/${def.media ?? def.id}/video.mp4`} zooms={def.zooms ?? []} offsetY={def.videoY ?? 0} />
       <Scenes />
       <CaptionsRaiz words={transcript.words} />
     </AbsoluteFill>
