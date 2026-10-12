@@ -38,8 +38,12 @@ trocam no segundo `from`). Zooms e peças do raiz também funcionam aqui. Exempl
 - `tema`: `"rodrigo"` (padrão: verde, dourado, Fraunces + Inter) ou `"flavia"` (rosé, Playfair Display + Montserrat,
   caixas de gancho amarela/branca, legenda sem maiúscula). Peças da Flávia em `src/flavia`.
 - `velocidade`: acelera o vídeo (ex: `1.1`) sem mudar o tom da voz. As cenas continuam escritas em segundos da fala.
-  Só no estilo split por enquanto.
-- `npm run cortar -- <id> <cortes> --pausas`: encurta todo silêncio maior que 0,3s para um respiro de 0,15s.
+  Vale nos 3 estilos.
+- `divisao` (split): fração da altura para a animação. `0.4` = 40% animação / 60% rosto (as cenas são reduzidas para caber).
+- `videoY` (raiz/jornal): desce o vídeo N px com faixa escura em cima, para o rosto não ficar atrás da manchete.
+- `npm run cortar -- <id> <cortes> --pausas`: encurta todo silêncio maior que 0,3s para um respiro de 0,15s
+  (pausa em que uma palavra começa não é cortada: protege fala baixa). Cortes alinhados aos quadros; vídeo longo usa
+  seleção em passada única (sem estourar memória).
   Depois de cortar, os tempos das cenas mudam: refazer o plano em cima da transcrição nova.
 
 ## Kit de animações do split (`src/kit`)

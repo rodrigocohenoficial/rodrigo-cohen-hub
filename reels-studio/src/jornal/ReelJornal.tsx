@@ -9,10 +9,10 @@ export const ReelJornal: React.FC<{ def: ReelDef; transcript: Transcript }> = ({
   const { Scenes } = def;
   return (
     <AbsoluteFill>
-      <VideoLayer src={`reels/${def.media ?? def.id}/video.mp4`} zooms={def.zooms ?? []} />
-      <Manchete manchetes={def.manchetes ?? []} />
+      <VideoLayer src={`reels/${def.media ?? def.id}/video.mp4`} zooms={def.zooms ?? []} offsetY={def.videoY ?? 0} />
+      <Manchete manchetes={def.manchetes ?? []} top={def.mancheteTop} size={def.mancheteSize} />
       <Scenes />
-      <LegendaFrase words={transcript.words} />
+      <LegendaFrase words={transcript.words} y={def.legendaY} />
     </AbsoluteFill>
   );
 };

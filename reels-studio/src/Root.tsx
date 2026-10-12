@@ -4,7 +4,7 @@ import { Reel } from "./layout/Reel";
 import { ReelJornal } from "./jornal/ReelJornal";
 import { ReelRaiz } from "./raiz/ReelRaiz";
 import { reels } from "./reels";
-import { aplicarTema, FPS, HEIGHT, ritmo, WIDTH } from "./theme";
+import { aplicarTema, FPS, HEIGHT, layout, ritmo, WIDTH } from "./theme";
 import type { Transcript } from "./types";
 
 type Props = { reelId: string; transcript: Transcript };
@@ -14,6 +14,7 @@ const ReelById: React.FC<Props> = ({ reelId, transcript }) => {
   if (!def) return null;
   aplicarTema(def.tema);
   ritmo.velocidade = def.velocidade ?? 1;
+  layout.stageHeight = Math.round(HEIGHT * (def.divisao ?? 0.5));
   if (def.style === "raiz") return <ReelRaiz def={def} transcript={transcript} />;
   if (def.style === "jornal") return <ReelJornal def={def} transcript={transcript} />;
   return <Reel def={def} transcript={transcript} />;

@@ -3,6 +3,7 @@ import { DemoScenes, demoTranscript } from "./demo/Scenes";
 import { Flavia01Scenes } from "./flavia-01/Scenes";
 import { Reel01Scenes } from "./reel-01/Scenes";
 import { Reel02Scenes } from "./reel-02/Scenes";
+import { Reel03Scenes, reel03Zooms } from "./reel-03/Scenes";
 import { Reel01RaizScenes, reel01RaizZooms } from "./reel-01-raiz/Scenes";
 
 // Cada Reel novo entra aqui.
@@ -46,5 +47,28 @@ export const reels: ReelDef[] = [
     tag: "Rodrigo Cohen · Primeiro passo",
     velocidade: 1.1,
     facePosition: "50% 42%",
+  },
+  // Mesmo Reel 02 em 60/40 (rosto maior).
+  {
+    id: "reel-02-6040",
+    media: "reel-02",
+    Scenes: Reel02Scenes,
+    tag: "Rodrigo Cohen · Primeiro passo",
+    velocidade: 1.1,
+    divisao: 0.4,
+    facePosition: "50% 40%",
+  },
+  // Vídeo longo: resposta à caixinha sobre transição de carreira (jornal com a pergunta fixa).
+  {
+    id: "reel-03",
+    style: "jornal",
+    Scenes: Reel03Scenes,
+    zooms: reel03Zooms,
+    velocidade: 1.1,
+    videoY: 260,
+    mancheteTop: 200,
+    mancheteSize: 52,
+    legendaY: 1380,
+    manchetes: [{ from: 0, text: "*Como eu faço a transição de carreira corretamente?* Quero empreender no trade" }],
   },
 ];
