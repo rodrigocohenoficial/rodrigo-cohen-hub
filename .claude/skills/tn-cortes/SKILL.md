@@ -95,6 +95,14 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
    Suba os PNGs como assets do painel: `Artifact` com `action: "publish"`, `url` do painel, `asset: true`, `file_paths: [...]`
    (leia o painel com `action: "read"` antes, se a sessão pedir). Guarde as URLs devolvidas em `slides`.
    Suba também os PNGs no Blob (comando acima, `image/png`) e guarde em `slidesBlob` — é o que o Publicador usa.
+5b. **Fotos nos slides** (cada slide pode ser `{"texto", "imagem"}` no `roteiro.json`; a foto entra embaixo do texto, como tweet com imagem):
+   - **Foto do Rodrigo**: um quadro limpo do vídeo-fonte (`ffmpeg -ss <t> -i video.mp4 -frames:v 1 -vf "crop=1080:900:0:100" foto.jpg`),
+     com o rosto bem enquadrado e expressão que combine com a frase; ou uma foto da pasta do Drive abaixo.
+   - **Fotos da família (Flávia, Daniel, David) e de bastidor**: SÓ da pasta do Google Drive **"TN Fotos"** (subpastas `Rodrigo`,
+     `Familia`, `Bastidores`), via conector Google Drive (`search_files` pelo nome da pasta, `download_file_content`). Foto de família só
+     no pilar **vida** e quando o texto fala da família. Nunca use foto da internet, de outro perfil, nem imagem gerada por IA de pessoas.
+     Pasta vazia ou sem foto que combine → card sem foto (nunca invente).
+   - Use foto em no máximo metade dos slides de um carrossel (capa ou fechamento rendem mais) e em cerca de 1 a cada 2 cards.
 6. **Editor-chefe**: para cada candidato, aplique as regras acima e `proibido` do config. Barrados vão no log do dia com o motivo.
    Nota de 0 a 10 (gancho, retenção provável, encaixe no pilar). Abaixo de 7 não entra.
 7. **Copywriter**: legenda de 3–4 linhas: começa com a frase mais forte, termina com CTA da métrica (compartilhar / salvar /
