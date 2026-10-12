@@ -60,7 +60,7 @@ button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outl
 .slot{display:grid;grid-template-columns:56px 1fr;gap:12px}
 .slot .time b{font-family:var(--f-mono);font-size:.95rem;font-weight:500}
 .item{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
-.item[data-status="aprovado"],.item[data-status="publicado"],.item[data-status="teria-publicado"]{border-color:var(--accent)}
+.item[data-status="aprovado"],.item[data-status="publicado"],.item[data-status="teria-publicado"],.item[data-status="agendado"]{border-color:var(--accent)}
 .item[data-status="rejeitado"]{opacity:.55}
 .item-top{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:12px 14px 0}
 .tag{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:var(--sunk);color:var(--muted)}
@@ -114,7 +114,7 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
     <div><b id="t-total">–</b><span>na fila</span></div>
     <div><b id="t-pend">–</b><span>esperando você</span></div>
     <div><b id="t-ok">–</b><span>aprovados</span></div>
-    <div><b id="t-pub">–</b><span>publicados</span></div>
+    <div><b id="t-pub">–</b><span>agendados ou no ar</span></div>
   </div>
 </header>
 
@@ -138,14 +138,14 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
   <div id="log" class="log"><div class="log-row"><span class="t">–</span><p>Sem registros neste dia ainda.</p></div></div>
 </section>
 
-<footer>Aprovar libera o item pro horário marcado. Rejeitar tira da fila e ensina o filtro do Editor-chefe. No modo ensaio nada vai pro Instagram: o Publicador só marca o que teria publicado.</footer>
+<footer>Aprovar libera o item pro horário marcado. Rejeitar tira da fila e ensina o filtro do Editor-chefe. Os posts saem pelo Metricool: Reels, carrosséis e cards, com o primeiro comentário automático.</footer>
 </div>
 
 <script>
 (function(){
   var REASONS=["Gancho fraco","Fora de contexto","Risco de compliance","Não é minha voz","Assunto repetido","Edição ruim"];
   var STATUS_TXT={pendente:"Esperando você",aprovado:"Aprovado · entra no horário",rejeitado:"Rejeitado",publicado:"Publicado",
-    "teria-publicado":"Ensaio · teria sido publicado","pausado":"Pausado (Shabbat)","erro":"Erro na publicação"};
+    "teria-publicado":"Ensaio · teria sido publicado","pausado":"Pausado (Shabbat)","erro":"Erro na publicação","agendado":"Agendado no Metricool · sai no horário"};
   function el(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="text")e.textContent=attrs[k];else if(k==="cls")e.className=attrs[k];else e.setAttribute(k,attrs[k]);}(kids||[]).forEach(function(c){if(c)e.appendChild(c)});return e;}
   function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10);}
   function label(s){var p=s.split("-");var d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"short"});}
@@ -165,7 +165,7 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
     docs.forEach(function(snap){
       var it=snap.data()||{};n.total++;
       var st=it.status||"pendente";
-      if(st==="pendente")n.pend++;else if(st==="aprovado")n.ok++;else if(st==="publicado"||st==="teria-publicado")n.pub++;
+      if(st==="pendente")n.pend++;else if(st==="aprovado")n.ok++;else if(st==="publicado"||st==="teria-publicado"||st==="agendado")n.pub++;
       var tags=[el("span",{cls:"tag fmt",text:it.formato||"post"})];
       [it.estilo,it.pilar,it.avatar,it.metrica].forEach(function(t){if(t)tags.push(el("span",{cls:"tag",text:t}))});
       if(it.nota)tags.push(el("span",{cls:"tag score",text:"nota "+it.nota}));
@@ -187,7 +187,7 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
       row.appendChild(cap);
       if(it.slides&&it.slides.length){var sl=el("div",{cls:"slides",tabindex:"0","aria-label":"Slides"});it.slides.forEach(function(u,i){sl.appendChild(el("img",{src:u,alt:"Slide "+(i+1),loading:"lazy"}))});body.appendChild(sl);}
       body.appendChild(row);
-      if(it.permalink){var pl=el("p",{cls:"note"});pl.appendChild(el("a",{href:it.permalink,target:"_blank",rel:"noopener",text:"Ver no Instagram ↗"}));body.appendChild(pl);}
+      if(it.permalink||it.plannerUrl){var pl=el("p",{cls:"note"});if(it.permalink)pl.appendChild(el("a",{href:it.permalink,target:"_blank",rel:"noopener",text:"Ver no Instagram ↗"}));else pl.appendChild(el("a",{href:it.plannerUrl,target:"_blank",rel:"noopener",text:"Ver no Metricool ↗"}));body.appendChild(pl);}
       var bar=el("div",{cls:"actions"});
       var stEl=el("span",{cls:"state",text:(STATUS_TXT[st]||st)+(it.motivo?": "+it.motivo:"")});
       var editable=(st==="pendente"||st==="aprovado"||st==="rejeitado");

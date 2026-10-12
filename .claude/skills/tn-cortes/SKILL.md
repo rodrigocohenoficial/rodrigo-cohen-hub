@@ -14,7 +14,7 @@ Voz, compliance e parceiros: siga também `CLAUDE.md` do repositório e a skill 
 | Peça | Onde |
 |---|---|
 | Painel (fila + estado) | artifact `https://claude.ai/artifact/D6jTX4W1U2kB3Fp94gTm7r` — use as ferramentas `Artifact` e `ArtifactData` |
-| Conta Instagram | vidIQ, `platformAccountId` **29063055853307449** (@tradernationoficial) |
+| Publicação | Metricool, marca `blogId` **7382447** (@tradernationoficial). Reserva: vidIQ `platformAccountId` 29063055853307449 (só Reel) |
 | Fonte de vídeo | YouTube do Rodrigo, canal `UC2BLdwIa3Gb1Xw2FUqIp0XA` (vídeos longos e lives) |
 | Edição de Reel | skill `videos-insta-virais` (Remotion + Whisper; estilos raiz, jornal, design) |
 | Slides formato X | `scripts/slides.py roteiro.json pasta/` (PNG 1080×1350, foto e @ do Rodrigo) |
@@ -30,7 +30,7 @@ Voz, compliance e parceiros: siga também `CLAUDE.md` do repositório e a skill 
   nota ("9,1"), titulo, gancho, duracao, fonte{titulo,url,trecho}, legenda, primeiroComentario, checks[{ok,texto}],
   videoUrl (link público do Blob, só Reel), vidiqVideoUrl, slides[] (URLs de assets do painel), slidesBlob[] (URLs do Blob),
   trial (bool), status, motivo, permalink, mediaId, erro`.
-  `status`: `pendente` → (Rodrigo) `aprovado` | `rejeitado` → (Publicador) `publicado` | `teria-publicado` (ensaio) | `pausado` | `erro`.
+  `status`: `pendente` → `aprovado` | `rejeitado` → (Publicador) `agendado` (Metricool, sai no horário) → (Analista) `publicado` | `teria-publicado` (ensaio) | `pausado` | `erro`.
 - `dias/<AAAA-MM-DD>`: `{log: [{hora, agente, texto}], perguntas: [{id, titulo, texto, opcoes?}], respostas: {id: valor}}`.
   O painel mostra o log e as perguntas; o Rodrigo responde ali. **Leia `respostas` antes de perguntar de novo.**
 - Toda escrita: leia o documento, use `if_version`. Para vários documentos, um `batch`.
@@ -108,27 +108,34 @@ Objetivo: às 07:30 a fila do dia está no painel com 3 itens (`mix_diario`) + e
     (gancho pronto + formato + evidência com números reais) e um resumo da semana anterior (3 melhores, 3 piores, por quê).
 11. Encerre com uma resposta curta: quantos itens na fila, estilos, custo de créditos, link do painel.
 
-## Modo PUBLICADOR (08:00, 12:00, 19:00 — rodando ~10 min antes)
+## Modo PUBLICADOR (08:00, 12:00, 19:00 — roda ~10 min antes)
 
-1. `scripts/shabbat.py` → se `pausado`, marque itens deste horário como `pausado` (se houver), log, e encerre.
-2. Leia `sistema/estado.modo`. Busque `itens` com `data == hoje`, `hora` = o horário desta rodada (ou o mais próximo ainda não
-   publicado até 1 h atrás) e `status == "aprovado"`. Nada aprovado → log "nada aprovado para HH:MM" e encerre (não publique pendente).
-3. **Modo ensaio**: marque `teria-publicado`, log, encerre.
-4. **Modo ativo**:
-   - Reel: `vidiq_video_upload` com `url` = `videoUrl` do Blob → `vidiq_instagram_publish_reel` (`platformAccountId`, `videoUrl` do vidIQ,
-     `caption` = legenda; `trialParams: {graduationStrategy: "MANUAL"}` se `trial`). Continue com `containerId` até `PUBLISHED`
-     (espera em background entre chamadas). Pare no primeiro erro: `status: "erro"`, `erro` com a mensagem, log, sem retry automático.
-   - Carrossel/card: o vidIQ publica só Reel. Até existir um caminho de carrossel, marque `status: "aprovado"` mantido, escreva no log
-     "carrossel pronto para postar manualmente" e deixe os links dos PNGs (`slidesBlob`) numa pergunta do dia. **Não apague** esses PNGs.
-   - Sucesso: `status: "publicado"`, `permalink`, `mediaId`. Se houver `primeiroComentario`, registre no log que o comentário
-     fixado precisa ser feito à mão (a API do vidIQ não comenta).
-   - Depois de publicar (ou de `vidiq_video_upload` concluir), **apague o arquivo do Blob** (comando delete) e limpe `videoUrl`.
-5. Itens `rejeitado` com arquivo no Blob: apague do Blob também.
+Publicação via **Metricool** (conector `Metricool_Social_Media_Management`, marca `blogId` **7382447**, @tradernationoficial,
+fuso America/Sao_Paulo). Publica Reel, Trial Reel, carrossel e card, com primeiro comentário automático. O vidIQ fica para cortes,
+pesquisa e métricas.
+
+1. `scripts/shabbat.py` com o horário do slot → se `pausado`, marque os itens do slot como `pausado`, log, encerre.
+2. Leia `sistema/estado.modo`. Busque `itens` com `data == hoje`, `hora` = este slot e `status == "aprovado"`.
+   Nada aprovado → log "nada aprovado para HH:MM" e encerre (nunca publique `pendente`).
+3. Modo `ensaio`: marque `teria-publicado`, log, encerre.
+4. Modo `ativo`: `createScheduledPost` com `blogId: "7382447"`, `date` = hoje + hora do slot com `-03:00`, e `info`:
+   - comum: `autoPublish: true`, `draft: false`, `providers: [{"network":"instagram"}]`,
+     `publicationDate: {dateTime: "AAAA-MM-DDTHH:MM:00", timezone: "America/Sao_Paulo"}`, `text` = legenda,
+     `firstCommentText` = `primeiroComentario` (ou ""), `smartLinkData: {ids: []}`, `descendants: []`, `mediaAltText: []`.
+   - Reel: `media: [videoUrl do Blob]`, `instagramData: {type: "REEL"` (ou `"TRIAL_REEL"` se `trial`)`, showReelOnFeed: true, isAiGenerated: false}`.
+   - Carrossel/card: imagens **JPEG** (converta os PNG: `ffmpeg -i slide.png -q:v 2 slide.jpg`), suba no Blob como `image/jpeg`,
+     `media: [urls na ordem]`, `instagramData: {type: "POST", isAiGenerated: false}`.
+   O Metricool copia a mídia para o servidor dele na hora do agendamento (`static.metricool.com`): **apague do Blob logo em seguida**.
+   Grave no item: `status: "agendado"`, `metricoolId`, `metricoolUuid`, `plannerUrl`. Erro → `status: "erro"`, `erro` com a mensagem
+   exata, log, sem retry automático.
+5. Itens `rejeitado` com arquivo no Blob: apague do Blob.
 
 ## Modo ANALISTA (21:40, domingo a sexta)
 
 1. `vidiq_instagram_owner_insights` (`platformAccountId` 29063055853307449).
-2. Para cada item `publicado` nos últimos 7 dias: grave em `itens/...` os números (`metricas: {views, likes, comments, shares, saves,
+2. Itens `agendado` cujo horário já passou: confira com `getScheduledPosts` (Metricool, brandId 7382447) — se não está mais na lista de
+   agendados, foi publicado: marque `publicado` e busque o `permalink` nos insights. Se ainda está lá 30 min depois do horário, `erro` + log.
+   Para cada item `publicado` nos últimos 7 dias: grave em `itens/...` os números (`metricas: {views, likes, comments, shares, saves,
    avgWatchedPct, skipRate, medidoEm}`) — nulos são "ainda não disponível", nunca zero.
 3. Log do dia: melhor e pior post, comparação com a base (Reel antigo: 532 views, 53,8% de pulo). Se um Trial Reel passou da mediana
    da conta em 24 h, crie uma pergunta "Promover pro feed?" (a promoção é manual no app).
