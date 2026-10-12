@@ -7,13 +7,15 @@
       "Bash(pkill:*)",
       "Bash(npm install:*)",
       "Bash(npm run lint:*)",
-      "Bash(curl -sS -X PUT https://blob.vercel-storage.com/reels/*)"
+      "Bash(curl -sS -X PUT https://blob.vercel-storage.com/reels/*)",
+      "Bash(curl -sS -X POST https://blob.vercel-storage.com/delete*)"
     ]
   },
   "autoMode": {
     "allow": [
       "$defaults",
-      "Uploading finished Instagram Reel/slide files with curl PUT to https://blob.vercel-storage.com/reels/ (the user's own public Vercel Blob store tn-reels) is explicitly approved by the user, so the vidIQ connector can import and publish them to @tradernationoficial."
+      "Uploading finished Instagram Reel/slide files with curl PUT to https://blob.vercel-storage.com/reels/ (the user's own public Vercel Blob store tn-reels) is explicitly approved by the user, so the vidIQ connector can import and publish them to @tradernationoficial.",
+      "Deleting files from the user's own Vercel Blob store tn-reels with curl POST to https://blob.vercel-storage.com/delete right after vidIQ imports them is explicitly approved by the user, to keep the store empty."
     ]
   }
 }
