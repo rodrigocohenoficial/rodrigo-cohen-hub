@@ -1,0 +1,66 @@
+# Configuração da máquina de conteúdo da Trader Nation.
+# Mudou aqui, muda o comportamento de todas as rotinas no dia seguinte.
+
+conta:
+  instagram: tradernationoficial
+  platformAccountId: "29063055853307449"   # vidIQ (OAuth, publicação liberada)
+  youtube_channel_id: UC2BLdwIa3Gb1Xw2FUqIp0XA
+
+painel:
+  url: https://claude.ai/artifact/D6jTX4W1U2kB3Fp94gTm7r   # fila de aprovação (db: itens, dias, sistema)
+
+modo: ensaio            # ensaio | ativo  (o valor vivo fica em sistema/estado no painel; este é o padrão)
+ensaio_ate: 2026-10-15  # último dia de ensaio; a partir daí só vira "ativo" quando o Rodrigo mandar
+
+aprovacao: manual       # manual (semanas 1-4) | hibrido | auto
+
+horarios: ["08:00", "12:00", "19:00"]   # Reels/carrosséis; 3 posts por dia
+mix_diario:             # o que a Produção monta por dia (domingo a sexta)
+  reels: 2
+  slides: 1             # carrossel OU card no formato X
+estoque_alvo_dias: 3    # manter de 3 a 5 dias de itens aprovados guardados
+
+estilos_reel:           # proporção da skill videos-insta-virais
+  raiz: 70              # opinião, polêmica, bastidor, resultado
+  jornal: 20            # SÓ macro e notícia; manchete com ângulo "o que muda no WIN/WDO"
+  design: 10            # explicativo, quando o diagrama é a entrega
+duracao_reel_max_s: 45
+
+pilares:                # peso aproximado na semana
+  day-trade: 35
+  mente: 30
+  macro-cripto-ia: 20
+  vida: 10
+  investir: 5
+
+trial_reels_pct: 30     # % dos Reels que saem como Trial (só não-seguidores veem)
+
+cta:
+  link_bio: https://live.tradernation.com.br   # sala ao vivo da TN
+  trader360:                                   # 1 post por dia leva a turma no 1º comentário fixado
+    ate: 2026-10-20
+    url: trader360.tradernation.com.br
+    texto: "A turma nova da Trader 360 já começou e dá pra entrar até terça, 20/10. É a fase 5 na prática: alguém de fora olhando os seus trades. trader360.tradernation.com.br"
+
+shabbat:
+  pausar: true
+  sabado_sem_posts: true
+  cidade: São Paulo     # scripts/shabbat.py usa lat/lon de SP; mudar lá se o Rodrigo estiver em outra cidade
+
+proibido:               # o Editor-chefe barra
+  - promessa de ganho ("ganhar dinheiro", "garantido", "lucro certo")
+  - recomendação de compra/venda de ativo
+  - print de resultado sem "Resultado passado não garante resultado futuro."
+  - Santander associado a custo alto ou complexidade
+  - B3 associada a cassino, jogo ou aposta
+  - jargão técnico nos primeiros 5 segundos
+  - "ninguém te conta", "a real é", construções "não é X, é Y", tricolons poéticos
+  - ataque a pessoa ou concorrente (polêmica é de ideia)
+
+custos:
+  vidiq_creditos_dia_max: 300   # corte ~9 créditos/minuto do trecho processado
+
+blob:
+  host: https://blob.vercel-storage.com
+  publico: https://n3bvomllxviwggf3.public.blob.vercel-storage.com
+  pasta: reels/
