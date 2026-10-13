@@ -54,6 +54,7 @@
 
     const naoSabe = dados.filter((d) => !d.numeros || d.numeros.naoSei || !R.numeros.some((x) => d.numeros[x.k])).length;
     const familia = dados.filter((d) => d.familia === "Não sabe" || d.familia === "Sabe uma parte").length;
+    const escondeu = dados.filter((d) => ["Já escondi", "Escondo hoje"].includes(d.segredo)).length;
     const negativo = dados.filter((d) => ["Negativo", "Não sei, não acompanho"].includes(d.perfil?.resultado3m)).length;
     const robo = dados.filter((d) => ["Uso em parte das operações", "Uso sempre"].includes(d.perfil?.robo)).length;
     const notas = dados.filter((d) => d.nota).map((d) => d.nota);
@@ -90,6 +91,7 @@
             <dt>Contato</dt><dd>${esc(d.email)}${d.whatsapp ? " · " + esc(d.whatsapp) : ""}</dd>
             ${R.abertas.map((q) => `<dt>${esc(q.q)}</dt><dd>${esc(d.abertas?.[q.k] || "—")}</dd>`).join("")}
             <dt>${esc(R.familia.q)}</dt><dd>${esc(d.familia || "—")}</dd>
+            <dt>${esc(R.segredo.q)}</dt><dd>${esc(d.segredo || "—")}</dd>
             <dt>Marco zero</dt><dd>${esc(nums)}</dd>
             <dt>Perfil</dt><dd>${esc(perfil)}</dd>
             <dt>Mapa</dt><dd>${R.ordemPadroes.map((p) => `${esc(R.padroes[p].nome)} ${d.calc.pct[p]}%`).join(" · ")}</dd>
@@ -113,6 +115,7 @@
       <div class="tiles" style="margin-top:20px">
         <div class="tile"><b>${pct(naoSabe, n)}%</b><span>não sabem os próprios números</span></div>
         <div class="tile"><b>${pct(familia, n)}%</b><span>dizem que a família não sabe tudo do resultado</span></div>
+        <div class="tile"><b>${pct(escondeu, n)}%</b><span>já esconderam uma perda de alguém da casa</span></div>
         <div class="tile"><b>${pct(negativo, n)}%</b><span>fecharam os últimos 3 meses no negativo ou não sabem</span></div>
         <div class="tile"><b>${pct(robo, n)}%</b><span>já usam robô ou automação</span></div>
         <div class="tile"><b>${notaMedia}</b><span>nota média para "o resultado faz sentido"</span></div>

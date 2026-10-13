@@ -1,12 +1,12 @@
 (function () {
   const R = window.RAIOX;
-  const CHAVE = "raiox-t360-t5";
+  const CHAVE = "raiox-t360-t5-v2";
   const app = document.getElementById("app");
   document.getElementById("turma").textContent = R.turma;
 
   const vazio = () => ({
     etapa: "capa", i: 0, nome: "", email: "", whatsapp: "",
-    perfil: {}, numeros: {}, naoSei: false, respostas: {}, abertas: {}, familia: "",
+    perfil: {}, numeros: {}, naoSei: false, respostas: {}, abertas: {}, familia: "", segredo: "",
     resultadoId: null, nota: null,
   });
 
@@ -171,6 +171,7 @@
       <div class="card">
         <p>Você vai ver <strong>25 frases</strong>. Para cada uma, marque com que frequência isso aconteceu com você <strong>nos últimos 90 dias</strong>.</p>
         <p>Se você ainda opera só no simulador, responda pensando no simulador.</p>
+        <p>Algumas frases vão incomodar. É de propósito.</p>
         <p style="margin:0;color:var(--muted)">Responda rápido. A primeira resposta costuma ser a mais honesta.</p>
       </div>
       <div class="acoes"><button class="btn" id="seguir">Vamos lá</button><button class="link" id="voltar">Voltar</button></div>
@@ -230,12 +231,14 @@
       <div class="campo"><label for="a-${q.k}">${esc(q.q)} ${q.obrig ? "" : '<span class="dica">(opcional)</span>'}</label>
       <textarea id="a-${q.k}" data-k="${q.k}">${esc(s.abertas[q.k] || "")}</textarea></div>`).join("");
     const fam = R.familia.o.map((o) => `<button class="opcao${s.familia === o ? " on" : ""}" data-f="${esc(o)}">${esc(o)}</button>`).join("");
+    const seg = R.segredo.o.map((o) => `<button class="opcao${s.segredo === o ? " on" : ""}" data-s="${esc(o)}">${esc(o)}</button>`).join("");
     tela(`
       <div class="rotulo">Passo 5 de 5</div>
       <h2>Suas palavras</h2>
-      <p class="sub">O Rodrigo vai ler cada resposta antes da primeira aula.</p>
+      <p class="sub">O Rodrigo vai ler cada resposta antes da primeira aula. Escreva o que vier primeiro. Uma frase já basta.</p>
       ${campos}
       <div class="grupo"><div class="q">${esc(R.familia.q)}</div><div class="opcoes">${fam}</div></div>
+      <div class="grupo"><div class="q">${esc(R.segredo.q)}</div><div class="opcoes">${seg}</div></div>
       <div class="erro" id="erro"></div>
       <div class="acoes"><button class="btn" id="seguir">Ver meu Raio-X</button><button class="link" id="voltar">Voltar</button></div>
     `);
@@ -249,12 +252,18 @@
       app.querySelectorAll("[data-f]").forEach((x) => x.classList.toggle("on", x === b));
       guardar();
     }));
+    app.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => {
+      s.segredo = b.dataset.s;
+      app.querySelectorAll("[data-s]").forEach((x) => x.classList.toggle("on", x === b));
+      guardar();
+    }));
     app.querySelector("#voltar").addEventListener("click", () => { ler(); ir("afirm", { i: R.afirmacoes.length - 1 }); });
     app.querySelector("#seguir").addEventListener("click", () => {
       ler();
       const falta = R.abertas.find((q) => q.obrig && (s.abertas[q.k] || "").length < 3);
       if (falta) return (app.querySelector("#erro").textContent = `Responda: ${falta.q}`);
       if (!s.familia) return (app.querySelector("#erro").textContent = "Responda a pergunta sobre a sua família.");
+      if (!s.segredo) return (app.querySelector("#erro").textContent = "Responda se você já escondeu uma perda.");
       enviar();
     });
   }
@@ -270,7 +279,7 @@
         body: JSON.stringify({
           nome: s.nome, email: s.email, whatsapp: s.whatsapp,
           perfil: s.perfil, numeros: s.naoSei ? { naoSei: "sim" } : s.numeros,
-          abertas: s.abertas, familia: s.familia, respostas: s.respostas,
+          abertas: s.abertas, familia: s.familia, segredo: s.segredo, respostas: s.respostas,
           padrao: calc.padrao, forca: calc.forca,
         }),
       });

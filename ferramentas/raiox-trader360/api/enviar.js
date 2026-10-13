@@ -59,6 +59,7 @@ export default async function handler(req, res) {
       numeros: limparObjeto(b.numeros, 20),
       abertas: limparObjeto(b.abertas, 2000),
       familia: texto(b.familia, 60),
+      segredo: texto(b.segredo, 60),
       respostas,
       padrao: texto(b.padrao, 20),
       forca: texto(b.forca, 20),
