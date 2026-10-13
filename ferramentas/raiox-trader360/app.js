@@ -329,20 +329,102 @@
       nome: s.nome, respostas: s.respostas, numeros: s.naoSei ? { naoSei: "sim" } : s.numeros, nota: s.nota,
       perfil: s.perfil, familia: s.familia, segredo: s.segredo, abertas: s.abertas,
     };
-    const calc = window.calcularRaiox(d.respostas);
+    const resp = d.respostas || {};
+    const perfil = d.perfil || {};
+    const ab = d.abertas || {};
+    const nums = d.numeros || {};
+    const calc = window.calcularRaiox(resp);
+    const P = R.padroes[calc.padrao];
     const S2 = R.padroes[calc.segundo];
+    const F = R.padroes[calc.forca].forca;
     const cegos = window.pontosCegos(d);
     const nivelTxt = { leve: "leve", moderado: "moderada", forte: "forte" };
-    const P = R.padroes[calc.padrao];
-    const F = R.padroes[calc.forca].forca;
     const audioP = R.audios.padrao[calc.padrao];
     const audioF = R.audios.forca[calc.forca];
+    const rotuloEscala = (v) => (R.escala.find((e) => e.v === Number(v)) || {}).rotulo || "";
+    const p1 = primeiroNome(d.nome);
+    const nome = p1 ? p1.charAt(0).toUpperCase() + p1.slice(1).toLowerCase() : "";
+    const numero = (k) => {
+      const v = parseFloat(String(nums[k] || "").replace(/[^\d,.-]/g, "").replace(",", "."));
+      return Number.isFinite(v) ? v : null;
+    };
+    const fmt = (v, casas = 0) => v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
 
-    const impactos = R.areas.map((ar) => {
-      const im = P.impactos[ar.k];
-      const decisoes = im.d.map((t, idx) => `<div class="decisao"><div class="rotulo">${esc(R.prazos[idx])}</div>${esc(t)}</div>`).join("");
-      return `<div class="area"><h4>${ar.icone} <b>${esc(ar.nome)}:</b> ${esc(im.frase)}</h4>${decisoes}</div>`;
-    }).join("");
+    // As frases do padrão que a pessoa marcou mais alto definem por onde começar.
+    const doPadrao = R.afirmacoes
+      .filter((a) => a.p === calc.padrao)
+      .map((a) => ({ ...a, v: Number(resp[a.id]) || 0 }))
+      .sort((x, y) => y.v - x.v);
+    const marcadas = doPadrao.filter((a) => a.v >= 3).slice(0, 2);
+    const area = R.areas.find((x) => x.k === doPadrao[0].a);
+    const foco = P.impactos[area.k];
+
+    // Intensidade e segundo padrão.
+    const empate = calc.pct[calc.padrao] - calc.pct[calc.segundo] <= 5;
+    let leituraIntensidade;
+    if (calc.nivel[calc.padrao] === "leve") {
+      leituraIntensidade = `Nenhum padrão aparece forte em você. ${esc(P.nome)} é o que mais aparece, mas ainda em nível leve.`;
+    } else if (empate) {
+      leituraIntensidade = `Empatado com ele, quase no mesmo nível, está <strong>${esc(S2.nome)}</strong> (${calc.pct[calc.segundo]}%). Leia os dois.`;
+    } else {
+      leituraIntensidade = `Logo atrás vem <strong>${esc(S2.nome)}</strong>, com ${calc.pct[calc.segundo]}%.`;
+    }
+
+    const comoAparece = marcadas.length
+      ? `<p>Nas suas respostas, ele aparece assim: você marcou ${marcadas.map((a) => `<strong>${esc(rotuloEscala(a.v).toLowerCase())}</strong> em “${esc(a.t)}”`).join(" e ")}</p>`
+      : "";
+    const descricao = P.bullets.map((b) => b.replace(/\*\*/g, "")).join(" ");
+
+    const palavras = [];
+    if (ab.regra) palavras.push(`A regra que você mesmo disse que continua quebrando: <strong>“${esc(ab.regra)}”</strong>.`);
+    if (ab.mentira) palavras.push(`E o que você diz para si depois de um loss: <strong>“${esc(ab.mentira)}”</strong>.`);
+    const blocoPalavras = palavras.length
+      ? `<div class="palavras"><div class="rotulo">Nas suas palavras</div><p>${palavras.join(" ")}</p><p style="margin:0">Você já conhece a regra. O trabalho agora é cumprir no dia ruim.</p></div>`
+      : "";
+
+    let fora = "";
+    const famFrase = { "Não sabe": "sua família não sabe como está o seu resultado", "Sabe uma parte": "sua família sabe só uma parte do seu resultado" }[d.familia];
+    const escondeu = ["Já escondi", "Escondo hoje"].includes(d.segredo);
+    if ((famFrase || escondeu) && area.k !== "casa") {
+      const motivo = [famFrase, escondeu ? "já escondeu uma perda de alguém da sua casa" : ""].filter(Boolean).join(" e que ");
+      fora = `<p class="fora"><strong>Fora da tela:</strong> você disse que ${motivo}. ${esc(P.impactos.casa.d[0])}</p>`;
+    }
+
+    // Sua matemática: esperança, ponto de empate, peso da maior perda.
+    const mat = [];
+    const acerto = numero("acerto");
+    const payoff = numero("payoff");
+    if (acerto !== null && payoff !== null && acerto > 0 && acerto <= 100 && payoff > 0) {
+      const p = acerto / 100;
+      const e = p * payoff - (1 - p);
+      const por100 = Math.round(Math.abs(e) * 100);
+      const empata = Math.round(100 / (1 + payoff));
+      if (e > 0) {
+        mat.push(`Com ${fmt(acerto)}% de acerto e payoff de ${esc(String(nums.payoff))}, cada R$ 100 que você arrisca devolvem em média <strong>R$ ${fmt(por100)} de lucro</strong>. Se o seu extrato não mostra isso, a diferença está na execução.`);
+        if (e > 1) mat.push("Esses números estão entre os melhores que existem. Confira se eles vêm do seu diário ou da sua memória.");
+      } else {
+        mat.push(`Com ${fmt(acerto)}% de acerto e payoff de ${esc(String(nums.payoff))}, cada R$ 100 arriscados <strong>perdem em média R$ ${fmt(por100)}</strong>. Antes de qualquer coisa, essa conta precisa fechar.`);
+      }
+      mat.push(`Com esse payoff, você precisa acertar pelo menos ${empata}% das operações só para empatar.`);
+    } else if (!nums.naoSei) {
+      mat.push("Sem taxa de acerto e payoff, ninguém consegue dizer se o seu método ganha dinheiro. São os dois primeiros números que você precisa começar a medir.");
+    }
+    const perda = numero("maiorPerda");
+    const faixa = R.capitalFaixas[perfil.capital];
+    if (perda && faixa) {
+      const [min, max] = faixa;
+      const deMax = max ? (perda / max) * 100 : null;
+      const deMin = min ? (perda / min) * 100 : null;
+      let peso;
+      if (deMax !== null && deMin !== null) peso = `entre ${fmt(deMax, 1)}% e ${fmt(deMin, 1)}% da sua conta`;
+      else if (deMax !== null) peso = `pelo menos ${fmt(deMax, 1)}% da sua conta`;
+      else peso = `até ${fmt(deMin, 1)}% da sua conta`;
+      mat.push(`Sua maior perda num dia foi R$ ${fmt(perda)}. Com o capital que você informou, isso é ${peso} em um único pregão.${(deMax ?? 0) >= 3 ? " É muito para um dia só." : ""}`);
+    }
+    const stop = numero("stopRespeitado");
+    if (stop !== null && stop >= 0 && stop <= 7) {
+      mat.push(`Você respeitou o stop em ${fmt(stop)} de 10 pregões. Nos outros ${fmt(10 - stop)}, quem decidiu foi a emoção.`);
+    }
 
     const mapa = R.ordemPadroes.map((k) => {
       const p = R.padroes[k];
@@ -352,23 +434,16 @@
       </div>`;
     }).join("");
 
-    const nums = d.numeros || {};
     const preenchidos = R.numeros.filter((n) => nums[n.k]);
     const blocoNumeros = nums.naoSei || !preenchidos.length
       ? `<p>Você ainda não sabe os seus números. Tudo bem: <strong>esse é o primeiro trabalho ${PUBLICO ? "a fazer" : "da mentoria"}</strong>. Trader que não mede, não melhora.</p>`
-      : `<div class="numeros">${preenchidos.map((n) => `<div class="num"><b>${n.pre ? esc(n.pre) + " " : ""}${esc(nums[n.k])}${n.suf === "%" ? "%" : ""}</b><span>${esc(n.q)}</span></div>`).join("")}</div>
-         <p style="margin-top:14px;color:var(--muted)">Guarde esta foto. ${PUBLICO ? "Daqui a 90 dias, compare." : "No fim da Trader 360, a gente compara."}</p>`;
+      : `<div class="numeros">${preenchidos.map((n) => `<div class="num"><b>${n.pre ? esc(n.pre) + " " : ""}${esc(nums[n.k])}${n.suf === "%" ? "%" : ""}</b><span>${esc(n.q)}</span></div>`).join("")}</div>`;
 
-    // Intensidade e segundo padrão.
-    const empate = calc.pct[calc.padrao] - calc.pct[calc.segundo] <= 5;
-    let leituraIntensidade;
-    if (calc.nivel[calc.padrao] === "leve") {
-      leituraIntensidade = `Nenhum padrão aparece forte em você. ${esc(P.nome)} é o que mais aparece, mas ainda em nível leve. Ótimo sinal, desde que suas respostas tenham sido honestas.`;
-    } else if (empate) {
-      leituraIntensidade = `Seus dois padrões principais estão praticamente empatados: <strong>${esc(P.nome)}</strong> (${calc.pct[calc.padrao]}%) e <strong>${esc(S2.nome)}</strong> (${calc.pct[calc.segundo]}%). Leia os dois.`;
-    } else {
-      leituraIntensidade = `Logo atrás vem <strong>${esc(S2.nome)}</strong>, com ${calc.pct[calc.segundo]}%.`;
-    }
+    const blocoAudio = audioP || audioF ? `
+      <div class="card"><h3>Ouça o Cohen</h3>
+        ${audioP ? `<p style="margin:16px 0 0">🎧 Sobre ${esc(P.nome)}</p><audio controls preload="none" src="${esc(audioP)}"></audio>` : ""}
+        ${audioF ? `<p style="margin:16px 0 0">🎧 Sobre a sua força: ${esc(F.nome)}</p><audio controls preload="none" src="${esc(audioF)}"></audio>` : ""}
+      </div>` : "";
 
     const blocoCegos = cegos.length ? `
       <div class="card cego">
@@ -388,9 +463,9 @@
       <div class="card cta">
         <div class="rotulo">O próximo passo</div>
         <h2>Seu padrão tem tratamento</h2>
-        <p style="margin-top:12px">Na <strong>Mentoria Trader 360</strong>, o Cohen trabalha isso ao vivo, com você. Os encontros que atacam o seu padrão:</p>
+        <p style="margin-top:12px">Na <strong>Mentoria Trader 360</strong>, eu trabalho isso ao vivo, com você. Os encontros que atacam o seu padrão:</p>
         <ul class="lista">${PUB.encontros[calc.padrao].map((e) => `<li>Encontro ${esc(e)}</li>`).join("")}</ul>
-        <p>São 10 encontros ao vivo com o Cohen, terças e quintas às 19h, tudo gravado. <strong>Inscrições da 5ª turma até 20/10.</strong></p>
+        <p>São 10 encontros ao vivo, terças e quintas às 19h, tudo gravado. <strong>Inscrições da 5ª turma até 20/10.</strong></p>
         <div class="acoes">
           <a class="btn" href="${esc(PUB.lp)}" target="_blank" rel="noopener">Quero minha vaga na 5ª turma</a>
           <a class="btn sec" href="https://wa.me/${PUB.whatsapp}?text=${msgZap}" target="_blank" rel="noopener">Falar com a Elaine no WhatsApp</a>
@@ -399,36 +474,42 @@
       <div class="card" style="text-align:center">
         <div class="rotulo">Próximo encontro</div>
         <h3>Dia 21: Aula 1 · Mindset</h3>
-        <p style="color:var(--muted);margin:10px 0 0">Na aula, o Cohen abre o Raio-X da turma inteira. Guarde o link desta página.</p>
+        <p style="color:var(--muted);margin:10px 0 0">Na aula, eu abro o Raio-X da turma inteira. Guarde o link desta página.</p>
       </div>`;
-
-    const blocoAudio = audioP || audioF ? `
-      <div class="card"><h3>Ouça sua devolutiva</h3>
-        ${audioP ? `<p style="margin:16px 0 0">🎧 Padrão: ${esc(P.nome)}</p><audio controls preload="none" src="${esc(audioP)}"></audio>` : ""}
-        ${audioF ? `<p style="margin:16px 0 0">🎧 Força: ${esc(F.nome)}</p><audio controls preload="none" src="${esc(audioF)}"></audio>` : ""}
-      </div>` : "";
 
     tela(`
       <h1>RAIO-X <span class="ouro">DO TRADER</span></h1>
-      <p class="cumprimento">${esc(primeiroNome(d.nome).toUpperCase())}, este é o seu resultado</p>
 
-      <div class="card">
-        <div class="rotulo">Padrão que merece sua atenção</div>
+      <div class="card carta">
+        <div class="rotulo">Seu padrão</div>
         <h2 class="padrao-nome">${esc(P.nome)}</h2>
-        <div class="tema">Tema: ${esc(P.tema)}</div>
         <div class="chip" style="--c:${P.cor}">Intensidade ${nivelTxt[calc.nivel[calc.padrao]]} · ${calc.pct[calc.padrao]}%</div>
         <p class="segundo">${leituraIntensidade}</p>
-        <div class="citacao"><q>${esc(P.citacao.t)}</q><small>${esc(P.citacao.f)}</small></div>
-        <p>Seu resultado sugere que o padrão que mais pesa no seu trade hoje é <strong>${esc(P.nome)}</strong>.</p>
-        <h3 style="margin-top:22px">Como esse padrão costuma aparecer</h3>
-        <ul class="lista">${P.bullets.map((b) => `<li>${md(b)}</li>`).join("")}</ul>
-        <div class="sintese">${esc(P.sintese)}</div>
 
-        <h3 style="margin-top:30px">Possíveis impactos</h3>
-        ${impactos}
+        <p class="saudacao">${esc(nome)}${nome ? "," : ""}</p>
+        <p>Li suas respostas. O padrão que mais pesa no seu trade hoje é <strong>${esc(P.nome)}</strong>. Em uma frase: ${esc(P.tema)}.</p>
+        ${R.estagios[perfil.tempo] ? `<p>${esc(R.estagios[perfil.tempo])}</p>` : ""}
+        ${comoAparece}
+        <p>${esc(descricao)} <strong>${esc(P.sintese)}</strong></p>
 
-        <div class="acao7"><h3>Sua ação para os próximos 7 dias</h3><p style="margin:0">${esc(P.acao7)}</p></div>
-        <div class="assinatura"><q>${esc(P.frase)}</q><small>RODRIGO COHEN</small></div>
+        ${blocoPalavras}
+
+        <h3 style="margin-top:28px">Por onde começar: ${esc(area.nome.toLowerCase())}</h3>
+        <p>Pelas suas respostas, o ponto mais sensível hoje é este: ${esc(foco.frase)}</p>
+        <ol class="movimentos">
+          ${foco.d.map((t, i) => `<li><span>${esc(R.prazos[i])}</span>${esc(t)}</li>`).join("")}
+        </ol>
+        ${fora}
+
+        <div class="acao7"><div class="rotulo">Seu compromisso de 7 dias</div><p style="margin:0">${esc(P.acao7)}</p></div>
+
+        <p class="citacao-curta">“${esc(P.citacao.t)}” <small>${esc(P.citacao.f)}</small></p>
+
+        <div class="assina">
+          <p class="frase-final">${esc(P.frase)}</p>
+          <img src="/assinatura.svg" alt="Assinatura de Rodrigo Cohen" width="190" height="115">
+          <small>Rodrigo Cohen · 26 anos de mercado · Analista CNPI</small>
+        </div>
       </div>
 
       ${blocoCegos}
@@ -437,8 +518,15 @@
         <div class="rotulo">Sua força</div>
         <h2 style="color:var(--brass)">${esc(F.nome)}</h2>
         <p style="margin-top:12px">${esc(F.texto)}</p>
-        <h3 style="margin-top:18px">Como colocar em prática</h3>
         <ol class="lista">${F.passos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
+      </div>
+
+      <div class="card">
+        <div class="rotulo">Sua matemática</div>
+        <h3>A foto de hoje</h3>
+        ${blocoNumeros}
+        ${mat.map((m) => `<p class="mat">${m}</p>`).join("")}
+        <p style="margin:14px 0 0;color:var(--muted)">Guarde esta foto. ${PUBLICO ? "Daqui a 90 dias, compare." : "No fim da Trader 360, a gente compara."}</p>
       </div>
 
       <div class="card">
@@ -446,12 +534,6 @@
         <h3>Os 5 padrões em você</h3>
         <p style="color:var(--muted);margin:8px 0 0;font-size:15px">Quanto maior a barra, mais esse padrão apareceu nos seus últimos 90 dias.</p>
         <div class="mapa">${mapa}</div>
-      </div>
-
-      <div class="card">
-        <div class="rotulo">Seu marco zero</div>
-        <h3>A sua foto de hoje</h3>
-        ${blocoNumeros}
       </div>
 
       ${blocoAudio}
