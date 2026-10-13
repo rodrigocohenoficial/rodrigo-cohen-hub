@@ -57,7 +57,7 @@ window.RAIOX = {
       nome: "O Vingativo",
       cor: "#d95926",
       tema: "recuperar a perda no impulso",
-      citacao: { t: "Quem é forte? Aquele que domina o próprio impulso.", f: "Pirkei Avot 4:1" },
+      citacao: { t: "Quem é forte? Aquele que domina o próprio impulso.", f: "Ética dos Pais 4:1" },
       bullets: [
         "Você tem **garra** e **não aceita perder fácil**.",
         "Essa garra vira peso quando o stop parece **uma ofensa que precisa de resposta**.",
@@ -115,7 +115,7 @@ window.RAIOX = {
       nome: "O Travado",
       cor: "#3987e5",
       tema: "medo de executar",
-      citacao: { t: "Quem fica olhando o vento não semeia, e quem fica olhando as nuvens não colhe.", f: "Kohelet 11:4" },
+      citacao: { t: "Quem fica olhando o vento não semeia, e quem fica olhando as nuvens não colhe.", f: "Eclesiastes 11:4" },
       bullets: [
         "Você é **cuidadoso** e **leva o risco a sério**.",
         "Esse cuidado vira peso quando **nenhuma entrada parece segura o suficiente**.",
@@ -173,7 +173,7 @@ window.RAIOX = {
       nome: "O Eterno Estudante",
       cor: "#d55181",
       tema: "troca de método e falta de constância",
-      citacao: { t: "O estudo não é o principal. O principal é a prática.", f: "Pirkei Avot 1:17" },
+      citacao: { t: "O estudo não é o principal. O principal é a prática.", f: "Ética dos Pais 1:17" },
       bullets: [
         "Você é **curioso** e **gosta de aprender**.",
         "Essa curiosidade vira peso quando **cada perda vira motivo para trocar de método**.",
@@ -231,7 +231,7 @@ window.RAIOX = {
       nome: "O Herói do Dia",
       cor: "#c98500",
       tema: "excesso de confiança e operar demais",
-      citacao: { t: "Quem é rico? Aquele que se alegra com a sua porção.", f: "Pirkei Avot 4:1" },
+      citacao: { t: "Quem é rico? Aquele que se alegra com a sua porção.", f: "Ética dos Pais 4:1" },
       bullets: [
         "Você tem **confiança** e **sabe aproveitar o dia bom**.",
         "Essa confiança vira peso quando o gain parece **prova de que você não pode errar**.",
@@ -289,7 +289,7 @@ window.RAIOX = {
       nome: "O Sem Processo",
       cor: "#199e70",
       tema: "operar sem regras claras",
-      citacao: { t: "Os planos do diligente levam à abundância.", f: "Mishlei 21:5" },
+      citacao: { t: "Os planos do diligente levam à abundância.", f: "Provérbios 21:5" },
       bullets: [
         "Você tem **leitura de mercado** e **intuição**.",
         "Essa intuição vira peso quando **ocupa o lugar do plano**.",
