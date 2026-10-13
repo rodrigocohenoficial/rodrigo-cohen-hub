@@ -23,10 +23,11 @@ nota_minima_auto: 8
 # Só sobe com "sim" do Rodrigo à pergunta do Analista; cai uma fase se o alcance médio por post cair >20% por 7 dias.
 fase_atual: 1
 escala:
-  1: {reels: 2, trial: 0, slides: 1, horarios: ["08:00", "12:00", "19:00"], producao: "05:47", publicador_cron: "50 7,11,18 * * 0-5"}
-  2: {reels: 3, trial: 1, slides: 2, horarios: ["08:00", "11:00", "13:00", "17:00", "20:00"], producao: "05:17", publicador_cron: "50 7,10,12,16,19 * * 0-5"}
-  3: {reels: 4, trial: 2, slides: 3, horarios: ["08:00", "10:00", "12:00", "14:00", "17:00", "19:00", "21:00"], producao: "04:47", publicador_cron: "50 7,9,11,13,16,18,20 * * 0-5"}
-  4: {reels: 4, trial: 2, slides: 4, horarios: ["08:00", "10:00", "11:00", "12:00", "14:00", "17:00", "19:00", "21:00"], producao: "04:17", publicador_cron: "50 7,9,10,11,13,16,18,20 * * 0-5"}
+  # 08:30 de segunda a sexta é sempre o card Morning Call (modo MORNING, fora desta tabela). O Reel da manhã sai às 10:00.
+  1: {reels: 2, trial: 0, slides: 1, horarios: ["10:00", "12:00", "19:00"], producao: "05:47", publicador_cron: "50 9,11,18 * * 0-5"}
+  2: {reels: 3, trial: 1, slides: 2, horarios: ["10:00", "12:00", "14:00", "17:00", "20:00"], producao: "05:17", publicador_cron: "50 9,11,13,16,19 * * 0-5"}
+  3: {reels: 4, trial: 2, slides: 3, horarios: ["10:00", "11:00", "12:00", "14:00", "17:00", "19:00", "21:00"], producao: "04:47", publicador_cron: "50 9,10,11,13,16,18,20 * * 0-5"}
+  4: {reels: 4, trial: 2, slides: 4, horarios: ["10:00", "11:00", "12:00", "14:00", "16:00", "17:00", "19:00", "21:00"], producao: "04:17", publicador_cron: "50 9,10,11,13,15,16,18,20 * * 0-5"}
 criterio_subir:
   semanas_minimas_na_fase: 1
   alcance_medio_por_post: "estável ou subindo (>= 90% da semana anterior)"
@@ -50,6 +51,14 @@ pilares:                # peso aproximado na semana
   vida: 10
   investir: 5
 
+
+morning_call:            # card das 08:30 (decisão do Rodrigo em 13/10), segunda a sexta com pregão
+  horario: "08:30"
+  rotina: "08:18"         # roda depois do QG1 (8h10, pronto ~8h14)
+  fonte: https://claude.ai/artifact/CxZAtEqQPVsvgup1KGrfX1   # painel do QG: dias/<hoje> e historico/<último pregão>
+  script: scripts/morning_card.py
+  foto: assets/foto-mc.jpg  # trocar por foto da pasta "TN Fotos" quando existir
+  reel_ao_vivo: pendente  # Reel com corte da sala (Mux) 09:50; depende da chave de leitura do Mux
 
 cta:
   link_bio: https://live.tradernation.com.br   # sala ao vivo da TN

@@ -119,7 +119,28 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
     (gancho pronto + formato + evidência com números reais) e um resumo da semana anterior (3 melhores, 3 piores, por quê).
 12. Encerre com uma resposta curta: quantos itens na fila, estilos, custo de créditos, link do painel.
 
-## Modo PUBLICADOR (08:00, 12:00, 19:00 — roda ~10 min antes)
+## Modo MORNING (08:18, segunda a sexta) — card Morning Call das 08:30
+
+Card que chama pra sala ao vivo (8h30) com os destaques do dia. Sai sozinho, sem fila: o conteúdo é o mesmo que o QG1
+já mandou no WhatsApp do QG às ~08:13 (rotina "QG · 1. manhã"), então nada aqui é escrito do zero.
+
+1. `scripts/shabbat.py` com 08:30 → `pausado` = encerre. Leia `sistema/estado.modo` (ensaio = gere, não publique).
+2. Painel do QG (`morning_call.fonte`, ArtifactData): `get dias/<hoje>` com `out_dir`. Sem documento ou sem mensagem
+   `slot: "manha"` com `postado: true` → espere em background (nunca `sleep` em primeiro plano) e tente de novo até 08:24;
+   se ainda não houver, log "QG1 não saiu, sem card hoje" e encerre (feriado da B3 cai aqui também).
+   Pegue também `historico/<data do último pregão>` (a data está no `painel`/texto da mensagem: "NÍVEIS DE SEXTA" etc.;
+   na dúvida, `list historico` e use o mais recente antes de hoje) com `out_dir`. Sem histórico → passe `-` (card sem gráfico).
+3. `python3 scripts/morning_card.py <dias.json> <historico.json|-> /tmp/.../mc.png` → imprime `manchete` e `legenda`.
+   Olhe o PNG (Read) antes de seguir: texto estourando, caixa vazia ou número estranho → não publique, log e encerre.
+   Converta: `ffmpeg -i mc.png -q:v 2 mc.jpg`.
+4. Blob (`image/jpeg`) → `createScheduledPost` POST para hoje 08:30 (`text` = legenda; sem 1º comentário) →
+   apague do Blob. Grave `itens/<hoje>-morning-call` (formato `card`, estilo `x`, pilar `day-trade`, avatar `Iniciante`,
+   métrica `salvamento`, nota "8,5", fonte {titulo: "QG do Cohen (manhã)"}, checks: "dados do QG1 de hoje, fonte B3/Yahoo",
+   "Conteúdo educacional. Não é recomendação. no card e na legenda") com `status: "agendado"` e os ids do Metricool.
+   Suba o PNG como asset do painel e guarde em `slides` para o Rodrigo ver. Log do dia.
+5. Se der 08:29 sem agendar, não publique atrasado: log e encerre.
+
+## Modo PUBLICADOR (horários da fase: 10:00, 12:00, 19:00 na fase 1 — roda ~10 min antes)
 
 Publicação via **Metricool** (conector `Metricool_Social_Media_Management`, marca `blogId` **7382447**, @tradernationoficial,
 fuso America/Sao_Paulo). Publica Reel, Trial Reel, carrossel e card, com primeiro comentário automático. O vidIQ fica para cortes,
