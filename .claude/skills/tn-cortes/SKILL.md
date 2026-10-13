@@ -130,11 +130,14 @@ já mandou no WhatsApp do QG às ~08:13 (rotina "QG · 1. manhã"), então nada 
    se ainda não houver, log "QG1 não saiu, sem card hoje" e encerre (feriado da B3 cai aqui também).
    Pegue também `historico/<data do último pregão>` (a data está no `painel`/texto da mensagem: "NÍVEIS DE SEXTA" etc.;
    na dúvida, `list historico` e use o mais recente antes de hoje) com `out_dir`. Sem histórico → passe `-` (card sem gráfico).
-3. `python3 scripts/morning_card.py <dias.json> <historico.json|-> /tmp/.../mc.png` → imprime `manchete` e `legenda`.
+3. Pegue também `dias/<último pregão>` do QG (a leitura de ontem, pro placar) com `out_dir`.
+   `python3 scripts/morning_raiz.py <dias-hoje.json> <dias-ontem.json|-> <historico.json|-> /tmp/.../mc.png` → imprime
+   `placar`, `gancho` e `legenda`. O gancho abre com o placar ("Sexta eu disse que... Acertei/Errei."); errou, publica igual:
+   a série vale porque não esconde erro. Sem leitura de ontem → abre com a manchete.
    Olhe o PNG (Read) antes de seguir: texto estourando, caixa vazia ou número estranho → não publique, log e encerre.
    Converta: `ffmpeg -i mc.png -q:v 2 mc.jpg`.
 4. Blob (`image/jpeg`) → `createScheduledPost` POST para hoje 08:30 (`text` = legenda; sem 1º comentário) →
-   apague do Blob. Grave `itens/<hoje>-morning-call` (formato `card`, estilo `x`, pilar `day-trade`, avatar `Iniciante`,
+   apague do Blob. Grave `itens/<hoje>-antes-de-clicar` (formato `card`, estilo `x`, pilar `day-trade`, avatar `Iniciante`,
    métrica `salvamento`, nota "8,5", fonte {titulo: "QG do Cohen (manhã)"}, checks: "dados do QG1 de hoje, fonte B3/Yahoo",
    "Conteúdo educacional. Não é recomendação. no card e na legenda") com `status: "agendado"` e os ids do Metricool.
    Suba o PNG como asset do painel e guarde em `slides` para o Rodrigo ver. Log do dia.
