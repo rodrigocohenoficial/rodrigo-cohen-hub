@@ -119,7 +119,7 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
     (gancho pronto + formato + evidência com números reais) e um resumo da semana anterior (3 melhores, 3 piores, por quê).
 12. Encerre com uma resposta curta: quantos itens na fila, estilos, custo de créditos, link do painel.
 
-## Modo MORNING (08:18, segunda a sexta) — card Morning Call das 08:30
+## Modo MORNING (08:18, segunda a sexta) — card Panorama 8h30
 
 Card que chama pra sala ao vivo (8h30) com os destaques do dia. Sai sozinho, sem fila: o conteúdo é o mesmo que o QG1
 já mandou no WhatsApp do QG às ~08:13 (rotina "QG · 1. manhã"), então nada aqui é escrito do zero.
@@ -130,14 +130,15 @@ já mandou no WhatsApp do QG às ~08:13 (rotina "QG · 1. manhã"), então nada 
    se ainda não houver, log "QG1 não saiu, sem card hoje" e encerre (feriado da B3 cai aqui também).
    Pegue também `historico/<data do último pregão>` (a data está no `painel`/texto da mensagem: "NÍVEIS DE SEXTA" etc.;
    na dúvida, `list historico` e use o mais recente antes de hoje) com `out_dir`. Sem histórico → passe `-` (card sem gráfico).
-3. Pegue também `dias/<último pregão>` do QG (a leitura de ontem, pro placar) com `out_dir`.
-   `python3 scripts/morning_raiz.py <dias-hoje.json> <dias-ontem.json|-> <historico.json|-> /tmp/.../mc.png` → imprime
-   `placar`, `gancho` e `legenda`. O gancho abre com o placar ("Sexta eu disse que... Acertei/Errei."); errou, publica igual:
-   a série vale porque não esconde erro. Sem leitura de ontem → abre com a manchete.
+3. Histórico do Ibov: `curl -sS -A 'Mozilla/5.0' -o /tmp/.../ibov.json "https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP?range=10y&interval=1d"`.
+   `python3 scripts/panorama.py <dias-hoje.json> <historico.json|-> <ibov.json> /tmp/.../mc.png` → imprime `manchete`, `legenda`
+   e `estatistica` (volatilidade de 20 pregões, taxa real de acerto da faixa de 1σ em 10 anos, termômetro).
+   A "probabilidade do dia" é SÓ essa estatística (faixa de 1σ aplicada ao fechamento do WIN): nunca opinião, nunca "meu cenário",
+   nunca placar de leitura gerada por IA (decisão do Rodrigo em 13/10).
    Olhe o PNG (Read) antes de seguir: texto estourando, caixa vazia ou número estranho → não publique, log e encerre.
    Converta: `ffmpeg -i mc.png -q:v 2 mc.jpg`.
 4. Blob (`image/jpeg`) → `createScheduledPost` POST para hoje 08:30 (`text` = legenda; sem 1º comentário) →
-   apague do Blob. Grave `itens/<hoje>-antes-de-clicar` (formato `card`, estilo `x`, pilar `day-trade`, avatar `Iniciante`,
+   apague do Blob. Grave `itens/<hoje>-panorama` (formato `card`, estilo `panorama`, pilar `day-trade`, avatar `Iniciante`,
    métrica `salvamento`, nota "8,5", fonte {titulo: "QG do Cohen (manhã)"}, checks: "dados do QG1 de hoje, fonte B3/Yahoo",
    "Conteúdo educacional. Não é recomendação. no card e na legenda") com `status: "agendado"` e os ids do Metricool.
    Suba o PNG como asset do painel e guarde em `slides` para o Rodrigo ver. Log do dia.
