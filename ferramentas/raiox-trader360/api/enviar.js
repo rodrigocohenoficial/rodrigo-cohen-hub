@@ -50,7 +50,8 @@ export default async function handler(req, res) {
       const n = Number(v);
       if (/^[a-z]\d$/.test(k) && n >= 1 && n <= 5) respostas[k] = n;
     }
-    if (Object.keys(respostas).length < 25) return res.status(400).json({ erro: "Responda as 25 afirmações" });
+    const minimo = b.origem === "publico" ? 15 : 25;
+    if (Object.keys(respostas).length < minimo) return res.status(400).json({ erro: `Responda as ${minimo} afirmações` });
 
     const registro = {
       id: randomUUID(),

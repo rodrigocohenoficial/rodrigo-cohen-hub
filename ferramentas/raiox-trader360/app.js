@@ -7,6 +7,18 @@
   const linkResultado = (id) => (PUBLICO ? `${PUB.caminho}?r=${id}` : `/?r=${id}`);
   const CHAVE = "raiox-t360-t5-v2" + (PUBLICO ? "-pub" : "");
   const app = document.getElementById("app");
+  // Listas da versão em uso (a pública é mais curta).
+  const AFIRM = PUBLICO ? R.afirmacoes.filter((a) => PUB.afirmacoes.includes(a.id)) : R.afirmacoes;
+  const PERFIL = PUBLICO ? R.perfil.filter((g) => PUB.perfil.includes(g.k)) : R.perfil;
+  const NUMEROS = PUBLICO ? R.numeros.filter((n) => PUB.numeros.includes(n.k)) : R.numeros;
+  const ABERTAS = PUBLICO
+    ? PUB.abertas.map((x) => ({ ...R.abertas.find((q) => q.k === x.k), obrig: x.obrig, ...(x.k === "noventa" ? { q: PUB.abertaNoventa } : {}) }))
+    : R.abertas;
+  // Ordem das etapas: na pública, o contato vem no fim.
+  const ORDEM = PUBLICO ? ["perfil", "numeros", "intro", "abertas", "id"] : ["id", "perfil", "numeros", "intro", "abertas"];
+  const passo = (etapa) => `Passo ${ORDEM.indexOf(etapa) + 1} de ${ORDEM.length}`;
+  const proxima = (etapa) => ORDEM[ORDEM.indexOf(etapa) + 1];
+  const anterior = (etapa) => ORDEM[ORDEM.indexOf(etapa) - 1] || "capa";
   document.getElementById("turma").textContent = PUBLICO ? PUB.turma : R.turma;
   if (PUBLICO) {
     const rod = document.querySelector(".rodape");
@@ -64,8 +76,8 @@
       <h1>RAIO-X <span class="ouro">DO TRADER</span></h1>
       <p class="sub">Descubra o padrão que mais pesa no seu trade hoje e o primeiro passo para mudar isso.</p>
       <div class="pilulas">
-        <span class="pilula">25 afirmações</span>
-        <span class="pilula">8 minutos</span>
+        <span class="pilula">${AFIRM.length} afirmações</span>
+        <span class="pilula">${PUBLICO ? "4 minutos" : "8 minutos"}</span>
         <span class="pilula">Resultado na hora</span>
       </div>
       <div class="card">
@@ -74,29 +86,30 @@
       </div>
       <div class="acoes">${botoes}</div>
     `);
-    app.querySelector('[data-acao="comecar"]')?.addEventListener("click", () => ir("id"));
+    app.querySelector('[data-acao="comecar"]')?.addEventListener("click", () => ir(ORDEM[0]));
     app.querySelector('[data-acao="continuar"]')?.addEventListener("click", () => ir(s.etapaSalva));
     app.querySelector('[data-acao="ver"]')?.addEventListener("click", () => ir("resultado"));
     app.querySelector('[data-acao="recomecar"]')?.addEventListener("click", () => {
       s = vazio();
       guardar();
       history.replaceState(null, "", BASE);
-      ir("id");
+      ir(ORDEM[0]);
     });
   }
 
   function identificacao() {
     tela(`
-      <div class="rotulo">Passo 1 de 5</div>
-      <h2>Quem é você?</h2>
+      <div class="rotulo">${passo("id")}</div>
+      <h2>${PUBLICO ? "Pra onde mando o seu resultado?" : "Quem é você?"}</h2>
       <div class="campo"><label for="nome">Nome completo</label><input id="nome" autocomplete="name" value="${esc(s.nome)}"></div>
       <div class="campo"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" inputmode="email" value="${esc(s.email)}"></div>
       <div class="campo"><label for="whats">WhatsApp ${PUBLICO ? "" : '<span class="dica">(opcional)</span>'}</label><input id="whats" type="tel" autocomplete="tel" inputmode="tel" placeholder="(11) 99999-9999" value="${esc(s.whatsapp)}"></div>
       <input id="site" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       ${PUBLICO ? `<label class="check"><input type="checkbox" id="aceite" ${s.aceite ? "checked" : ""}> Aceito receber meu resultado e o contato da equipe Trader Nation sobre a Mentoria Trader 360.</label>` : ""}
       <div class="erro" id="erro"></div>
-      <div class="acoes"><button class="btn" id="seguir">Continuar</button></div>
+      <div class="acoes"><button class="btn" id="seguir">${PUBLICO ? "Ver meu Raio-X" : "Continuar"}</button>${PUBLICO ? '<button class="link" id="voltar">Voltar</button>' : ""}</div>
     `);
+    app.querySelector("#voltar")?.addEventListener("click", () => ir(anterior("id")));
     app.querySelector("#seguir").addEventListener("click", () => {
       const nome = app.querySelector("#nome").value.trim();
       const email = app.querySelector("#email").value.trim();
@@ -108,12 +121,14 @@
         if (whatsapp.replace(/\D/g, "").length < 10) return (app.querySelector("#erro").textContent = "Coloque seu WhatsApp com DDD.");
         if (!app.querySelector("#aceite").checked) return (app.querySelector("#erro").textContent = "Marque o aceite para receber seu resultado.");
       }
-      ir("perfil", { nome, email, whatsapp, aceite: PUBLICO });
+      Object.assign(s, { nome, email, whatsapp, aceite: PUBLICO });
+      if (PUBLICO) return enviar();
+      ir(proxima("id"));
     });
   }
 
   function perfil() {
-    const grupos = R.perfil.map((g) => {
+    const grupos = PERFIL.map((g) => {
       const atual = s.perfil[g.k];
       const opcoes = g.o.map((o) => {
         const on = g.multi ? Array.isArray(atual) && atual.includes(o) : atual === o;
@@ -122,14 +137,14 @@
       return `<div class="grupo"><div class="q">${esc(g.q)}</div><div class="opcoes">${opcoes}</div></div>`;
     }).join("");
     tela(`
-      <div class="rotulo">Passo 2 de 5</div>
+      <div class="rotulo">${passo("perfil")}</div>
       <h2>Onde você está hoje</h2>
       ${grupos}
       <div class="erro" id="erro"></div>
       <div class="acoes"><button class="btn" id="seguir">Continuar</button><button class="link" id="voltar">Voltar</button></div>
     `);
     app.querySelectorAll(".opcao").forEach((b) => b.addEventListener("click", () => {
-      const g = R.perfil.find((x) => x.k === b.dataset.k);
+      const g = PERFIL.find((x) => x.k === b.dataset.k);
       const o = b.dataset.o;
       if (g.multi) {
         const lista = Array.isArray(s.perfil[g.k]) ? s.perfil[g.k] : [];
@@ -141,16 +156,16 @@
       }
       guardar();
     }));
-    app.querySelector("#voltar").addEventListener("click", () => ir("id"));
+    app.querySelector("#voltar").addEventListener("click", () => ir(anterior("perfil")));
     app.querySelector("#seguir").addEventListener("click", () => {
-      const falta = R.perfil.find((g) => g.multi ? !(s.perfil[g.k] || []).length : !s.perfil[g.k]);
+      const falta = PERFIL.find((g) => g.multi ? !(s.perfil[g.k] || []).length : !s.perfil[g.k]);
       if (falta) return (app.querySelector("#erro").textContent = `Falta responder: ${falta.q}`);
-      ir("numeros");
+      ir(proxima("perfil"));
     });
   }
 
   function numeros() {
-    const campos = R.numeros.map((n) => `
+    const campos = NUMEROS.map((n) => `
       <div class="campo">
         <label for="n-${n.k}">${esc(n.q)}</label>
         <div class="prefixo">${n.pre ? `<span>${esc(n.pre)}</span>` : ""}
@@ -158,12 +173,12 @@
           ${n.suf ? `<span>${esc(n.suf)}</span>` : ""}</div>
       </div>`).join("");
     tela(`
-      <div class="rotulo">Passo 3 de 5</div>
+      <div class="rotulo">${passo("numeros")}</div>
       <h2>Seu marco zero</h2>
       <p class="sub">Estes números são a sua foto de hoje. ${PUBLICO ? "Daqui a 90 dias, compare." : "No fim da mentoria, a gente compara."} Deixe em branco o que você não souber.</p>
       ${campos}
       <label class="check"><input type="checkbox" id="naosei" ${s.naoSei ? "checked" : ""}> Não sei nenhum dos meus números</label>
-      <div class="acoes"><button class="btn" id="seguir">Continuar</button><button class="link" id="voltar">Voltar</button></div>
+      <div class="acoes"><button class="btn" id="seguir">Continuar</button>${PUBLICO ? '<button class="btn sec" id="pular">Pular esta etapa</button>' : ""}<button class="link" id="voltar">Voltar</button></div>
     `);
     const ler = () => {
       app.querySelectorAll("[data-k]").forEach((i) => { s.numeros[i.dataset.k] = i.value.trim(); });
@@ -176,34 +191,35 @@
       guardar();
       numeros();
     });
-    app.querySelector("#voltar").addEventListener("click", () => { ler(); ir("perfil"); });
-    app.querySelector("#seguir").addEventListener("click", () => { ler(); ir("intro"); });
+    app.querySelector("#voltar").addEventListener("click", () => { ler(); ir(anterior("numeros")); });
+    app.querySelector("#seguir").addEventListener("click", () => { ler(); ir(proxima("numeros")); });
+    app.querySelector("#pular")?.addEventListener("click", () => { ler(); ir(proxima("numeros")); });
   }
 
   function intro() {
     tela(`
-      <div class="rotulo">Passo 4 de 5</div>
+      <div class="rotulo">${passo("intro")}</div>
       <h2>Agora, a parte que importa</h2>
       <div class="card">
-        <p>Você vai ver <strong>25 frases</strong>. Para cada uma, marque com que frequência isso aconteceu com você <strong>nos últimos 90 dias</strong>.</p>
+        <p>Você vai ver <strong>${AFIRM.length} frases</strong>. Para cada uma, marque com que frequência isso aconteceu com você <strong>nos últimos 90 dias</strong>.</p>
         <p>Se você ainda opera só no simulador, responda pensando no simulador.</p>
         <p>Algumas frases vão incomodar. É de propósito.</p>
         <p style="margin:0;color:var(--muted)">Responda rápido. A primeira resposta costuma ser a mais honesta.</p>
       </div>
       <div class="acoes"><button class="btn" id="seguir">Vamos lá</button><button class="link" id="voltar">Voltar</button></div>
     `);
-    app.querySelector("#voltar").addEventListener("click", () => ir("numeros"));
+    app.querySelector("#voltar").addEventListener("click", () => ir(anterior("intro")));
     app.querySelector("#seguir").addEventListener("click", () => {
-      const primeiraVazia = R.afirmacoes.findIndex((a) => !s.respostas[a.id]);
+      const primeiraVazia = AFIRM.findIndex((a) => !s.respostas[a.id]);
       ir("afirm", { i: primeiraVazia === -1 ? 0 : primeiraVazia });
     });
   }
 
   let travaClique = false;
   function afirmacao() {
-    const total = R.afirmacoes.length;
+    const total = AFIRM.length;
     const i = Math.min(Math.max(s.i, 0), total - 1);
-    const a = R.afirmacoes[i];
+    const a = AFIRM[i];
     const atual = s.respostas[a.id];
     tela(`
       <div class="progresso"><i style="width:${(i / total) * 100}%"></i></div>
@@ -225,14 +241,14 @@
   function responder(v) {
     if (travaClique || s.etapa !== "afirm") return;
     travaClique = true;
-    const a = R.afirmacoes[s.i];
+    const a = AFIRM[s.i];
     s.respostas[a.id] = v;
     guardar();
     app.querySelectorAll("[data-v]").forEach((b) => b.classList.toggle("on", Number(b.dataset.v) === v));
     setTimeout(() => {
-      const proxima = R.afirmacoes.findIndex((x, idx) => idx > s.i && !s.respostas[x.id]);
-      const vazia = R.afirmacoes.findIndex((x) => !s.respostas[x.id]);
-      if (s.i < R.afirmacoes.length - 1 && proxima !== -1) ir("afirm", { i: proxima });
+      const seguinte = AFIRM.findIndex((x, idx) => idx > s.i && !s.respostas[x.id]);
+      const vazia = AFIRM.findIndex((x) => !s.respostas[x.id]);
+      if (s.i < AFIRM.length - 1 && seguinte !== -1) ir("afirm", { i: seguinte });
       else if (vazia !== -1) ir("afirm", { i: vazia });
       else ir("abertas");
     }, 220);
@@ -243,20 +259,20 @@
   });
 
   function abertas() {
-    const campos = R.abertas.map((q) => `
-      <div class="campo"><label for="a-${q.k}">${esc(PUBLICO && q.k === "noventa" ? PUB.abertaNoventa : q.q)} ${q.obrig ? "" : '<span class="dica">(opcional)</span>'}</label>
+    const campos = ABERTAS.map((q) => `
+      <div class="campo"><label for="a-${q.k}">${esc(q.q)} ${q.obrig ? "" : '<span class="dica">(opcional)</span>'}</label>
       <textarea id="a-${q.k}" data-k="${q.k}">${esc(s.abertas[q.k] || "")}</textarea></div>`).join("");
     const fam = R.familia.o.map((o) => `<button class="opcao${s.familia === o ? " on" : ""}" data-f="${esc(o)}">${esc(o)}</button>`).join("");
     const seg = R.segredo.o.map((o) => `<button class="opcao${s.segredo === o ? " on" : ""}" data-s="${esc(o)}">${esc(o)}</button>`).join("");
     tela(`
-      <div class="rotulo">Passo 5 de 5</div>
+      <div class="rotulo">${passo("abertas")}</div>
       <h2>Suas palavras</h2>
       <p class="sub">${PUBLICO ? "Ninguém além do Cohen e da equipe lê isto." : "O Cohen vai ler cada resposta antes da primeira aula."} Escreva o que vier primeiro. Uma frase já basta.</p>
       ${campos}
       <div class="grupo"><div class="q">${esc(R.familia.q)}</div><div class="opcoes">${fam}</div></div>
       <div class="grupo"><div class="q">${esc(R.segredo.q)}</div><div class="opcoes">${seg}</div></div>
       <div class="erro" id="erro"></div>
-      <div class="acoes"><button class="btn" id="seguir">Ver meu Raio-X</button><button class="link" id="voltar">Voltar</button></div>
+      <div class="acoes"><button class="btn" id="seguir">${PUBLICO ? "Continuar" : "Ver meu Raio-X"}</button><button class="link" id="voltar">Voltar</button></div>
     `);
     const ler = () => {
       app.querySelectorAll("textarea[data-k]").forEach((t) => { s.abertas[t.dataset.k] = t.value.trim(); });
@@ -273,13 +289,14 @@
       app.querySelectorAll("[data-s]").forEach((x) => x.classList.toggle("on", x === b));
       guardar();
     }));
-    app.querySelector("#voltar").addEventListener("click", () => { ler(); ir("afirm", { i: R.afirmacoes.length - 1 }); });
+    app.querySelector("#voltar").addEventListener("click", () => { ler(); ir("afirm", { i: AFIRM.length - 1 }); });
     app.querySelector("#seguir").addEventListener("click", () => {
       ler();
-      const falta = R.abertas.find((q) => q.obrig && (s.abertas[q.k] || "").length < 3);
-      if (falta) return (app.querySelector("#erro").textContent = `Responda: ${PUBLICO && falta.k === "noventa" ? PUB.abertaNoventa : falta.q}`);
+      const falta = ABERTAS.find((q) => q.obrig && (s.abertas[q.k] || "").length < 3);
+      if (falta) return (app.querySelector("#erro").textContent = `Responda: ${falta.q}`);
       if (!s.familia) return (app.querySelector("#erro").textContent = "Responda a pergunta sobre a sua família.");
       if (!s.segredo) return (app.querySelector("#erro").textContent = "Responda se você já escondeu uma perda.");
+      if (proxima("abertas")) return ir(proxima("abertas"));
       enviar();
     });
   }
@@ -636,7 +653,7 @@
     y += 230;
     quebra(`“${P.citacao.t}”`, 860, 'italic 50px "Marcellus", serif').forEach((l) => { centro(l, y, '50px "Marcellus", serif', "#d8d4cc"); y += 66; });
     centro(P.citacao.f, y + 16, '34px "Instrument Sans", sans-serif', "#9ba0a8");
-    centro("Descubra o seu em 8 minutos", 1660, '600 44px "Instrument Sans", sans-serif', "#f2efe9");
+    centro("Descubra o seu em 4 minutos", 1660, '600 44px "Instrument Sans", sans-serif', "#f2efe9");
     centro(PUB.dominio + PUB.caminho, 1730, '600 40px "Instrument Sans", sans-serif', "#c3a46b");
 
     const blob = await new Promise((ok) => cv.toBlob(ok, "image/png"));

@@ -440,6 +440,15 @@ window.RAIOX = {
     lp: "https://trader360.tradernation.com.br/",
     whatsapp: "5511916086894",
     abertaNoventa: "O que precisa mudar no seu trade nos próximos 90 dias?",
+    // Versão curta (uns 4 minutos): 3 frases por padrão, 3 perguntas de perfil,
+    // números opcionais e 2 perguntas abertas. O contato é pedido no fim.
+    afirmacoes: ["v2", "t1", "e1", "h1", "s1", "v3", "t2", "e2", "h2", "s2", "v5", "t5", "e5", "h4", "s3"],
+    perfil: ["tempo", "capital", "resultado3m"],
+    numeros: ["acerto", "payoff", "maiorPerda", "stopRespeitado"],
+    abertas: [
+      { k: "noventa", obrig: true },
+      { k: "regra", obrig: false },
+    ],
     // Encontro da Trader 360 que trata cada padrão.
     encontros: {
       vingativo: ["01 · Mindset e Emoção no Trading", "08 · Gestão de Risco e Expectativa de Retorno"],
@@ -463,23 +472,27 @@ window.calcularRaiox = function (respostas) {
   const R = window.RAIOX;
   const soma = {};
   const cincos = {};
+  const qtd = {};
   R.ordemPadroes.forEach((p) => {
     soma[p] = 0;
     cincos[p] = 0;
+    qtd[p] = 0;
   });
   R.afirmacoes.forEach((a) => {
     const v = Number(respostas[a.id]) || 0;
+    if (!v) return; // a versão curta não pergunta todas as frases
     soma[a.p] += v;
+    qtd[a.p] += 1;
     if (v === 5) cincos[a.p] += 1;
   });
-  // Cada padrão vai de 5 a 25 pontos. Converte para 0–100%.
+  // Cada frase vale de 1 a 5. Converte o padrão para 0–100%.
   const pct = {};
   R.ordemPadroes.forEach((p) => {
-    pct[p] = Math.round(((soma[p] - 5) / 20) * 100);
+    pct[p] = qtd[p] ? Math.round(((soma[p] - qtd[p]) / (4 * qtd[p])) * 100) : 0;
   });
-  const porMaior = [...R.ordemPadroes].sort((a, b) => soma[b] - soma[a] || cincos[b] - cincos[a]);
+  const porMaior = [...R.ordemPadroes].sort((a, b) => pct[b] - pct[a] || cincos[b] - cincos[a]);
   const padrao = porMaior[0];
-  const porMenor = [...R.ordemPadroes].sort((a, b) => soma[a] - soma[b] || cincos[a] - cincos[b]);
+  const porMenor = [...R.ordemPadroes].sort((a, b) => pct[a] - pct[b] || cincos[a] - cincos[b]);
   const forca = porMenor[0] === padrao ? porMenor[1] : porMenor[0];
   const segundo = porMaior[1];
   const nivel = {};
