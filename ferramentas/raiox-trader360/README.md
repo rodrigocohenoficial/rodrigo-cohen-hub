@@ -1,5 +1,7 @@
 # Raio-X do Trader — Mentoria Trader 360
 
+Endereço: https://raiox.tradernation.com.br (CNAME `raiox` → `cname.vercel-dns.com` no Registro.br). Os endereços `*.vercel.app` do projeto redirecionam para ele.
+
 Diagnóstico de mindset da aula inaugural. Projeto Vercel próprio (`raiox-trader360`), independente do hub.
 
 - `/` — formulário do aluno + resultado na hora (`/?r=<id>` reabre o resultado).

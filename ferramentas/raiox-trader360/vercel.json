@@ -16,5 +16,18 @@
       "source": "/diagnostico",
       "destination": "/"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "raiox-trader360(-rodrigo-cohen-s-projects)?\\.vercel\\.app"
+        }
+      ],
+      "destination": "https://raiox.tradernation.com.br/:path*",
+      "permanent": false
+    }
   ]
 }

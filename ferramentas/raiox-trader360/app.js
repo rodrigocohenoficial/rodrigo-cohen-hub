@@ -555,13 +555,13 @@
     quebra(`“${P.citacao.t}”`, 860, 'italic 50px "Marcellus", serif').forEach((l) => { centro(l, y, '50px "Marcellus", serif', "#d8d4cc"); y += 66; });
     centro(P.citacao.f, y + 16, '34px "Instrument Sans", sans-serif', "#9ba0a8");
     centro("Descubra o seu em 8 minutos", 1660, '600 44px "Instrument Sans", sans-serif', "#f2efe9");
-    centro(location.host + PUB.caminho, 1730, '600 40px "Instrument Sans", sans-serif', "#c3a46b");
+    centro(PUB.dominio + PUB.caminho, 1730, '600 40px "Instrument Sans", sans-serif', "#c3a46b");
 
     const blob = await new Promise((ok) => cv.toBlob(ok, "image/png"));
     const arquivo = new File([blob], "meu-padrao-trader.png", { type: "image/png" });
     try {
       if (navigator.canShare && navigator.canShare({ files: [arquivo] })) {
-        await navigator.share({ files: [arquivo], text: `Meu padrão no trade: ${P.nome}. Faça o seu: https://${location.host}${PUB.caminho}` });
+        await navigator.share({ files: [arquivo], text: `Meu padrão no trade: ${P.nome}. Faça o seu: https://${PUB.dominio}${PUB.caminho}` });
         msg.textContent = "";
         return;
       }

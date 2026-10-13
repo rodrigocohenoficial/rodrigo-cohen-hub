@@ -418,6 +418,7 @@ window.RAIOX = {
   // Versão pública do diagnóstico (captação para a Trader 360).
   publico: {
     caminho: "/diagnostico",
+    dominio: "raiox.tradernation.com.br",
     turma: "Diagnóstico grátis",
     lp: "https://trader360.tradernation.com.br/",
     whatsapp: "5511916086894",
