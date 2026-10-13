@@ -159,6 +159,11 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
   document.getElementById("next").onclick=function(){shift(1)};
 
   function renderItems(docs){
+    // A lista que o db entrega é congelada: copiar antes de ordenar (sort em lista congelada quebrava a fila).
+    docs=Array.prototype.slice.call(docs||[]);
+    try{drawItems(docs)}catch(e){showMsg("A fila chegou mas não consegui desenhar ("+(e&&e.message||"erro")+"). Toque em Recarregar.",true)}
+  }
+  function drawItems(docs){
     var box=document.getElementById("items");box.textContent="";
     var n={total:0,pend:0,ok:0,pub:0};
     if(!docs.length){box.appendChild(el("div",{cls:"empty",text:"Nada na fila deste dia. A Produção roda às 06:00 (domingo a sexta). Sábado é Shabbat: sem posts."}));}
