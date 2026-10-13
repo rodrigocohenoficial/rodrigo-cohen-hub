@@ -73,7 +73,8 @@ com o `start` da primeira e o `end` da última. Confira os números contra a tel
 - Frase de promessa de ganho junto de oferta → proponha cortar (risco CNPI/CVM, ver marca).
 - Pausas: `--pausas` encurta silêncios > 0,3s para 0,15s (não corta pausa onde começa palavra: protege fala baixa;
   bordas alinhadas aos quadros, sincronia exata). `velocidade: 1.1` acelera sem mudar o tom, nos 3 estilos.
-  Ele liberou ritmo mais dinâmico nos vídeos novos: use `--pausas` + `1.1` por padrão e diga no plano.
+  **Sempre** dê a leve acelerada nos vídeos dele (pedido explícito): `--pausas` + `velocidade: 1.1` em todo Reel novo,
+  em qualquer estilo, sem precisar perguntar. Só não use se ele pedir o contrário.
 
 ```bash
 npm run cortar -- <id> 0-6.05 75.62-80.72 [--pausas]   # segundos do vídeo original; sempre parte do bruto
