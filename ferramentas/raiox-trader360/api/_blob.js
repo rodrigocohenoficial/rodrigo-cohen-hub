@@ -1,6 +1,10 @@
-import { put, get, list } from "@vercel/blob";
+import { put, get, list, del } from "@vercel/blob";
 
 const PASTA = "respostas/";
+
+export async function apagar(id) {
+  await del(`${PASTA}${id}.json`);
+}
 
 export async function salvar(registro) {
   await put(`${PASTA}${registro.id}.json`, JSON.stringify(registro), {

@@ -19,7 +19,16 @@
       }
       if (!r.ok) throw new Error();
       const d = await r.json();
-      dados = d.respostas.map((x) => ({ ...x, calc: window.calcularRaiox(x.respostas) }));
+      // Quem respondeu mais de uma vez conta só pela resposta mais recente.
+      const porEmail = new Map();
+      d.respostas.forEach((x) => {
+        const chave = String(x.email || x.id).toLowerCase();
+        const atual = porEmail.get(chave);
+        if (!atual || x.criadoEm > atual.criadoEm) porEmail.set(chave, x);
+      });
+      dados = [...porEmail.values()]
+        .sort((a, b) => (a.criadoEm < b.criadoEm ? -1 : 1))
+        .map((x) => ({ ...x, calc: window.calcularRaiox(x.respostas) }));
       document.getElementById("atualizado").textContent = "Atualizado " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
       render();
       return true;
@@ -84,6 +93,8 @@
             <dt>Marco zero</dt><dd>${esc(nums)}</dd>
             <dt>Perfil</dt><dd>${esc(perfil)}</dd>
             <dt>Mapa</dt><dd>${R.ordemPadroes.map((p) => `${esc(R.padroes[p].nome)} ${d.calc.pct[p]}%`).join(" · ")}</dd>
+            <dd><a href="/?r=${esc(d.id)}" target="_blank" rel="noopener" style="color:var(--brass)">Abrir o resultado deste aluno</a></dd>
+            <dd><button class="link" data-apagar="${esc(d.id)}" style="color:var(--erro)">Apagar esta resposta</button></dd>
           </dl></td></tr>`;
         }).join("")}</tbody></table></div></div>` : "";
 
@@ -116,6 +127,14 @@
     el.querySelector("#alunos").addEventListener("click", () => { mostrarAlunos = !mostrarAlunos; aberto = null; render(); });
     el.querySelector("#revelar").addEventListener("click", () => { primeiraVez = true; render(); });
     el.querySelectorAll("tr.aluno").forEach((tr) => tr.addEventListener("click", () => { aberto = aberto === tr.dataset.id ? null : tr.dataset.id; render(); }));
+    el.querySelectorAll("[data-apagar]").forEach((b) => b.addEventListener("click", async () => {
+      const aluno = dados.find((x) => x.id === b.dataset.apagar);
+      if (!confirm(`Apagar a resposta de ${aluno ? aluno.nome : "este aluno"}? Não dá para desfazer.`)) return;
+      const r = await fetch(`/api/respostas?k=${encodeURIComponent(k)}&id=${encodeURIComponent(b.dataset.apagar)}`, { method: "DELETE" });
+      if (!r.ok) return alert("Não consegui apagar. Tente de novo.");
+      aberto = null;
+      carregar();
+    }));
 
     if (primeiraVez) {
       primeiraVez = false;
