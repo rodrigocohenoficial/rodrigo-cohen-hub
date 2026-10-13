@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { font } from "../theme";
+import { font, ritmo } from "../theme";
 import type { Word } from "../types";
 
 type Chunk = { words: Word[]; start: number; end: number };
@@ -31,7 +31,8 @@ export const YELLOW = "#FFD400";
 export const CaptionsRaiz: React.FC<{ words: Word[]; y?: number }> = ({ words, y = 1300 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const t = frame / fps;
+  // Segundo da fala (com velocidade 1,1x, 1s de vídeo = 1,1s de fala).
+  const t = (frame / fps) * ritmo.velocidade;
   const chunks = useMemo(() => toChunks(words), [words]);
   const idx = chunks.findIndex((c, i) => t >= c.start && t < (chunks[i + 1]?.start ?? c.end + 0.4));
   if (idx < 0) return null;

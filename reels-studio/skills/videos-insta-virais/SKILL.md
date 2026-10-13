@@ -108,7 +108,10 @@ npm run render -- <id>
 ```
 
 Confira a prévia de verdade: texto estourando, cena vazia > 1,5s, rosto/boca cortados, número tapando o rosto,
-círculo fora do número, legenda em cima da boca. Para mandar pela conversa (limite ~30 MB), comprima em 2 passadas
+círculo fora do número, legenda em cima da boca. **Sincronia da legenda** (obrigatório com `velocidade`): para 3
+pontos do vídeo (começo, meio, fim), calcule a palavra esperada — segundo do vídeo × velocidade = segundo da fala,
+procure no `transcript.json` — e confirme que é ela que aparece na prévia daquele segundo. Legenda atrasando aos poucos
+= alguma peça lendo o tempo sem multiplicar por `ritmo.velocidade`. Para mandar pela conversa (limite ~30 MB), comprima em 2 passadas
 (comando em `references/estilos.md`). Arquivo maior (vídeo longo ou qualidade de postagem): suba no **Descript** com o
 conector (`import_media` com `content_type`/`file_size`, depois `curl -X PUT --upload-file` na `upload_url`,
 `wait_for_job`) e mande o link do projeto — ele baixa de lá. Gere antes uma versão ~8 Mbps
