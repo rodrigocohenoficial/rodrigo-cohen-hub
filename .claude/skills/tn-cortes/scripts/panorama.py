@@ -80,6 +80,38 @@ def estatistica(yahoo, hoje):
             "ultimo": rows[-1][0].isoformat()}
 
 
+def grafico(w, lo, hi, chance):
+    ys = [p[1] for p in w.get("pontos") or []]
+    if len(ys) < 10:
+        return ""
+    W, H = 920, 290
+    xh = W * 0.74  # o pregão ocupa 74% da largura; o resto é o "HOJE" com a faixa provável
+    top, bot = max(ys + [hi, w["max"]]), min(ys + [lo, w["min"]])
+    X = lambda i: 8 + i * (xh - 16) / (len(ys) - 1)
+    Y = lambda v: 36 + (top - v) * (H - 72) / (top - bot)  # 36 px livres em cima e embaixo pros rótulos da faixa
+    d = "M" + " L".join(f"{X(i):.1f},{Y(v):.1f}" for i, v in enumerate(ys))
+    area = d + f" L{X(len(ys)-1):.1f},{H} L{X(0):.1f},{H} Z"
+    cor = "#2EE59D" if w["fech"] >= w.get("ref_anterior", w["fech"]) else "#FF5C5C"
+    niv = [("MÁX", w["max"], "#2EE59D"), ("MÍN", w["min"], "#FF5C5C"), ("VWAP", w.get("vwap"), "#5AB0FF")]
+    linhas, rotulos, prev = "", "", -99
+    for y, n, v, c in sorted((Y(v), n, v, c) for n, v, c in niv if v):
+        ty = max(y - 8, prev + 24)
+        prev = ty
+        linhas += f'<line x1="8" x2="{xh:.0f}" y1="{y:.1f}" y2="{y:.1f}" stroke="{c}" stroke-width="2" stroke-dasharray="6 6" opacity=".8"/>'
+        rotulos += (f'<text x="{xh-10:.0f}" y="{ty:.1f}" fill="{c}" font-size="20" font-weight="800" text-anchor="end" paint-order="stroke" stroke="#111815" stroke-width="7">{n} {br(v)}</text>')
+    faixa = (f'<rect x="{xh+10:.0f}" y="{Y(hi):.1f}" width="{W-xh-14:.0f}" height="{Y(lo)-Y(hi):.1f}" rx="14" fill="#F2C14E" opacity=".22" stroke="#F2C14E" stroke-width="3" stroke-dasharray="10 8"/>'
+             f'<text x="{(xh+W)/2+2:.0f}" y="{Y(hi)-12:.1f}" fill="#F2C14E" font-size="22" font-weight="900" text-anchor="middle">{br(hi)}</text>'
+             f'<text x="{(xh+W)/2+2:.0f}" y="{Y(lo)+28:.1f}" fill="#F2C14E" font-size="22" font-weight="900" text-anchor="middle">{br(lo)}</text>'
+             f'<text x="{(xh+W)/2+2:.0f}" y="{(Y(hi)+Y(lo))/2+12:.1f}" fill="#F2C14E" font-size="40" font-weight="900" text-anchor="middle">{chance}%</text>'
+             f'<line x1="{xh:.0f}" x2="{xh:.0f}" y1="0" y2="{H}" stroke="#ffffff" stroke-opacity=".25" stroke-width="2"/>'
+             f'<text x="{(xh+W)/2+2:.0f}" y="{(Y(hi)+Y(lo))/2+44:.1f}" fill="#F2C14E" fill-opacity=".8" font-size="19" font-weight="800" text-anchor="middle">FAIXA DE HOJE</text>')
+    dia = dt.date.fromisoformat(w["data"]).strftime("%d/%m")
+    return (f'<p class="gt">{html.escape(w.get("ticker",""))} · pregão {dia} → hoje</p>'
+            f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}"><defs><linearGradient id="a" x1="0" x2="0" y1="0" y2="1">'
+            f'<stop offset="0" stop-color="{cor}" stop-opacity=".35"/><stop offset="1" stop-color="{cor}" stop-opacity="0"/></linearGradient></defs>'
+            f'{linhas}<path d="{area}" fill="url(#a)"/><path d="{d}" fill="none" stroke="{cor}" stroke-width="4" stroke-linejoin="round"/>{rotulos}{faixa}</svg>')
+
+
 def main():
     hoje_doc, hist = doc(sys.argv[1]), doc(sys.argv[2])
     yahoo = json.load(open(sys.argv[3]))
@@ -104,35 +136,39 @@ def main():
 
     est = estatistica(yahoo, hoje)
     w = (hist or {}).get("WIN") or {}
-    prob = ""
+    data_txt = f"{DIAS[hoje.weekday()][:3]} {hoje.strftime('%d/%m')}"
+    graf, prob_txt, termo = "", "", ""
     if est and w.get("fech"):
         ref, s = w["fech"], est["sigma20"]
         lo, hi = round(ref * (1 - s) / 5) * 5, round(ref * (1 + s) / 5) * 5
-        cor = {"ALTA": "#E5322D", "NORMAL": "#F2A900", "BAIXA": "#12B76A"}[est["termometro"]]
-        prob = f"""<div class="prob">
-  <div class="ph"><span>PROBABILIDADE DO DIA</span><b style="background:{cor}">VOLATILIDADE {est['termometro']}</b></div>
-  <p class="big">{round(est['acerto']*100)}% de chance de o WIN fechar entre <em>{br(lo)}</em> e <em>{br(hi)}</em></p>
-  <div class="bar"><i></i><span class="l">{br(lo)}</span><span class="m">{br(ref)}<small>fech {dt.date.fromisoformat(w['data']).strftime('%d/%m')}</small></span><span class="r">{br(hi)}</span></div>
-  <p class="nota">Volatilidade dos últimos 20 pregões: {str(round(s*100,1)).replace('.',',')}% ao dia (no ano: {str(round(est['sigma250']*100,1)).replace('.',',')}%). Estatística de {est['amostra']} pregões do Ibov, não palpite.</p>
-</div>"""
-
-    chips = "".join(f'<span class="chip {c}">{html.escape(n)} <b>{html.escape(v.replace("-", "−"))}</b></span>' for n, v, c in fora)
+        graf = grafico(w, lo, hi, round(est["acerto"] * 100))
+        cor = {"ALTA": "#FF5C5C", "NORMAL": "#F2C14E", "BAIXA": "#2EE59D"}[est["termometro"]]
+        termo = f'<span class="termo" style="background:{cor}">VOLATILIDADE {est["termometro"]}</span>'
+        prob_txt = (f'<p class="prob"><b>{round(est["acerto"]*100)}% de chance</b> de o WIN fechar entre '
+                    f'<em>{br(lo)}</em> e <em>{br(hi)}</em></p>'
+                    f'<p class="nota">Faixa estatística: volatilidade de 20 pregões ({str(round(s*100,1)).replace(".",",")}% ao dia), '
+                    f'testada em {est["amostra"]} pregões do Ibov. Não é palpite.</p>')
+    chips = "".join(f'<span class="chip c{i%3}">{html.escape(n)} <b class="{c}">{html.escape(v.replace("-", "−"))}</b></span>'
+                    for i, (n, v, c) in enumerate(fora))
     ag = "".join(f'<li class="{"forte" if f else ""}"><span>{html.escape(h)}</span>{html.escape(e)}</li>' for h, e, f in agenda)
-    data_txt = f"{DIAS[hoje.weekday()]}, {hoje.day:02d} {MESES[hoje.month-1]}"
+    # a palavra mais forte da manchete (número com % ou o 1º verbo de impacto) leva o marca-texto
+    m = re.search(r"(despenca|dispara|desaba|derrete|explode|sobe|cai|recua|avança)?\s*[^ ]*\d[\d.,]*%|despenca|dispara|desaba|derrete|explode", manchete)
+    titulo = html.escape(manchete)
+    if m:
+        alvo = html.escape(m.group(0).strip())
+        titulo = titulo.replace(alvo, f"<mark>{alvo}</mark>", 1)
     page = f"""<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{{font-family:I;src:url(file://{ASSETS}/inter-latin-wght-normal.woff2) format('woff2');font-weight:100 900}}
 {open(os.path.join(AQUI, 'panorama.css')).read()}</style></head><body>
-<section class="topo">
-  <div class="txt"><span class="kicker">PANORAMA 8H30 · {data_txt}</span><h1>{html.escape(manchete)}</h1></div>
-  <div class="foto"><img src="file://{ASSETS}/foto-mc.jpg"><span class="vivo">● AO VIVO 8H30</span></div>
-</section>
-<section class="card">
-  {'<h2>Lá fora</h2><div class="chips">' + chips + '</div>' if chips else ''}
-  {'<h2>Agenda de hoje</h2><ul class="ag">' + ag + '</ul>' if ag else ''}
-  {prob}
-</section>
-<footer><div class="cta"><img src="file://{ASSETS}/logo-tn.jpg">Sala ao vivo com Rodrigo Cohen · link na bio</div>
-<p>Conteúdo educacional. Não é recomendação. Dados: B3 e Yahoo Finance.</p></footer>
+<div class="glow"></div>
+<span class="tag"><img src="file://{ASSETS}/logo-tn.jpg">PANORAMA 8H30 · {data_txt}</span>
+<h1>{titulo}</h1>
+<div class="foto"><img src="file://{ASSETS}/foto-mc.jpg"><span class="vivo">● AO VIVO 8H30</span></div>
+<div class="fora"><h2>Lá fora</h2>{chips}</div>
+<div class="agenda"><h2>Agenda de hoje</h2><ul>{ag}</ul></div>
+<div class="graf">{termo}{graf}{prob_txt}</div>
+<div class="cta">Sala ao vivo com Rodrigo Cohen · link na bio</div>
+<p class="disc">Conteúdo educacional. Não é recomendação. Dados: B3 e Yahoo Finance.</p>
 </body></html>"""
     tmp = saida + ".html"
     open(tmp, "w").write(page)

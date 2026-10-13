@@ -56,7 +56,7 @@ morning_call:            # card das 08:30 (decisão do Rodrigo em 13/10), segund
   horario: "08:30"
   rotina: "08:18"         # roda depois do QG1 (8h10, pronto ~8h14)
   fonte: https://claude.ai/artifact/CxZAtEqQPVsvgup1KGrfX1   # painel do QG: dias/<hoje> e historico/<último pregão>
-  script: scripts/panorama.py   # "Panorama 8h30": colorido, foto, lá fora, agenda e faixa estatística (68%) do WIN
+  script: scripts/panorama.py   # Panorama 8h30: escuro, colagem inclinada, foto polaroide, lá fora, agenda e gráfico do WIN com a faixa de 68%
   foto: assets/foto-mc.jpg  # trocar por foto da pasta "TN Fotos" quando existir
   reel_ao_vivo: pendente  # Reel com corte da sala (Mux) 09:50; depende da chave de leitura do Mux
 
