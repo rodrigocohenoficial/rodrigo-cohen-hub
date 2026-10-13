@@ -235,7 +235,7 @@
     tela(`
       <div class="rotulo">Passo 5 de 5</div>
       <h2>Suas palavras</h2>
-      <p class="sub">O Rodrigo vai ler cada resposta antes da primeira aula. Escreva o que vier primeiro. Uma frase já basta.</p>
+      <p class="sub">O Cohen vai ler cada resposta antes da primeira aula. Escreva o que vier primeiro. Uma frase já basta.</p>
       ${campos}
       <div class="grupo"><div class="q">${esc(R.familia.q)}</div><div class="opcoes">${fam}</div></div>
       <div class="grupo"><div class="q">${esc(R.segredo.q)}</div><div class="opcoes">${seg}</div></div>
@@ -396,7 +396,7 @@
       <div class="card" style="text-align:center">
         <div class="rotulo">Próximo encontro</div>
         <h3>Dia 21: Aula 1 · Mindset</h3>
-        <p style="color:var(--muted);margin:10px 0 0">Na aula, o Rodrigo abre o Raio-X da turma inteira. Guarde o link desta página.</p>
+        <p style="color:var(--muted);margin:10px 0 0">Na aula, o Cohen abre o Raio-X da turma inteira. Guarde o link desta página.</p>
       </div>
     `);
 
