@@ -36,6 +36,10 @@ export async function apagar(id) {
   await del(Object.values(PASTAS).map((p) => `${p}${id}.json`));
 }
 
+// Guarda em memória o que já foi lido: a cada atualização do painel,
+// só baixa respostas novas ou alteradas (nota mudou, por exemplo).
+const lidos = new Map();
+
 export async function lerTodos(origem) {
   const itens = [];
   let cursor;
@@ -46,12 +50,20 @@ export async function lerTodos(origem) {
   } while (cursor);
   const registros = await Promise.all(
     itens.map(async (b) => {
+      const versao = String(b.uploadedAt);
+      const guardado = lidos.get(b.pathname);
+      if (guardado && guardado.versao === versao) return guardado.dados;
       try {
-        return await lerCaminho(b.pathname);
+        const dados = await lerCaminho(b.pathname);
+        if (dados) lidos.set(b.pathname, { versao, dados });
+        return dados;
       } catch {
         return null;
       }
     })
   );
+  // Esquece o que foi apagado.
+  const atuais = new Set(itens.map((b) => b.pathname));
+  for (const k of lidos.keys()) if (k.startsWith(pasta(origem)) && !atuais.has(k)) lidos.delete(k);
   return registros.filter(Boolean);
 }

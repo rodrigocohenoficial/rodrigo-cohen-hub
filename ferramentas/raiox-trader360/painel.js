@@ -8,6 +8,7 @@
   const PUB = R.publico;
   const pessoa = (n) => (LEADS ? (n === 1 ? "pessoa" : "pessoas") : n === 1 ? "aluno" : "alunos");
   let dados = [];
+  let funil = null;
   let mostrarAlunos = LEADS;
   let aberto = null;
   let primeiraVez = true;
@@ -24,6 +25,12 @@
       }
       if (!r.ok) throw new Error();
       const d = await r.json();
+      if (LEADS) {
+        try {
+          const f = await fetch(`/api/funil?k=${encodeURIComponent(k)}`, { cache: "no-store" });
+          if (f.ok) funil = await f.json();
+        } catch (e) { /* segue sem o funil */ }
+      }
       // Quem respondeu mais de uma vez conta só pela resposta mais recente.
       const porEmail = new Map();
       d.respostas.forEach((x) => {
@@ -129,6 +136,7 @@
         </div>
       </div>
       <div class="card"><div class="rotulo">Intensidade média</div><h3>Quanto cada padrão aparece ${LEADS ? "nos leads" : "na turma"}</h3>${linhas(media, n, 100, "%")}</div>
+      ${LEADS ? blocoFunil() : ""}
       <div class="tiles" style="margin-top:20px">
         <div class="tile"><b>${pct(comCego, n)}%</b><span>têm pelo menos um ponto cego nas respostas</span></div>
         <div class="tile"><b>${pct(naoSabe, n)}%</b><span>não sabem os próprios números</span></div>
@@ -167,6 +175,43 @@
     }
   }
 
+  // Funil: quantos chegaram a cada etapa do diagnóstico público.
+  function blocoFunil() {
+    if (!funil) return "";
+    const nomes = {
+      visitou: "Abriram a página",
+      comecou: "Começaram",
+      numeros: "Passaram do perfil",
+      frases: "Chegaram às frases",
+      metade: "Passaram da metade das frases",
+      abertas: "Terminaram as frases",
+      contato: "Chegaram ao contato",
+      enviou: "Deixaram o contato (viraram lead)",
+    };
+    const c = funil.contagem;
+    const base = c.comecou || 0;
+    let maiorQueda = null;
+    funil.etapas.forEach((e, i) => {
+      if (i < 2) return;
+      const antes = c[funil.etapas[i - 1]] || 0;
+      const queda = antes - (c[e] || 0);
+      if (antes && (!maiorQueda || queda > maiorQueda.queda)) maiorQueda = { e, queda, antes };
+    });
+    const linhas = funil.etapas.map((e) => {
+      const v = c[e] || 0;
+      const p = e === "visitou" ? 100 : pct(v, base);
+      const destaque = maiorQueda && maiorQueda.e === e && maiorQueda.queda > 0;
+      return `<div class="linha-padrao">
+        <div class="nome">${esc(nomes[e])}<small>${v} ${v === 1 ? "pessoa" : "pessoas"}${e === "visitou" ? "" : ` · ${p}% de quem começou`}${destaque ? ` · <span style="color:var(--erro)">maior queda</span>` : ""}</small></div>
+        <div class="trilho grosso"><i data-w="${e === "visitou" ? 100 : p}" style="background:${destaque ? "var(--erro)" : "var(--brass)"};width:${primeiraVez ? 0 : e === "visitou" ? 100 : p}%"></i></div>
+      </div>`;
+    }).join("");
+    const conversao = base ? pct(c.enviou || 0, base) : 0;
+    return `<div class="card"><div class="rotulo">Funil</div><h3>Quem começou e quem chegou ao fim</h3>
+      <p class="aviso" style="margin-top:6px">${base ? `<strong style="color:var(--text)">${conversao}%</strong> de quem começa vira lead.` : "Ainda não há visitas suficientes."} Cada pessoa conta uma vez por etapa. Atualiza a cada 30 segundos.</p>
+      ${linhas}</div>`;
+  }
+
   // Planilha para o comercial (abre direto no Excel, separador ;).
   function baixarCsv() {
     const col = [
@@ -196,6 +241,6 @@
   }
 
   carregar().then((ok) => {
-    if (ok) setInterval(() => { if (!document.hidden) carregar(); }, 10000);
+    if (ok) setInterval(() => { if (!document.hidden) carregar(); }, LEADS ? 30000 : 10000);
   });
 })();

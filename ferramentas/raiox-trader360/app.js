@@ -47,9 +47,30 @@
   const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   const primeiroNome = (n) => String(n || "").trim().split(/\s+/)[0] || "";
 
+  // Funil do diagnóstico público: registra cada etapa uma vez por visitante.
+  let sid = "";
+  try {
+    sid = localStorage.getItem("raiox-sid") || "";
+    if (!sid) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem("raiox-sid", sid); }
+  } catch (e) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  const jaMarcadas = new Set();
+  function marcar(etapa) {
+    if (!PUBLICO || jaMarcadas.has(etapa)) return;
+    jaMarcadas.add(etapa);
+    try {
+      fetch("/api/funil", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sid, etapa }), keepalive: true }).catch(() => {});
+    } catch (e) { /* o funil nunca atrapalha o aluno */ }
+  }
+  const etapaFunil = { perfil: "comecou", numeros: "numeros", abertas: "abertas", id: "contato" };
+
   function ir(etapa, extra) {
     s.etapa = etapa;
     Object.assign(s, extra || {});
+    if (etapaFunil[etapa]) marcar(etapaFunil[etapa]);
+    if (etapa === "afirm") {
+      marcar("frases");
+      if (s.i >= Math.floor(AFIRM.length / 2)) marcar("metade");
+    }
     guardar();
     render();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -322,6 +343,7 @@
       // Deixa a tela de cálculo aparecer por um instante.
       await new Promise((ok) => setTimeout(ok, Math.max(0, 1800 - (Date.now() - inicio))));
       s.resultadoId = d.id;
+      marcar("enviou");
       history.replaceState(null, "", linkResultado(d.id));
       ir("resultado");
     } catch (e) {
@@ -699,6 +721,7 @@
     // Quem volta no meio do caminho vê a capa com "continuar".
     s.etapaSalva = s.etapa === "enviando" ? "abertas" : s.etapa;
     s.etapa = "capa";
+    marcar("visitou");
     render();
   }
 })();

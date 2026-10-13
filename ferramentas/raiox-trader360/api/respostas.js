@@ -1,12 +1,5 @@
-import { timingSafeEqual } from "node:crypto";
 import { lerTodos, apagar } from "./_blob.js";
-
-function chaveOk(recebida) {
-  const certa = process.env.PAINEL_KEY || "";
-  const a = Buffer.from(String(recebida || ""));
-  const b = Buffer.from(certa);
-  return certa.length > 0 && a.length === b.length && timingSafeEqual(a, b);
-}
+import { chaveOk } from "./_chave.js";
 
 export default async function handler(req, res) {
   if (!chaveOk(req.query.k)) return res.status(401).json({ erro: "Chave inválida" });
