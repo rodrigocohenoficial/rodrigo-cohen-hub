@@ -14,7 +14,7 @@
   "rewrites": [
     {
       "source": "/diagnostico",
-      "destination": "/index.html"
+      "destination": "/"
     }
   ]
 }
