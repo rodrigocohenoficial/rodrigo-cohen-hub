@@ -149,7 +149,8 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
   function el(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==="text")e.textContent=attrs[k];else if(k==="cls")e.className=attrs[k];else e.setAttribute(k,attrs[k]);}(kids||[]).forEach(function(c){if(c)e.appendChild(c)});return e;}
   function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10);}
   function label(s){var p=s.split("-");var d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"short"});}
-  var day=iso(new Date());
+  function hojeSP(){try{return new Intl.DateTimeFormat("en-CA",{timeZone:"America/Sao_Paulo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())}catch(e){return iso(new Date())}}
+  var day=hojeSP();
   try{var h=(location.hash||"").slice(1);if(/^d\d{8}$/.test(h))day=h.slice(1,5)+"-"+h.slice(5,7)+"-"+h.slice(7,9);}catch(e){}
   var db=null,unsubItems=null,unsubDay=null,dayDoc=null,dayVersion=null;
 
@@ -254,17 +255,35 @@ footer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padd
     try{history.replaceState(null,"","#d"+day.replace(/-/g,""));}catch(e){}
     if(!db)return;
     if(unsubItems)unsubItems();if(unsubDay)unsubDay();
-    unsubItems=db.collection("itens").where("data","==",day).onSnapshot(function(s){renderItems(s.docs)},function(){});
-    unsubDay=db.collection("dias").doc(day).onSnapshot(function(s){renderDay(s.exists?s.data():null)},function(){});
+    var myDay=day;
+    unsubItems=db.collection("itens").where("data","==",day).onSnapshot(function(s){renderItems(s.docs)},function(e){
+      // A assinatura caiu: avisa com o código e lê uma vez a coleção inteira, filtrando aqui.
+      showMsg("A fila não atualizou ao vivo ("+((e&&e.code)||"erro")+"). Lendo de novo…");
+      db.collection("itens").get().then(function(q){if(myDay!==day)return;renderItems(q.docs.filter(function(d){return (d.data()||{}).data===myDay}))},
+        function(e2){showMsg("Não consegui ler a fila ("+((e2&&e2.code)||"erro")+"). Toque em Recarregar.",true)});
+    });
+    unsubDay=db.collection("dias").doc(day).onSnapshot(function(s){renderDay(s.exists?s.data():null)},function(){
+      db.collection("dias").doc(myDay).get().then(function(s){if(myDay===day)renderDay(s.exists?s.data():null)},function(){});
+    });
+  }
+  function showMsg(text,reload){
+    var box=document.getElementById("items");box.textContent="";
+    var m=el("div",{cls:"empty",text:text});
+    if(reload){var b=el("button",{cls:"btn",type:"button",text:"Recarregar"});b.style.marginTop="10px";b.style.display="block";b.onclick=function(){location.reload()};m.appendChild(b);}
+    box.appendChild(m);
   }
 
   document.getElementById("dayLabel").textContent=label(day);
   var use=window.claude&&window.claude.use;
   if(!use){document.getElementById("items").firstElementChild.textContent="Abra este painel pelo Claude pra ver a fila ao vivo.";return;}
+  var slow=setTimeout(function(){if(!db)showMsg("A fila está demorando pra abrir. Confira se você está logado no Claude e toque em Recarregar.",true)},12000);
   window.claude.use("db").then(function(d){
-    if(!d){document.getElementById("items").firstElementChild.textContent="A fila não carregou neste aparelho. Abra pelo app do Claude logado na sua conta.";return;}
+    clearTimeout(slow);
+    if(!d){showMsg("A fila não carregou nesta tela. Abra o link pelo navegador ou app logado na sua conta do Claude e toque em Recarregar.",true);return;}
     db=d;watch();
-    db.collection("sistema").doc("estado").onSnapshot(function(s){renderSys(s.exists?s.data():null)},function(){});
-  });
+    db.collection("sistema").doc("estado").onSnapshot(function(s){renderSys(s.exists?s.data():null)},function(){
+      db.collection("sistema").doc("estado").get().then(function(s){renderSys(s.exists?s.data():null)},function(){});
+    });
+  },function(e){clearTimeout(slow);showMsg("A fila não carregou ("+((e&&e.code)||"erro")+"). Toque em Recarregar.",true)});
 })();
 </script>
