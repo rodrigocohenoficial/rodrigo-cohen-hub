@@ -415,6 +415,23 @@ window.RAIOX = {
     o: ["Nunca escondi", "Já escondi", "Escondo hoje", "Prefiro não responder"],
   },
 
+  // Versão pública do diagnóstico (captação para a Trader 360).
+  publico: {
+    caminho: "/diagnostico",
+    turma: "Diagnóstico grátis",
+    lp: "https://trader360.tradernation.com.br/",
+    whatsapp: "5511916086894",
+    abertaNoventa: "O que precisa mudar no seu trade nos próximos 90 dias?",
+    // Encontro da Trader 360 que trata cada padrão.
+    encontros: {
+      vingativo: ["01 · Mindset e Emoção no Trading", "08 · Gestão de Risco e Expectativa de Retorno"],
+      travado: ["01 · Mindset e Emoção no Trading", "04 · Setups Operacionais com regra clara de entrada"],
+      estudante: ["10 · Plano de Trading Pessoal", "09 · Replay com feedback dos seus trades"],
+      heroi: ["08 · Gestão de Risco e Expectativa de Retorno", "01 · Mindset e Emoção no Trading"],
+      semprocesso: ["10 · Plano de Trading Pessoal", "09 · Replay com feedback dos seus trades"],
+    },
+  },
+
   // Áudios do Rodrigo. Quando os arquivos existirem, coloque o caminho aqui
   // (ex.: "audios/vingativo.mp3") e o player aparece sozinho no resultado.
   audios: {
@@ -446,5 +463,87 @@ window.calcularRaiox = function (respostas) {
   const padrao = porMaior[0];
   const porMenor = [...R.ordemPadroes].sort((a, b) => soma[a] - soma[b] || cincos[a] - cincos[b]);
   const forca = porMenor[0] === padrao ? porMenor[1] : porMenor[0];
-  return { padrao, forca, soma, pct };
+  const segundo = porMaior[1];
+  const nivel = {};
+  R.ordemPadroes.forEach((p) => { nivel[p] = window.nivelRaiox(pct[p]); });
+  return { padrao, segundo, forca, soma, pct, nivel };
 };
+
+// Intensidade de um padrão a partir do percentual.
+window.nivelRaiox = function (pct) {
+  if (pct >= 65) return "forte";
+  if (pct >= 35) return "moderado";
+  return "leve";
+};
+
+// Pontos cegos: respostas que se contradizem entre si.
+// Recebe o registro completo (respostas, numeros, perfil, familia, segredo, abertas).
+window.pontosCegos = function (r) {
+  const R = window.RAIOX;
+  const resp = r.respostas || {};
+  const nums = r.numeros || {};
+  const perfil = r.perfil || {};
+  const abertas = r.abertas || {};
+  const rotulo = (v) => (R.escala.find((e) => e.v === Number(v)) || {}).rotulo || "";
+  const num = (k) => {
+    const v = parseFloat(String(nums[k] || "").replace(/[^\d,.-]/g, "").replace(",", "."));
+    return Number.isFinite(v) ? v : null;
+  };
+  const naoSabeNumeros = nums.naoSei || !R.numeros.some((n) => nums[n.k]);
+  const achados = [];
+
+  const stop = num("stopRespeitado");
+  if (stop !== null && stop >= 9) {
+    const quebra = [];
+    if (resp.v5 >= 3) quebra.push(`marcou **${rotulo(resp.v5)}** em "Passei do meu limite de perda e continuei operando"`);
+    if (resp.s2 >= 3) quebra.push(`marcou **${rotulo(resp.s2)}** em "Mudei o stop de lugar depois de entrar na operação"`);
+    if (/stop|limite|perda|loss/i.test(abertas.regra || "")) quebra.push(`escreveu que a regra que você mais quebra é **"${abertas.regra}"**`);
+    if (quebra.length) {
+      achados.push({
+        titulo: "O stop que você respeita, mas nem tanto",
+        texto: `Você disse que respeitou o stop em **${stop} de 10 pregões**. Mas também ${quebra.join(", e ")}. As duas coisas não podem ser verdade ao mesmo tempo.`,
+      });
+    }
+  }
+
+  if (r.familia === "Sabe tudo" && ["Já escondi", "Escondo hoje"].includes(r.segredo)) {
+    achados.push({
+      titulo: "A família que sabe tudo",
+      texto: `Você disse que sua família **sabe tudo** do seu resultado. E também respondeu **"${r.segredo}"** sobre esconder uma perda de alguém da sua casa.`,
+    });
+  }
+
+  if (perfil.resultado3m === "Positivo" && naoSabeNumeros) {
+    achados.push({
+      titulo: "Positivo de acordo com quê?",
+      texto: "Você disse que fechou os últimos 3 meses **no positivo**, mas não sabe os seus números. Se você não mede, a sensação de lucro pode ser só memória seletiva.",
+    });
+  }
+
+  const preenchidos = R.numeros.filter((n) => nums[n.k]).length;
+  if (resp.s3 >= 4 && preenchidos >= 3) {
+    achados.push({
+      titulo: "Números precisos de quem não anota",
+      texto: `Você preencheu seus números com precisão. Mas também marcou **${rotulo(resp.s3)}** em "Fechei a semana sem saber exatamente quanto ganhei ou perdi". De onde vieram esses números?`,
+    });
+  }
+
+  const acerto = num("acerto");
+  const payoff = num("payoff");
+  if (acerto !== null && payoff !== null && acerto >= 60 && payoff >= 1.5 && ["Negativo", "Zero a zero"].includes(perfil.resultado3m)) {
+    achados.push({
+      titulo: "A conta que não fecha",
+      texto: `Com **${acerto}% de acerto** e **payoff de ${String(nums.payoff)}**, a matemática fecha no positivo com folga. Mas você disse que os últimos 3 meses foram **${perfil.resultado3m.toLowerCase()}**. Ou os números estão otimistas, ou o problema está no que você faz fora do setup.`,
+    });
+  }
+
+  if (resp.h1 <= 2 && resp.h2 >= 4) {
+    achados.push({
+      titulo: "O dia bom que vira ruim",
+      texto: `Você disse que quase nunca continua operando depois de bater a meta. Mas marcou **${rotulo(resp.h2)}** em "Terminei no negativo um dia que chegou a estar bem positivo". O lucro foi embora de algum jeito.`,
+    });
+  }
+
+  return achados;
+};
+

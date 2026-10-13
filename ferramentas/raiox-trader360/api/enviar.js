@@ -38,6 +38,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
+    // Campo invisível: só robô preenche.
+    if (b.site) return res.status(200).json({ ok: true, id: randomUUID() });
+
     const nome = texto(b.nome, 80);
     const email = texto(b.email, 120);
     if (!nome || !email.includes("@")) return res.status(400).json({ erro: "Nome e e-mail são obrigatórios" });
@@ -51,6 +54,7 @@ export default async function handler(req, res) {
 
     const registro = {
       id: randomUUID(),
+      origem: b.origem === "publico" ? "publico" : "turma",
       criadoEm: new Date().toISOString(),
       nome,
       email,

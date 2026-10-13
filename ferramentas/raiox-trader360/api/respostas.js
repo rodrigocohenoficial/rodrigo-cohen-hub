@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       await apagar(id);
       return res.status(200).json({ ok: true });
     }
-    const todos = await lerTodos();
+    const todos = await lerTodos(req.query.v === "leads" ? "publico" : "turma");
     todos.sort((a, b) => (a.criadoEm < b.criadoEm ? -1 : 1));
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({ total: todos.length, respostas: todos });

@@ -11,3 +11,11 @@ Tudo que o aluno lê está em `conteudo.js` (afirmações, padrões, devolutivas
 
 ## Áudios
 Suba os arquivos em `audios/` e preencha os caminhos em `RAIOX.audios` no `conteudo.js`. O player aparece sozinho.
+
+## Diagnóstico público (captação)
+- `/diagnostico` — mesma ferramenta, aberta ao público, com WhatsApp obrigatório, aceite de contato e chamada para a Trader 360 no fim.
+- Contatos ficam em `leads/` (separados da turma). Painel: `/painel?k=<PAINEL_KEY>&v=leads`, com botão de planilha (CSV).
+- Textos da chamada final, links e encontros por padrão: `RAIOX.publico` no `conteudo.js`.
+
+## Pontos cegos
+Regras de contradição entre respostas em `window.pontosCegos` (`conteudo.js`).
