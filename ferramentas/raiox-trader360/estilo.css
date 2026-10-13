@@ -1,0 +1,145 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0b0d;
+  --surface: #141416;
+  --surface2: #1a1a1d;
+  --surface3: #222226;
+  --text: #f2efe9;
+  --muted: #9ba0a8;
+  --line: rgba(255, 255, 255, 0.09);
+  --brass: #c3a46b;
+  --orange: #f9b054;
+  --erro: #f87171;
+  --ok: #4ade80;
+  --serif: "Marcellus", Georgia, serif;
+  --sans: "Instrument Sans", system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+.wrap { max-width: 680px; margin: 0 auto; padding: 24px 16px 64px; }
+.topo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.marca { font-family: var(--serif); letter-spacing: 0.18em; font-size: 13px; color: var(--brass); text-transform: uppercase; }
+.marca b { color: var(--text); font-weight: 400; }
+.turma { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(40px, 11vw, 72px); letter-spacing: -0.01em; }
+h1 .ouro { background: linear-gradient(90deg, #f2efe9, var(--brass)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+h2 { font-size: clamp(26px, 6.5vw, 34px); }
+h3 { font-size: 21px; }
+p { margin: 0 0 14px; }
+.sub { color: var(--muted); font-size: 18px; margin-top: 12px; }
+.rotulo { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); font-weight: 600; margin-bottom: 8px; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 24px 20px; margin-top: 20px; }
+@media (min-width: 560px) { .card { padding: 32px 28px; } }
+
+.pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0; }
+.pilula { font-size: 14px; color: var(--muted); background: var(--surface2); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: 0; border-radius: 14px; padding: 16px 22px; min-height: 54px;
+  background: var(--brass); color: #141416; font-weight: 600; font-size: 17px; width: 100%;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.sec { background: transparent; color: var(--text); border: 1px solid var(--line); }
+.acoes { display: grid; gap: 10px; margin-top: 24px; }
+.link { background: none; border: 0; color: var(--muted); text-decoration: underline; padding: 8px 0; font-size: 15px; }
+
+.campo { margin-top: 18px; }
+.campo label { display: block; font-weight: 600; margin-bottom: 8px; }
+.campo .dica { color: var(--muted); font-size: 14px; font-weight: 400; }
+.campo input, .campo textarea {
+  width: 100%; background: var(--surface2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px; font-size: 17px; outline: none;
+}
+.campo textarea { min-height: 110px; resize: vertical; }
+.campo input:focus, .campo textarea:focus { border-color: var(--brass); }
+.prefixo { display: flex; align-items: center; gap: 8px; }
+.prefixo span { color: var(--muted); font-size: 15px; white-space: nowrap; }
+
+.opcoes { display: grid; gap: 8px; }
+.opcao {
+  text-align: left; background: var(--surface2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 13px 14px; font-size: 16px; min-height: 48px;
+}
+.opcao.on { border-color: var(--brass); background: rgba(195, 164, 107, 0.12); }
+.grupo { margin-top: 26px; }
+.grupo .q { font-weight: 600; margin-bottom: 10px; }
+
+.check { display: flex; gap: 10px; align-items: center; margin-top: 18px; color: var(--muted); }
+.check input { width: 22px; height: 22px; accent-color: var(--brass); }
+
+.progresso { height: 4px; background: var(--surface3); border-radius: 4px; overflow: hidden; margin-bottom: 26px; }
+.progresso i { display: block; height: 100%; background: var(--brass); transition: width 0.25s ease; }
+.contador { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+.afirmacao { font-family: var(--serif); font-size: clamp(24px, 6vw, 30px); line-height: 1.3; min-height: 3.9em; }
+.escala { display: grid; gap: 8px; margin-top: 24px; }
+.escala .opcao { font-size: 17px; padding: 15px 16px; }
+
+.erro { color: var(--erro); font-size: 15px; margin-top: 12px; min-height: 1em; }
+
+/* Resultado */
+.cumprimento { color: var(--muted); font-size: 20px; margin-top: 10px; }
+.padrao-nome { font-size: clamp(32px, 8vw, 44px); margin: 4px 0 6px; }
+.tema { color: var(--muted); font-size: 16px; }
+.citacao { background: #1c1a15; border-radius: 14px; padding: 18px 18px; margin: 20px 0; }
+.citacao q { font-family: var(--serif); font-size: 20px; quotes: "“" "”"; display: block; }
+.citacao small { display: block; color: var(--muted); margin-top: 8px; font-size: 14px; }
+.lista { padding-left: 20px; margin: 10px 0 18px; }
+.lista li { margin-bottom: 10px; }
+.lista li::marker { color: var(--brass); }
+.sintese { border-left: 3px solid var(--brass); padding: 4px 0 4px 16px; color: #d8d4cc; font-style: italic; margin: 18px 0 4px; }
+.area { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px; }
+.area h4 { margin: 0 0 12px; font-size: 18px; font-weight: 400; }
+.area h4 b { color: var(--brass); font-weight: 600; }
+.decisao { background: #1c1a15; border-radius: 12px; padding: 14px 16px; margin-top: 8px; }
+.decisao .rotulo { font-size: 11px; margin-bottom: 4px; }
+.acao7 { background: #1c1a15; border: 1px solid rgba(195, 164, 107, 0.35); border-radius: 16px; padding: 20px; margin-top: 24px; }
+.acao7 h3 { color: var(--brass); margin-bottom: 8px; }
+.assinatura { text-align: center; margin-top: 28px; }
+.assinatura q { font-family: var(--serif); font-size: 22px; display: block; quotes: "“" "”"; }
+.assinatura small { color: var(--brass); letter-spacing: 0.16em; font-size: 12px; font-weight: 600; display: block; margin-top: 10px; }
+
+.mapa { display: grid; gap: 14px; margin-top: 16px; }
+.barra-linha .topo-barra { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 6px; }
+.barra-linha .topo-barra span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
+.barra-linha.destaque .topo-barra span:first-child { font-weight: 700; }
+.trilho { height: 10px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
+.trilho i { display: block; height: 100%; border-radius: 0 4px 4px 0; width: 0; transition: width 0.9s cubic-bezier(.2, .8, .2, 1); }
+
+.numeros { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 14px; }
+.num { background: var(--surface2); border-radius: 12px; padding: 14px; }
+.num b { display: block; font-family: var(--serif); font-size: 26px; font-weight: 400; }
+.num span { color: var(--muted); font-size: 13px; }
+
+.notas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
+@media (min-width: 560px) { .notas { grid-template-columns: repeat(10, 1fr); } }
+.notas button { background: var(--surface2); border: 1px solid var(--line); border-radius: 10px; min-height: 48px; font-size: 17px; }
+.notas button.on { background: var(--brass); color: #141416; border-color: var(--brass); font-weight: 700; }
+.notas-legenda { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+audio { width: 100%; margin-top: 8px; }
+.rodape { color: var(--muted); font-size: 13px; text-align: center; margin-top: 36px; }
+.carregando { text-align: center; padding: 80px 0; color: var(--muted); }
+.carregando .pulso { width: 44px; height: 44px; margin: 0 auto 18px; border-radius: 50%; border: 3px solid var(--surface3); border-top-color: var(--brass); animation: gira 0.9s linear infinite; }
+@keyframes gira { to { transform: rotate(360deg); } }
+.fade { animation: entra 0.35s ease both; }
+@keyframes entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fade, .trilho i, .pulso { animation: none !important; transition: none !important; } }

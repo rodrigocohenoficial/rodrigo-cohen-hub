@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Raio-X da Turma | Trader 360</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/estilo.css">
+  <style>
+    .wrap { max-width: 1040px; }
+    .hero { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+    .total { text-align: right; }
+    .total b { font-family: var(--serif); font-weight: 400; font-size: clamp(56px, 12vw, 96px); line-height: 1; display: block; }
+    .total span { color: var(--muted); }
+    .grade { display: grid; gap: 20px; grid-template-columns: 1fr; }
+    @media (min-width: 860px) { .grade { grid-template-columns: 1.3fr 1fr; } }
+    .linha-padrao { display: grid; grid-template-columns: minmax(130px, 190px) 1fr; gap: 14px; align-items: center; margin-top: 16px; }
+    .linha-padrao .nome { font-size: 17px; }
+    .linha-padrao .nome small { display: block; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+    .trilho.grosso { height: 28px; border-radius: 4px; }
+    .trilho.grosso i { border-radius: 0 4px 4px 0; transition: width 1.4s cubic-bezier(.2, .8, .2, 1); }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+    .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+    .tile b { font-family: var(--serif); font-weight: 400; font-size: 42px; display: block; line-height: 1.1; }
+    .tile span { color: var(--muted); font-size: 14px; }
+    .ctrl { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .ctrl .btn { width: auto; min-height: 44px; padding: 10px 16px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; font-size: 13px; }
+    tr.aluno { cursor: pointer; }
+    tr.aluno:hover td { background: var(--surface2); }
+    .tag { display: inline-flex; align-items: center; gap: 6px; }
+    .tag i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+    .detalhe td { background: var(--surface2); }
+    .detalhe dl { margin: 0; display: grid; gap: 10px; }
+    .detalhe dt { color: var(--brass); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+    .detalhe dd { margin: 0; white-space: pre-wrap; }
+    .tabela-wrap { overflow-x: auto; }
+    .aviso { color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topo">
+      <div class="marca"><b>Trader 360</b> · Painel</div>
+      <div class="turma" id="atualizado">—</div>
+    </div>
+    <div id="painel"><div class="carregando"><div class="pulso"></div>Carregando…</div></div>
+  </main>
+  <script src="/conteudo.js"></script>
+  <script src="/painel.js"></script>
+</body>
+</html>
