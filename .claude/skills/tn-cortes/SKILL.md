@@ -142,8 +142,9 @@ já mandou no WhatsApp do QG às ~07:49 (rotina "QG · 1. manhã"), então nada 
    métrica `salvamento`, nota "8,5", fonte {titulo: "QG do Cohen (manhã)"}, checks: "dados do QG1 de hoje, fonte B3/Yahoo",
    "Conteúdo educacional. Não é recomendação. no card e na legenda") com `status: "agendado"` e os ids do Metricool.
    Suba o PNG como asset do painel e guarde em `slides` para o Rodrigo ver. Log do dia.
-5. Reserva (decisão do Rodrigo em 14/10): se der 07:58 sem agendar (reinício da sessão, demora), agende para **08:25**,
-   ainda antes da sala abrir. Passou de 08:22 sem agendar → não publique, log e encerre.
+5. Reserva (decisão do Rodrigo em 14/10): se der 07:58 sem agendar (reinício da sessão, demora), poste assim que der,
+   agendando para agora + 4 min, até as **09:00**. Depois das 08:30 a legenda troca "às 8h30" por "A sala ao vivo já abriu".
+   Passou de 09:00 sem agendar → não publique, log e encerre.
 
 ## Modo PUBLICADOR (horários da fase: 10:00, 12:00, 19:00 na fase 1 — roda ~10 min antes)
 
