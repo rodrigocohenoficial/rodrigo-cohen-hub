@@ -8,14 +8,22 @@
       "Bash(npm install:*)",
       "Bash(npm run lint:*)",
       "Bash(curl -sS -X PUT https://blob.vercel-storage.com/reels/*)",
-      "Bash(curl -sS -X POST https://blob.vercel-storage.com/delete*)"
+      "Bash(curl -sS -X POST https://blob.vercel-storage.com/delete*)",
+      "ArtifactData",
+      "mcp__Metricool_Social_Media_Management__createScheduledPost",
+      "mcp__Metricool_Social_Media_Management__getScheduledPosts",
+      "mcp__vidIQ_for_Claude"
     ]
   },
   "autoMode": {
     "allow": [
       "$defaults",
       "Uploading finished Instagram Reel/slide files with curl PUT to https://blob.vercel-storage.com/reels/ (the user's own public Vercel Blob store tn-reels) is explicitly approved by the user, so the vidIQ connector can import and publish them to @tradernationoficial.",
-      "Deleting files from the user's own Vercel Blob store tn-reels with curl POST to https://blob.vercel-storage.com/delete right after vidIQ imports them is explicitly approved by the user, to keep the store empty."
+      "Deleting files from the user's own Vercel Blob store tn-reels with curl POST to https://blob.vercel-storage.com/delete right after vidIQ imports them is explicitly approved by the user, to keep the store empty.",
+      "O usuário aprovou explicitamente agendar posts (Reels, carrosséis e cards, com primeiro comentário) no Metricool para @tradernationoficial (blogId 7382447) via createScheduledPost: conteúdo aprovado pela esteira tn-cortes (nota >= 8 e compliance OK) é publicado automaticamente, com veto pelo painel.",
+      "O usuário aprovou explicitamente ler e gravar no banco do painel TN dele (https://claude.ai/artifact/D6jTX4W1U2kB3Fp94gTm7r, coleções itens, dias e sistema) e subir as imagens dos cards como assets desse artifact.",
+      "O usuário aprovou explicitamente gerar cortes e transcrições e ler os insights do Instagram pelo conector vidIQ nos canais dele.",
+      "O usuário aprovou explicitamente rodar os scripts de .claude/skills/tn-cortes/scripts/ (panorama.py e outros) com python3, e usar ffmpeg e Chromium headless pra renderizar e converter os cards e Reels."
     ]
   }
 }
