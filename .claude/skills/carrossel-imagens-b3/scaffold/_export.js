@@ -21,7 +21,7 @@ const path = require('path');
   fs.writeFileSync(path.join(dir, 'fit-report.json'), JSON.stringify(fit, null, 2));
   if (!fit.fontesOk) throw new Error('Inter não carregou. PNG sairia com fonte de fallback.');
   const estouro = fit.slides.filter(s => s.overflow).map(s => s.slide);
-  if (estouro.length) throw new Error('Texto transbordou em: ' + estouro.join(', ') + '. Corte texto ou divida o slide.');
+  if (estouro.length) throw new Error('Não cabe em: ' + estouro.join(', ') + '. O texto não cabe sem espremer a imagem abaixo do mínimo (foto 420px, demais 360px). Peça ao Rodrigo pra cortar texto ou dividir o slide. Nunca reduza o mínimo da foto pra caber.');
   const slides = await page.$$('.slide');
   if (slides.length === 0) throw new Error('Nenhum .slide encontrado em carrossel.html');
   for (let i = 0; i < slides.length; i++) {

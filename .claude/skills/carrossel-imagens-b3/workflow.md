@@ -22,6 +22,7 @@ imagem_tipo: foto | print | grafico | diagrama
 imagem_pos: 50% 30%        (opcional, enquadramento do recorte)
 imagem_fit: contain        (opcional, pra gráfico/diagrama não cortar)
 imagem_altura: 520         (opcional, ponto de partida; o ajuste automático refina)
+imagem_min: 480            (opcional, sobe o piso; padrão foto 420, demais 360. Nunca abaixo do padrão)
 tamanho: 64                (opcional, fonte máxima deste slide)
 fonte: Fonte: B3, ...      (obrigatório em print e gráfico)
 assinatura: ...            (só no cta)
@@ -91,7 +92,7 @@ Grade com os PNGs pra revisão rápida no navegador.
 node $SKILL/scaffold/_export.js $OUT/vN
 python3 $SKILL/scaffold/validate.py $OUT/vN
 ```
-O export falha se a Inter não carregar ou se algum slide transbordar (corte texto com o Rodrigo ou divida o slide). O validate confere: nº de PNGs = nº de slides, 2160x2880, > 50KB, amarelo presente, virada escura, fonte ≥ 44px, ocupação vertical 78% a 94%.
+O export falha se a Inter não carregar ou se algum slide não couber sem espremer a imagem abaixo do mínimo (corte texto com o Rodrigo ou divida o slide). O validate confere: nº de PNGs = nº de slides, 2160x2880, > 50KB, amarelo presente, virada escura, fonte ≥ 44px, ocupação vertical 78% a 94%.
 
 Monte a folha de contato, abra com Read e olhe slide por slide antes de entregar. Escreva `$OUT/vN/legenda.txt`. Entregue conforme a seção **Entrega** do SKILL.md.
 

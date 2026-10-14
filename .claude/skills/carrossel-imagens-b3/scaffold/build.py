@@ -24,8 +24,12 @@ ARQUETIPOS = {
     'cta': (54, 44, 520, 'texto'),
 }
 FONTE_MINIMA = 36
+# Altura mínima da imagem por tipo. Foto tem pessoa e muitas vezes logo (púlpito da B3):
+# abaixo de 420px vira faixa e corta cabeça ou logo. Se o texto não deixa espaço, o export
+# falha e pede corte de texto. Nunca espreme a foto.
+IMAGEM_MINIMA = {'foto': 420, 'print': 360, 'grafico': 360, 'diagrama': 360}
 ABREVIACOES = ('Sr.', 'Sra.', 'Dr.', 'Dra.', 'etc.', 'Inc.', 'nº.', 'p.ex.', 'vs.')
-CHAVES_SLIDE = {'arquetipo', 'imagem', 'imagem_tipo', 'imagem_altura', 'imagem_pos',
+CHAVES_SLIDE = {'arquetipo', 'imagem', 'imagem_tipo', 'imagem_altura', 'imagem_min', 'imagem_pos',
                 'imagem_fit', 'fonte', 'tamanho', 'assinatura'}
 
 
@@ -164,7 +168,12 @@ def main():
     {assinatura}
     {f'<div class="fonte">{html.escape(fonte)}</div>' if fonte else ''}
   </section>''')
-        config.append({'id': f's{n:02d}', 'fmax': fmax, 'fmin': fmin, 'prio': prio})
+        piso = IMAGEM_MINIMA.get(s.get('imagem_tipo', 'foto'), 420)
+        imin = max(piso, int(s.get('imagem_min', piso)))
+        if img_html and alt < imin:
+            alt = imin
+            img_html = re.sub(r'height:\d+px', f'height:{alt}px', img_html)
+        config.append({'id': f's{n:02d}', 'fmax': fmax, 'fmin': fmin, 'prio': prio, 'imin': imin})
 
     doc = f'''<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8">
@@ -192,9 +201,9 @@ window.__fit = (async () => {{
     let f = c.fmax, h = img ? parseInt(img.style.height) : 0;
     const set = () => {{ tx.querySelectorAll('p').forEach(p => p.style.fontSize = f + 'px'); if (img) img.style.height = h + 'px'; }};
     set();
-    if (c.prio === 'texto') while (img && fundo() > limite() && h > 360) {{ h -= 20; set(); }}
+    if (c.prio === 'texto') while (img && fundo() > limite() && h - 20 >= c.imin) {{ h -= 20; set(); }}
     while (fundo() > limite() && f > c.fmin) {{ f -= 2; set(); }}
-    while (img && fundo() > limite() && h > 300) {{ h -= 20; set(); }}
+    while (img && fundo() > limite() && h - 20 >= c.imin) {{ h -= 20; set(); }}
     while (img && fundo() / s.clientHeight < 0.84 && h < 760) {{ h += 10; set(); if (fundo() > limite()) {{ h -= 10; set(); break; }} }}
     const overflow = fundo() > limite();
     if (overflow) s.dataset.overflow = '1';

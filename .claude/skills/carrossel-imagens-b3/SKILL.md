@@ -44,6 +44,10 @@ Ordem de preferência obrigatória:
 
 Sem imagem de IA. Slide sem imagem só com justificativa explícita na entrega.
 
+**Altura mínima da imagem: foto 420px, print/gráfico/diagrama 360px.** Abaixo disso a foto vira faixa e corta cabeça ou logo (já aconteceu: logo da B3 no púlpito cortado pela metade num slide de CTA). Se o texto não deixa espaço, o export falha. A saída é cortar texto com o Rodrigo ou dividir o slide, nunca espremer a foto.
+
+**Recorte da foto:** depois do export, abra cada slide com foto e confira que a pessoa e o logo da B3 (púlpito, telão, parede) aparecem inteiros. Logo da B3 cortado num post pago da B3 não sai. Ajuste `imagem_pos` ou `imagem_altura` e gere nova versão.
+
 **Todo print e todo gráfico é aberto com Read antes de entrar no slide.** Site da B3 já devolveu página cheia de erro de PHP e banner de cookies. Varra também CPF, conta, saldo, nome de terceiro e logo de concorrente; corte e avise.
 
 ### Números
@@ -57,7 +61,7 @@ Sem imagem de IA. Slide sem imagem só com justificativa explícita na entrega.
 - B3 = melhor amiga do trader, instituição séria, educação e transparência. **Nunca** associar a cassino, jogo, aposta ou especulação.
 - Publi: `#publi` na legenda + lembrar o Rodrigo de ativar "parceria paga" com a B3 no Instagram + alinhar com o compliance da B3 antes de postar.
 - Nada de recomendação de compra/venda ou promessa de ganho. "Muda o seu processo", não "muda o seu resultado".
-- Disclaimer na legenda sempre que citar ativo ou produto: `Rodrigo Cohen, Analista CNPI. Conteúdo educacional, não é recomendação de investimento.`
+- Disclaimer na **legenda** (não no slide; o rodapé `fonte:` é só pra fonte de dado) sempre que citar ativo ou produto: `Rodrigo Cohen, Analista CNPI. Conteúdo educacional, não é recomendação de investimento.`
 - Não reproduzir logo da B3 como elemento gráfico da arte. Logo só aparece se estiver dentro de um print oficial.
 - Nome de terceiro, parceiro não anunciado ou concorrente: só com autorização explícita.
 

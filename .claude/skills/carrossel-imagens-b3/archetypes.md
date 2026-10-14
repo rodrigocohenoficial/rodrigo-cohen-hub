@@ -10,7 +10,8 @@ Todos têm o cabeçalho tweet-mock (avatar 118px + "Rodrigo Cohen" + selo azul +
 | `virada` | 60 → 46px | 420px | texto | Exatamente um por carrossel, no ponto de virada. Fundo `#0D0D0D`. Frase mais forte do post. |
 | `cta` | 54 → 44px | 520px | texto | Último slide. CTA de salvar/comentar/compartilhar com substância (nada de "segue pra mais"). `assinatura:` opcional, ex.: "Rodrigo Cohen, Analista CNPI". |
 
-**Prioridade texto:** se não cabe, a imagem encolhe até 360px antes de a fonte diminuir.
+**Prioridade texto:** se não cabe, a imagem encolhe até o mínimo (foto 420px, demais 360px) antes de a fonte diminuir.
+**Mínimo da imagem é piso duro:** se mesmo com fonte mínima não couber, o export falha e pede corte de texto.
 **Prioridade imagem:** a fonte diminui antes, porque o gráfico precisa ser legível no celular.
 Sobrou espaço (ocupação < 84%)? A imagem cresce até 760px.
 
