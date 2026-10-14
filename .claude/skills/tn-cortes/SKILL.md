@@ -126,7 +126,7 @@ já mandou no WhatsApp do QG às ~07:49 (rotina "QG · 1. manhã"), então nada 
 
 1. `scripts/shabbat.py` com 08:00 → `pausado` = encerre. Leia `sistema/estado.modo` (ensaio = gere, não publique).
 2. Painel do QG (`morning_call.fonte`, ArtifactData): `get dias/<hoje>` com `out_dir`. Sem documento ou sem mensagem
-   `slot: "manha"` com `postado: true` → espere em background (nunca `sleep` em primeiro plano) e tente de novo até 07:55;
+   `slot: "manha"` com `texto` preenchido (o QG agora prepara às ~07:55 e só envia às 08:20, então `postado: false` é normal) → espere em background (nunca `sleep` em primeiro plano) e tente de novo até 07:55;
    se ainda não houver, log "QG1 não saiu, sem card hoje" e encerre (feriado da B3 cai aqui também).
    Pegue também `historico/<data do último pregão>` (a data está no `painel`/texto da mensagem: "NÍVEIS DE SEXTA" etc.;
    na dúvida, `list historico` e use o mais recente antes de hoje) com `out_dir`. Sem histórico → passe `-` (card sem gráfico).
