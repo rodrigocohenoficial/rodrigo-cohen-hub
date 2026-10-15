@@ -75,8 +75,14 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
    em sexta, só agende horários antes do início do Shabbat. Sábado: não produza nada (registre no log e encerre).
    Se já existem itens `aprovado`/`pendente` em estoque para hoje, produza só o que falta.
 2. **Garimpeiro**: `vidiq_channel_videos` (long, popular=false) e (live, popular=false). Prefira vídeo novo (<7 dias); senão o arquivo de 2026.
-   Leia a transcrição (`vidiq_video_transcript`) dos candidatos. Escolha trechos de 25–45 s com gancho autocontido.
+   Leia a transcrição (`vidiq_video_transcript`) dos candidatos. Escolha trechos de **20–30 s** com gancho autocontido.
    Regras da skill de Reel: abrir na frase que provoca, cortar "bom, vamos lá", evitar trecho que depende de contexto anterior.
+   **Regra do gancho** (decisão do Rodrigo em 14/10, dados: 55–60% de pulo em todos os Reels): a 1ª frase do corte tem um
+   **número ou uma cena real** ("Em 2018, o dólar subiu quase 20%", "Você ganha 3 dias seguidos e devolve tudo no quarto").
+   Trecho que abre com definição ou conceito ("Autossabotagem é...") → procure outro ponto de entrada no mesmo vídeo; sem um → descarte.
+   **Assunto da semana**: pelo menos 1 peça por dia é do tema quente (dólar, juros, eleição, notícia que mexe no WIN/WDO):
+   o Reel em estilo **jornal** ou, com 1 Reel só na fase (fase 1), um dos carrosséis. Busque nos vídeos e lives recentes um trecho sobre ele; sem trecho que sirva → log e siga com o melhor raiz.
+   Mente e disciplina continuam, sempre abrindo numa situação de trade.
 3. **Cortador** (por Reel): `vidiq_generate_clips` com `videoUrl` do YouTube, `processingStartSeconds/EndSeconds` em volta do trecho
    (janela ≥ 60 s), `captionStyle: "none"` (a legenda é da skill), `videoLanguage: "pt"`, `prompt` descrevendo o trecho exato.
    Faça polling com `vidiq_job_poll` (espere com comando em background, nunca `sleep` em primeiro plano). Se falhar, tente 1 vez
@@ -89,8 +95,11 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
    - no **design**, `facePosition: "50% 22%"`;
    - se o vídeo-fonte tiver legenda antiga queimada, desfoque a faixa (`boxblur`) e cubra com um Pop.
    Aqui a regra da skill "não renderize antes do ok" é cumprida pelo painel: o Rodrigo aprova o vídeo renderizado. Renderize.
-   Confira 4 quadros da prévia (texto estourando, rosto tapado, cena vazia) antes de aceitar o render.
-5. **Slides** (1 por dia): carrossel (5–8 slides) ou card (1 slide) no formato X. Texto vem da transcrição (frases do Rodrigo, enxugadas).
+   **Gancho escrito desde o 1º quadro** (decisão de 14/10): a frase do gancho aparece em letra grande no frame 0, antes da fala,
+   e fica até a fala alcançá-la. Nunca deixe o primeiro segundo só com rosto.
+   Confira 4 quadros da prévia (o frame 0 é um deles: gancho legível?; texto estourando, rosto tapado, cena vazia) antes de aceitar o render.
+5. **Slides** (`slides` da fase; 2 por dia na fase 1): carrossel (5–8 slides) ou card (1 slide) no formato X. Com 2, os dois de temas
+   e vídeos-fonte diferentes, e de preferência carrossel (rende mais que card nesta conta). Texto vem da transcrição (frases do Rodrigo, enxugadas).
    Primeiro slide = gancho; último = CTA ligado à métrica. `python3 scripts/slides.py roteiro.json saida/`.
    Suba os PNGs como assets do painel: `Artifact` com `action: "publish"`, `url` do painel, `asset: true`, `file_paths: [...]`
    (leia o painel com `action: "read"` antes, se a sessão pedir). Guarde as URLs devolvidas em `slides`.
@@ -105,6 +114,8 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
    - Use foto em no máximo metade dos slides de um carrossel (capa ou fechamento rendem mais) e em cerca de 1 a cada 2 cards.
 6. **Editor-chefe**: para cada candidato, aplique as regras acima e `proibido` do config. Barrados vão no log do dia com o motivo.
    Nota de 0 a 10 (gancho, retenção provável, encaixe no pilar). Abaixo de 7 não entra.
+   O gancho vale metade da nota: sem número ou cena real na 1ª frase, a nota máxima é 7 (não aprova sozinho);
+   Reel acima de 30 s ou sem gancho escrito no frame 0 volta pro Editor.
 7. **Copywriter**: legenda de 3–4 linhas: começa com a frase mais forte, termina com CTA da métrica (compartilhar / salvar /
    comentar palavra-chave). Até `cta.trader360.ate`, 1 item por dia leva `primeiroComentario` = `cta.trader360.texto`.
    "Link na bio" leva pra sala ao vivo. Hashtags: no máximo 3, no fim.
@@ -180,7 +191,11 @@ pesquisa e métricas.
    agendados, foi publicado: marque `publicado` e busque o `permalink` nos insights. Se ainda está lá 30 min depois do horário, `erro` + log.
    Para cada item `publicado` nos últimos 7 dias: grave em `itens/...` os números (`metricas: {views, likes, comments, shares, saves,
    avgWatchedPct, skipRate, medidoEm}`) — nulos são "ainda não disponível", nunca zero.
-3. Log do dia: melhor e pior post, comparação com a base (Reel antigo: 532 views, 53,8% de pulo). Se um Trial Reel passou da mediana
+   **Carrossel e card** não aparecem no vidIQ: use `getAnalyticsDataByMetrics` (Metricool, `brandId` 7382447, últimos 7 dias,
+   `metrics: ["IGPO02","IGPO06","IGPO07","IGPO28","IGPO14","IGPO13","IGPO08","IGPO15","IGPO27","IGPO29"]` = data, url, tipo,
+   views, alcance, likes, comentários, salvos, compart., seguidores). Case pelo `permalink`; grave também `alcance` e `seguidores`.
+3. Log do dia: melhor e pior post (Reel e carrossel juntos, por views), comparação com a base (Reel antigo: 535 views, 53,6% de pulo;
+   carrossel: ~1.000 views, ~700 de alcance, medidos em 14/10). Diga se o gancho do Reel do dia tinha número/cena e o pulo dele. Se um Trial Reel passou da mediana
    da conta em 24 h, crie uma pergunta "Promover pro feed?" (a promoção é manual no app).
 4. Apague do Blob qualquer arquivo de item já publicado/rejeitado que ainda tenha `videoUrl`.
 5. **Segunda-feira — escada de escala** (`escala` e `criterio_subir`/`criterio_descer` do config):

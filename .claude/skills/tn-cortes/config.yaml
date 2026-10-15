@@ -24,7 +24,8 @@ nota_minima_auto: 8
 fase_atual: 1
 escala:
   # 08:00 de segunda a sexta é sempre o card Panorama (modo MORNING, fora desta tabela). O Reel da manhã sai às 10:00.
-  1: {reels: 2, trial: 0, slides: 1, horarios: ["10:00", "12:00", "19:00"], producao: "05:47", publicador_cron: "50 9,11,18 * * 0-5"}
+  # Fase 1 (decisão do Rodrigo em 14/10): 1 Reel + 2 carrosséis — carrossel entregava ~4x mais views que Reel (1.132/897 vs 248/52).
+  1: {reels: 1, trial: 0, slides: 2, horarios: ["10:00", "12:00", "19:00"], producao: "05:47", publicador_cron: "50 9,11,18 * * 0-5"}
   2: {reels: 3, trial: 1, slides: 2, horarios: ["10:00", "12:00", "14:00", "17:00", "20:00"], producao: "05:17", publicador_cron: "50 9,11,13,16,19 * * 0-5"}
   3: {reels: 4, trial: 2, slides: 3, horarios: ["10:00", "11:00", "12:00", "14:00", "17:00", "19:00", "21:00"], producao: "04:47", publicador_cron: "50 9,10,11,13,16,18,20 * * 0-5"}
   4: {reels: 4, trial: 2, slides: 4, horarios: ["10:00", "11:00", "12:00", "14:00", "16:00", "17:00", "19:00", "21:00"], producao: "04:17", publicador_cron: "50 9,10,11,13,15,16,18,20 * * 0-5"}
@@ -39,10 +40,10 @@ criterio_descer: "alcance médio por post < 80% da semana anterior por 7 dias se
 estoque_alvo_dias: 3    # manter de 3 a 5 dias de itens aprovados guardados
 
 estilos_reel:           # proporção da skill videos-insta-virais
-  raiz: 70              # opinião, polêmica, bastidor, resultado
-  jornal: 20            # SÓ macro e notícia; manchete com ângulo "o que muda no WIN/WDO"
+  raiz: 50              # opinião, polêmica, bastidor, resultado
+  jornal: 40            # SÓ macro e notícia; manchete com ângulo "o que muda no WIN/WDO". Mínimo 1 Reel/dia (assunto da semana)
   design: 10            # explicativo, quando o diagrama é a entrega
-duracao_reel_max_s: 45
+duracao_reel_max_s: 30   # 14/10: quem fica assiste 4–9 s; cortes de 20–30 s
 
 pilares:                # peso aproximado na semana
   day-trade: 35
