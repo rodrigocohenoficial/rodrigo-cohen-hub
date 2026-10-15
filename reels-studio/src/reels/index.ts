@@ -5,6 +5,7 @@ import { Reel01Scenes } from "./reel-01/Scenes";
 import { Reel02Scenes } from "./reel-02/Scenes";
 import { Reel03Scenes, reel03Zooms } from "./reel-03/Scenes";
 import { Reel04Scenes, reel04Zooms } from "./reel-04/Scenes";
+import { Reel05Scenes, reel05Zooms } from "./reel-05/Scenes";
 import { Reel01RaizScenes, reel01RaizZooms } from "./reel-01-raiz/Scenes";
 
 // Cada Reel novo entra aqui.
@@ -73,4 +74,5 @@ export const reels: ReelDef[] = [
     manchetes: [{ from: 0, text: "*Como eu faço a transição de carreira corretamente?* Quero empreender no trade" }],
   },
   { id: "reel-04", style: "raiz", Scenes: Reel04Scenes, zooms: reel04Zooms, velocidade: 1.1 },
+  { id: "reel-05", style: "raiz", Scenes: Reel05Scenes, zooms: reel05Zooms, velocidade: 1.1 },
 ];
