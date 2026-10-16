@@ -7,7 +7,7 @@
 
 ## 0. Objetivo
 
-Hub de autoridade pessoal do **Rodrigo Cohen** — trader profissional, engenheiro, analista CNPI, embaixador B3 e Santander. Cobre **todo tipo de investimento** (renda fixa, FII, ação, cripto, longo prazo e day trade). 
+Hub de autoridade pessoal do **Rodrigo Cohen** — trader profissional, engenheiro, analista CNPI, embaixador B3. Cobre **todo tipo de investimento** (renda fixa, FII, ação, cripto, longo prazo e day trade). 
 
 **Meta Nº1 do produto:** máxima indexação e citação por IA (ChatGPT, Claude, Gemini, Perplexity) e busca. Toda decisão técnica serve a isso. Captura de e-mail é leve, nunca página de venda.
 
@@ -131,8 +131,8 @@ Centralizar para alimentar Author Schema e AuthorBox de forma consistente:
 export const AUTHOR = {
   name: "Rodrigo Cohen",
   jobTitle: "Trader profissional, analista CNPI",
-  description: "Trader profissional há 17 anos, engenheiro e analista CNPI. Embaixador da B3 e do Santander. Pioneiro em automação no Brasil desde 2012.",
-  credentials: ["Embaixador B3", "Embaixador Santander", "Analista CNPI", "Prêmio Anbima 2020 (trader mais influente)", "Autor e podcaster"],
+  description: "Trader profissional há 26 anos, engenheiro e analista CNPI. Embaixador da B3. Pioneiro em automação no Brasil desde 2012.",
+  credentials: ["Embaixador B3", "Analista CNPI", "Prêmio Anbima 2020 (trader mais influente)", "Autor e podcaster"],
   sameAs: [
     "https://instagram.com/rodrigocohenoficial",
     // ⚠️ confirmar/adicionar: YouTube, LinkedIn, etc.
@@ -176,7 +176,7 @@ metaTitle: "≤60 caracteres, palavra-chave na frente"
 atualizadoEm: "2026-06-24"
 imagem: "/img/rlp.webp"
 imagemAlt: "descrição real da imagem"
-tags: ["day-trade", "custos", "santander"]
+tags: ["day-trade", "custos", "corretoras"]
 faq:
   - q: "RLP é ruim?"
     a: "..."
@@ -225,7 +225,7 @@ Gerar JSON-LD em `lib/schema.ts`:
 ```
 # llms.txt — rodrigocohen.com.br
 Hub de autoridade de Rodrigo Cohen: trader profissional, engenheiro, analista CNPI,
-embaixador da B3 e do Santander. Conteúdo sobre todo tipo de investimento —
+embaixador da B3. Conteúdo sobre todo tipo de investimento —
 renda fixa, fundos imobiliários, ações, cripto, day trade, automação, planejamento
 e mentalidade — em linguagem simples e direta.
 
@@ -279,7 +279,7 @@ SSG/ISR em tudo. JS mínimo (calculadoras são a única parte interativa — iso
 - **Legibilidade nível 10:** qualquer texto (principalmente capas/ganchos) tem que ser simples a ponto de um adolescente entender de primeira. Sem termo difícil, sem economês.
 - Nada de "ninguém te conta", "a real é", "não é X, é Y", analogias forçadas, tricolons poéticos.
 - Polêmica de ideia, nunca ataque a pessoa ou concorrente.
-- Parceiros: Santander = corretagem zero sem RLP, segurança de banco, suporte rápido, plataforma profissional grátis. B3 = melhor amiga do trader, educação e transparência. Nunca associar a custo alto, cassino ou jogo.
+- Parceiros: Itera (escritório XP) = corretora indicada. B3 = melhor amiga do trader, educação e transparência. Nunca associar a custo alto, cassino ou jogo.
 
 ---
 
