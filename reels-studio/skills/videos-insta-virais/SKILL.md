@@ -126,6 +126,9 @@ alinhado à métrica-alvo, e "Resultado passado não garante resultado futuro." 
 - Resultado mostrado = aviso "Resultado passado não garante resultado futuro." na tela e na legenda.
 - Nunca promessa de ganho, nunca "garantido", nunca associar Santander a custo/complexidade ou B3 a jogo/cassino.
 - Os números da tela vêm da prova (print, plataforma), não só da fala.
+- **Vídeo de resultado:** antes do plano, aplique a lista "Cortar sempre num vídeo de resultado" de `references/viral.md`
+  (abertura de rotina, jargão, "100% de acerto" como gancho, desculpas, venda colada no lucro, conta demo). O resultado entra
+  como prova de uma lição, alvo de 25–35s.
 - Vídeos da Flávia: só o tema dela, regras de conteúdo médico dela (`references/flavia.md`).
 - O estilo de um não contamina o outro: o tema é por Reel (`tema: "flavia"`), o padrão é o do Rodrigo.
 
