@@ -53,5 +53,14 @@ Leitura: o gancho de resultado segura os 3 primeiros segundos (42–44%), mas a 
 - O resultado é a **prova de uma lição**, não o assunto. Gancho = a lição ou o erro ("Entrei na notícia do CPI e paguei").
 - Um número só, no máximo dois. Tela da plataforma no máximo 10–15s.
 - Duração alvo 25–35s.
-- Resultado puro no máximo 1x por semana; nunca dois Reels no mesmo dia.
+- Nunca dois Reels no mesmo dia.
+
+### Série diária "Resultado aberto · Dia N" (decisão do Rodrigo: postar resultado todo dia)
+- Mesmo molde todo dia (reconhecimento): estilo raiz, selo fixo "RESULTADO ABERTO · DIA N" no topo, aviso de resultado passado.
+- 15–25s. Gancho nos 2 primeiros segundos com o dia em palavras simples, não em jargão: "Dia 14. Hoje eu perdi." /
+  "Dia 15. Entrei na notícia e paguei." / "Dia 16. Duas operações e fui embora."
+- Um número só (saldo do dia, verde ou vermelho) + um motivo em uma frase. Dia vermelho é postado igual: é o diferencial.
+- Sem venda. CTA de hábito: "Amanhã tem o dia N+1" ou, 1x por semana, "Comenta QG".
+- Sexta: "a semana aberta" com a lição da semana (pode ser mais longo, 30–40s).
+- O papel da série é confiança de quem já segue; o alcance de topo vem dos vídeos de tese (ex.: A Vida Não Tem Simulador).
 - CTA de topo (QG gratuito, compartilhar, salvar) em vez de venda.
