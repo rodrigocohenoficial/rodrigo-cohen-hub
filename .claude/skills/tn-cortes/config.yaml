@@ -57,7 +57,8 @@ morning_call:            # card Panorama (decisão do Rodrigo em 13/10), segunda
   horario: "08:00"
   rotina: "07:50"         # roda depois do QG1 (7h45, pronto ~7h49)
   fonte: https://claude.ai/artifact/CxZAtEqQPVsvgup1KGrfX1   # painel do QG: dias/<hoje> e historico/<último pregão>
-  script: scripts/panorama.py   # Panorama 8h30: escuro, colagem inclinada, foto polaroide, lá fora, agenda e gráfico do WIN com a faixa de 68%
+  script: scripts/panorama_carrossel.py   # carrossel de 7 slides (aprovado em 16/10); reserva: scripts/panorama.py (card único)
+  fluxo: pendente   # slide 6 só com fonte oficial da B3 confirmada; sem fonte, vira "quanto o mercado anda"
   foto: assets/foto-mc.jpg  # trocar por foto da pasta "TN Fotos" quando existir
   reel_ao_vivo: pendente  # Reel com corte da sala (Mux) 09:50; depende da chave de leitura do Mux
 

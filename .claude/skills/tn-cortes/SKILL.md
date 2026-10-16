@@ -130,32 +130,37 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
     (gancho pronto + formato + evidência com números reais) e um resumo da semana anterior (3 melhores, 3 piores, por quê).
 12. Encerre com uma resposta curta: quantos itens na fila, estilos, custo de créditos, link do painel.
 
-## Modo MORNING (07:50, segunda a sexta) — card Panorama das 08:00
+## Modo MORNING (07:50, segunda a sexta) — carrossel Panorama das 08:00
 
-Card que chama pra sala ao vivo (8h30) com os destaques do dia. Sai sozinho, sem fila: o conteúdo é o mesmo que o QG1
-já mandou no WhatsApp do QG às ~07:49 (rotina "QG · 1. manhã"), então nada aqui é escrito do zero.
+Carrossel de 7 slides que chama pra sala ao vivo (8h30) com os destaques do dia (aprovado pelo Rodrigo em 16/10, substitui o
+card único). Sai sozinho, sem fila: o texto vem do que o QG1 já mandou no WhatsApp do QG (~07:49, rotina "QG · 1. manhã") e dos
+números da B3/Yahoo, então nada aqui é escrito do zero.
 
 1. `scripts/shabbat.py` com 08:00 → `pausado` = encerre. Leia `sistema/estado.modo` (ensaio = gere, não publique).
 2. Painel do QG (`morning_call.fonte`, ArtifactData): `get dias/<hoje>` com `out_dir`. Sem documento ou sem mensagem
-   `slot: "manha"` com `texto` preenchido (o QG agora prepara às ~07:55 e só envia às 08:20, então `postado: false` é normal) → espere em background (nunca `sleep` em primeiro plano) e tente de novo até 07:55;
-   se ainda não houver, log "QG1 não saiu, sem card hoje" e encerre (feriado da B3 cai aqui também).
-   Pegue também `historico/<data do último pregão>` (a data está no `painel`/texto da mensagem: "NÍVEIS DE SEXTA" etc.;
-   na dúvida, `list historico` e use o mais recente antes de hoje) com `out_dir`. Sem histórico → passe `-` (card sem gráfico).
+   `slot: "manha"` com `texto` preenchido (o QG prepara às ~07:55 e só envia às 08:20, então `postado: false` é normal) → espere em
+   background (nunca `sleep` em primeiro plano) e tente de novo até 07:55; se ainda não houver, log "QG1 não saiu, sem Panorama hoje"
+   e encerre (feriado da B3 cai aqui também). Pegue também `historico/<data do último pregão>` com `out_dir` (na dúvida,
+   `list historico` e use o mais recente antes de hoje): é dele que saem máx, mín, abertura, VWAP, POC, VAH, VAL e o gráfico.
 3. Histórico do Ibov: `curl -sS -A 'Mozilla/5.0' -o /tmp/.../ibov.json "https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP?range=10y&interval=1d"`.
-   `python3 scripts/panorama.py <dias-hoje.json> <historico.json|-> <ibov.json> /tmp/.../mc.png` → imprime `manchete`, `legenda`
-   e `estatistica` (volatilidade de 20 pregões, taxa real de acerto da faixa de 1σ em 10 anos, termômetro).
-   A "probabilidade do dia" é SÓ essa estatística (faixa de 1σ aplicada ao fechamento do WIN): nunca opinião, nunca "meu cenário",
-   nunca placar de leitura gerada por IA (decisão do Rodrigo em 13/10).
-   Olhe o PNG (Read) antes de seguir: texto estourando, caixa vazia ou número estranho → não publique, log e encerre.
-   Converta: `ffmpeg -i mc.png -q:v 2 mc.jpg`.
-4. Blob (`image/jpeg`) → `createScheduledPost` POST para hoje 08:00 (`text` = legenda; sem 1º comentário) →
-   apague do Blob. Grave `itens/<hoje>-panorama` (formato `card`, estilo `panorama`, pilar `day-trade`, avatar `Iniciante`,
-   métrica `salvamento`, nota "8,5", fonte {titulo: "QG do Cohen (manhã)"}, checks: "dados do QG1 de hoje, fonte B3/Yahoo",
-   "Conteúdo educacional. Não é recomendação. no card e na legenda") com `status: "agendado"` e os ids do Metricool.
-   Suba o PNG como asset do painel e guarde em `slides` para o Rodrigo ver. Log do dia.
+   `python3 scripts/panorama_carrossel.py <dias-hoje.json> <historico.json> <ibov.json> /tmp/.../car [fluxo.json]` → 7 PNGs + `legenda`:
+   1 gancho (sequência de 3+ dias do Ibov com a taxa real do dia seguinte; sem sequência, a manchete do QG) · 2 rehook (% de pregões
+   que rompem a máx ou a mín de ontem + os dois níveis do WIN) · 3 mapa do WIN · 4 mapa do WDO · 5 lá fora e juros ·
+   6 fluxo dos investidores **só com fonte B3 confirmada** (`fluxo.json`); sem fonte, o slide 6 vira "quanto o mercado anda"
+   (amplitude média de 20 pregões) — nunca publique fluxo sem número real (decisão de 16/10) · 7 agenda, antes de clicar e sala ao vivo.
+   Toda probabilidade é estatística de 10 anos de Ibovespa recalculada na hora: nunca opinião, nunca "meu cenário", nunca placar
+   de leitura gerada por IA. A faixa de 68% do card antigo saiu (largura inútil pro trader, decisão de 16/10).
+   Olhe os 7 PNGs (folha com `ffmpeg -i car/%02d.png -vf "scale=432:540,tile=4x2" -frames:v 1 folha.png` e Read) antes de seguir:
+   texto estourando, caixa vazia ou número estranho → não publique, log e encerre. Converta cada um: `ffmpeg -i NN.png -q:v 2 NN.jpg`.
+4. Blob (`image/jpeg`, os 7 na ordem) → `createScheduledPost` POST para hoje 08:00 (`media` = as 7 URLs, `text` = legenda,
+   sem 1º comentário) → apague do Blob. Grave `itens/<hoje>-panorama` (formato `carrossel`, estilo `panorama`, pilar `day-trade`,
+   avatar `Iniciante`, métrica `salvamento`, nota "9,0", fonte {titulo: "QG do Cohen (manhã) + B3 + Yahoo"}, checks dos dados e do
+   "Conteúdo educacional. Não é recomendação.") com `status: "agendado"` e os ids do Metricool. Suba os PNGs como assets do painel
+   e guarde em `slides`. Log do dia.
 5. Reserva (decisão do Rodrigo em 14/10): se der 07:58 sem agendar (reinício da sessão, demora), poste assim que der,
-   agendando para agora + 4 min, até as **09:00**. Depois das 08:30 a legenda troca "às 8h30" por "A sala ao vivo já abriu".
-   Passou de 09:00 sem agendar → não publique, log e encerre.
+   agendando para agora + 4 min, até as **09:00**. Depois das 08:30 a legenda troca "A leitura completa é ao vivo, às 8h30." por
+   "A sala ao vivo já abriu." Passou de 09:00 sem agendar → não publique, log e encerre.
+6. `scripts/panorama.py` (card único) fica como reserva: use só se o carrossel falhar e ainda der tempo.
 
 ## Modo PUBLICADOR (horários da fase: 10:00, 12:00, 19:00 na fase 1 — roda ~10 min antes)
 

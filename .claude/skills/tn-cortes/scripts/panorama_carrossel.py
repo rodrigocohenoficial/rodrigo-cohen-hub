@@ -84,7 +84,8 @@ def ibov(yahoo, hoje):
             if all((rows[i - k][3] > rows[i - k - 1][3]) == (dirc > 0) for k in range(1, seq + 1)):
                 casos += 1
                 sobe += rows[i][3] > rows[i - 1][3]
-    return {"pregoes": n, "rompe_um": (hi + lo - ambos) / n, "rompe_ambos": ambos / n,
+    amp20 = sum((rows[i][1] - rows[i][2]) / rows[i - 1][3] for i in range(len(rows) - 20, len(rows))) / 20
+    return {"pregoes": n, "rompe_um": (hi + lo - ambos) / n, "rompe_ambos": ambos / n, "amp20": amp20,
             "seq": seq, "dir": dirc, "casos": casos, "sobe": (sobe / casos) if casos else None,
             "ultimo": rows[-1][0].isoformat()}
 
@@ -212,18 +213,28 @@ def main():
 <div class="painel lista j"><h2>Juros</h2>{juros}</div>
 <span class="pag">5/{total}</span>"""
 
-    # 6. Fluxo dos investidores (B3); sem fonte, o slide mostra o lugar do dado e diz que está em validação
+    # 6. Fluxo dos investidores (B3). Sem fonte confirmada, o slide vira "quanto o mercado anda" (decisão do Rodrigo em 16/10)
     if fluxo.get("linhas"):
         linhas = "".join(f'<div class="fx"><i>{esc(x["nome"])}</i><b class="{"dn" if str(x["valor"]).strip()[0] in "-−" else "up"}">{esc(x["valor"])}</b></div>'
                          for x in fluxo["linhas"])
         nota = f'Fonte: {esc(fluxo.get("fonte", "B3"))} · dado de {dt.date.fromisoformat(fluxo["data"]).strftime("%d/%m")}'
-    else:
-        linhas = "".join(f'<div class="fx vazio"><i>{n}</i><b>—</b></div>' for n in ("Estrangeiro", "Institucional", "Pessoa física"))
-        nota = "Fonte oficial da B3 em validação: o número entra quando a coleta estiver estável."
-    s6 = f"""<span class="tag">FLUXO DOS INVESTIDORES</span>
+        s6 = f"""<span class="tag">FLUXO DOS INVESTIDORES</span>
 <h1 class="h1m">Quem comprou e quem vendeu.</h1>
 <div class="painel fluxo">{linhas}</div>
 <p class="rod">{nota}</p>
+<span class="pag">6/{total}</span>"""
+    else:
+        a = est["amp20"]
+        pts = f'≈ {br(round(a * win["fech"] / 5) * 5)} pts no {esc(win.get("ticker", "WIN"))}' if win.get("fech") else ""
+        ontem = (f'<div class="fx"><i>Ontem no {esc(win.get("ticker", "WIN"))}</i><b>{br(win["amplitude"])} pts</b></div>'
+                 if win.get("amplitude") else "")
+        ante = (f'<div class="fx"><i>Anteontem</i><b>{br(win["amplitude_ant"])} pts</b></div>' if win.get("amplitude_ant") else "")
+        s6 = f"""<span class="tag">QUANTO O MERCADO ANDA</span>
+<h1 class="h1m">Da máxima à mínima, o Ibov anda em média:</h1>
+<div class="painel big"><p class="mega">{str(round(a * 100, 1)).replace(".", ",")}%</p>
+<p class="exp">por dia nos últimos 20 pregões. <b>{pts}</b></p></div>
+<div class="painel fluxo f2">{ontem}{ante}</div>
+<p class="rod">Amplitude = distância entre a máxima e a mínima do dia. Base: Ibovespa (Yahoo Finance) e WIN (B3).</p>
 <span class="pag">6/{total}</span>"""
 
     # 7. Agenda + antes de clicar + sala ao vivo
