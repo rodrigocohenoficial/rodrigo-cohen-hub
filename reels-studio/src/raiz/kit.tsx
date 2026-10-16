@@ -148,14 +148,14 @@ export const StampRaiz: React.FC<{ from: number; to: number; text: string; y?: n
 };
 
 /** Aviso pequeno no topo. */
-export const DisclaimerRaiz: React.FC<{ from: number; to: number }> = ({ from, to }) => {
+export const DisclaimerRaiz: React.FC<{ from: number; to: number; top?: number }> = ({ from, to, top = 150 }) => {
   const t = useT();
   if (t < from || t >= to) return null;
   return (
     <div
       style={{
         position: "absolute",
-        top: 150,
+        top,
         left: 0,
         right: 0,
         textAlign: "center",

@@ -6,6 +6,7 @@ import { Reel02Scenes } from "./reel-02/Scenes";
 import { Reel03Scenes, reel03Zooms } from "./reel-03/Scenes";
 import { Reel04Scenes, reel04Zooms } from "./reel-04/Scenes";
 import { Reel05Scenes, reel05Zooms } from "./reel-05/Scenes";
+import { Reel06Scenes, reel06Zooms } from "./reel-06/Scenes";
 import { Reel01RaizScenes, reel01RaizZooms } from "./reel-01-raiz/Scenes";
 
 // Cada Reel novo entra aqui.
@@ -75,4 +76,18 @@ export const reels: ReelDef[] = [
   },
   { id: "reel-04", style: "raiz", Scenes: Reel04Scenes, zooms: reel04Zooms, velocidade: 1.1 },
   { id: "reel-05", style: "raiz", Scenes: Reel05Scenes, zooms: reel05Zooms, velocidade: 1.1 },
+  {
+    id: "reel-06",
+    style: "jornal",
+    Scenes: Reel06Scenes,
+    zooms: reel06Zooms,
+    velocidade: 1.1,
+    mancheteTop: 130,
+    mancheteSize: 58,
+    manchetes: [
+      { from: 0, text: "Meu resultado *não muda nada* na sua vida." },
+      { from: 14.3, text: "O único erro da minha semana: *entrar na notícia.*" },
+      { from: 30.9, text: "*QG do Cohen:* comunidade gratuita. Comenta *QG*." },
+    ],
+  },
 ];
