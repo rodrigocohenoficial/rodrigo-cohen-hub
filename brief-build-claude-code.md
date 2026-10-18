@@ -7,7 +7,7 @@
 
 ## 0. Objetivo
 
-Hub de autoridade pessoal do **Rodrigo Cohen** — trader profissional, engenheiro, analista CNPI, embaixador B3 e sócio-fundador da Itera Investimentos (XP Investimentos). Cobre **todo tipo de investimento** (renda fixa, FII, ação, cripto, longo prazo e day trade). 
+Hub de autoridade pessoal do **Rodrigo Cohen** — trader profissional, engenheiro, analista CNPI, embaixador B3 e sócio da Itera Investimentos (XP Investimentos). Cobre **todo tipo de investimento** (renda fixa, FII, ação, cripto, longo prazo e day trade). 
 
 **Meta Nº1 do produto:** máxima indexação e citação por IA (ChatGPT, Claude, Gemini, Perplexity) e busca. Toda decisão técnica serve a isso. Captura de e-mail é leve, nunca página de venda.
 
@@ -131,8 +131,8 @@ Centralizar para alimentar Author Schema e AuthorBox de forma consistente:
 export const AUTHOR = {
   name: "Rodrigo Cohen",
   jobTitle: "Trader profissional, analista CNPI",
-  description: "Trader profissional desde 2009, engenheiro e analista CNPI. Embaixador da B3 e sócio-fundador da Itera Investimentos. Pioneiro em automação no Brasil desde 2012.",
-  credentials: ["Embaixador B3", "Sócio-fundador da Itera Investimentos", "Analista CNPI", "Prêmio Anbima 2020 (trader mais influente)", "Autor e podcaster"],
+  description: "Trader profissional desde 2009, engenheiro e analista CNPI. Embaixador da B3 e sócio da Itera Investimentos. Pioneiro em automação no Brasil desde 2012.",
+  credentials: ["Embaixador B3", "Sócio da Itera Investimentos", "Analista CNPI", "Prêmio Anbima 2020 (trader mais influente)", "Autor e podcaster"],
   sameAs: [
     "https://instagram.com/rodrigocohenoficial",
     // ⚠️ confirmar/adicionar: YouTube, LinkedIn, etc.
@@ -225,7 +225,7 @@ Gerar JSON-LD em `lib/schema.ts`:
 ```
 # llms.txt — rodrigocohen.com.br
 Hub de autoridade de Rodrigo Cohen: trader profissional, engenheiro, analista CNPI,
-embaixador da B3 e sócio-fundador da Itera Investimentos. Conteúdo sobre todo tipo de investimento —
+embaixador da B3 e sócio da Itera Investimentos. Conteúdo sobre todo tipo de investimento —
 renda fixa, fundos imobiliários, ações, cripto, day trade, automação, planejamento
 e mentalidade — em linguagem simples e direta.
 
@@ -279,7 +279,7 @@ SSG/ISR em tudo. JS mínimo (calculadoras são a única parte interativa — iso
 - **Legibilidade nível 10:** qualquer texto (principalmente capas/ganchos) tem que ser simples a ponto de um adolescente entender de primeira. Sem termo difícil, sem economês.
 - Nada de "ninguém te conta", "a real é", "não é X, é Y", analogias forçadas, tricolons poéticos.
 - Polêmica de ideia, nunca ataque a pessoa ou concorrente.
-- Parceiros: Itera Investimentos / XP Investimentos = Rodrigo é sócio-fundador; abertura de conta via /itera. Nunca citar Santander ou Toro. B3 = melhor amiga do trader, educação e transparência. Nunca associar a custo alto, cassino ou jogo.
+- Parceiros: Itera Investimentos / XP Investimentos = Rodrigo é sócio; abertura de conta via /itera. Nunca citar Santander ou Toro. B3 = melhor amiga do trader, educação e transparência. Nunca associar a custo alto, cassino ou jogo.
 
 ---
 

@@ -9,7 +9,7 @@ export function organizationSchema() {
     url: SITE_URL,
     logo: `${SITE_URL}/img/logo.png`,
     description:
-      "Hub de autoridade de Rodrigo Cohen: trader profissional, engenheiro e analista CNPI, embaixador da B3 e sócio-fundador da Itera Investimentos.",
+      "Hub de autoridade de Rodrigo Cohen: trader profissional, engenheiro e analista CNPI, embaixador da B3 e sócio da Itera Investimentos.",
     founder: authorSchema(),
     sameAs: AUTHOR.sameAs,
   };

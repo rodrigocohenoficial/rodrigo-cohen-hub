@@ -4,7 +4,7 @@
 
 ## Contexto
 
-Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional, analista CNPI, embaixador B3, sócio-fundador da Itera Investimentos (XP Investimentos). Opera desde 2000 (26 anos de mercado) e é trader profissional desde 2009 — preferir "desde 2009" a "há X anos" para o texto não envelhecer. Cobre todo tipo de investimento. **Meta nº 1: máxima indexação e citação por IA e busca.**
+Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional, analista CNPI, embaixador B3, sócio da Itera Investimentos (XP Investimentos). Opera desde 2000 (26 anos de mercado) e é trader profissional desde 2009 — preferir "desde 2009" a "há X anos" para o texto não envelhecer. Cobre todo tipo de investimento. **Meta nº 1: máxima indexação e citação por IA e busca.**
 
 ## Design
 
@@ -24,7 +24,7 @@ Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional
 
 ## Parceiros
 
-- **Itera Investimentos / XP Investimentos** = Rodrigo é sócio-fundador da Itera. Abertura de conta passa pela página `/itera`.
+- **Itera Investimentos / XP Investimentos** = Rodrigo é sócio da Itera. Abertura de conta passa pela página `/itera`.
 - Ao citar a XP, escrever sempre **"XP Investimentos"** (nunca só "XP").
 - **Nunca** citar Santander ou Toro (parceria encerrada).
 - **B3** = melhor amiga do trader, educação e transparência.

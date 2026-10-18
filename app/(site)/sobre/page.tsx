@@ -57,7 +57,7 @@ export default function SobrePage() {
             <div className="hero-bio" aria-label="Bio institucional">
               <p>
                 Sou Rodrigo Cohen. Engenheiro, Analista CNPI-T, embaixador
-                oficial da B3 e sócio-fundador da Itera Investimentos. Pioneiro em automação de trading
+                oficial da B3 e sócio da Itera Investimentos. Pioneiro em automação de trading
                 no Brasil desde 2012. Fundador da Trader Nation, com 61 mil
                 alunos.
               </p>
@@ -101,7 +101,7 @@ export default function SobrePage() {
           <span>61 mil alunos</span>
           <span>Analista CNPI-T EM-1409</span>
           <span>Embaixador B3</span>
-          <span>Sócio-fundador da Itera Investimentos</span>
+          <span>Sócio da Itera Investimentos</span>
           <span>Eleito mais influente em 2020 (Anbima)</span>
           <span>Pioneiro em automação no Brasil</span>
         </section>
@@ -150,7 +150,7 @@ export default function SobrePage() {
             <p>
               Depois de 26 anos no mercado, sei que onde você investe importa.
               Execução, atendimento e segurança definem se você opera com
-              vantagem ou desvantagem. Por isso sou sócio-fundador da Itera
+              vantagem ou desvantagem. Por isso sou sócio da Itera
               Investimentos, com a estrutura da XP Investimentos.
             </p>
             <Link className="text-link" href="/itera">
