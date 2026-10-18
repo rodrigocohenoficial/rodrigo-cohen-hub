@@ -4,8 +4,7 @@ import FormItera from "./FormItera";
 
 export const metadata: Metadata = {
   title: "Abra sua conta na ITERA",
-  description:
-    "Deixe seu nome e WhatsApp e termine o cadastro no site da ITERA.",
+  description: "Deixe seu nome e WhatsApp e abra sua conta no site da ITERA.",
   robots: { index: false, follow: false },
 };
 
@@ -33,24 +32,8 @@ export default function IteraPage() {
         </div>
 
         <div className="bg-paper border border-line rounded-[20px] p-7 sm:p-8 shadow-[0_18px_40px_-28px_rgba(18,46,36,0.45)]">
-          <span className="text-[12px] tracking-[0.16em] uppercase font-semibold text-brass">
-            Passo 1 de 2
-          </span>
-          <h1 className="font-serif font-semibold text-evergreen text-[clamp(28px,7vw,36px)] leading-[1.08] tracking-[-0.015em] mt-2.5 mb-3">
-            Sua conta na ITERA começa aqui.
-          </h1>
-          <p className="text-[16px] text-muted mb-7">
-            Deixe seu nome e WhatsApp. Em seguida você termina o cadastro no
-            site da ITERA.
-          </p>
-
           <FormItera />
         </div>
-
-        <p className="text-[12px] text-muted text-center mt-6 max-w-[40ch] mx-auto">
-          Rodrigo Cohen é parceiro comercial da ITERA. Investimentos envolvem
-          riscos.
-        </p>
       </div>
     </main>
   );
