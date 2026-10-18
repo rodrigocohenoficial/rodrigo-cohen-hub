@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { getArticleBySlug, getAllSlugs } from "@/lib/content";
 import { getPilarBySlug } from "@/lib/pilares";
 
@@ -7,15 +9,10 @@ export const contentType = "image/png";
 
 const BRASS = "#B0843B";
 
-const frauncesFontPromise = fetch(
-  "https://fonts.googleapis.com/css2?family=Fraunces:wght@600&display=swap"
-)
-  .then((res) => res.text())
-  .then((css) => {
-    const match = css.match(/src: url\((.+?)\)/);
-    if (!match) throw new Error("Font URL not found");
-    return fetch(match[1]).then((res) => res.arrayBuffer());
-  });
+// Fonte guardada no projeto: o build não depende do Google Fonts estar no ar
+const frauncesFontPromise = readFile(
+  join(process.cwd(), "assets/fonts/Fraunces-SemiBold.ttf")
+);
 
 export function generateStaticParams() {
   return getAllSlugs();
@@ -39,12 +36,7 @@ export default async function OGImage({
       ? "rgba(28, 27, 23, 0.4)"
       : "rgba(242, 237, 226, 0.4)";
 
-  let fraunces: ArrayBuffer | undefined;
-  try {
-    fraunces = await frauncesFontPromise;
-  } catch {
-    // Fallback to system serif if font fetch fails
-  }
+  const fraunces = await frauncesFontPromise;
 
   return new ImageResponse(
     (
@@ -97,7 +89,7 @@ export default async function OGImage({
           <div
             style={{
               fontSize: title.length > 60 ? 44 : title.length > 40 ? 52 : 58,
-              fontFamily: fraunces ? "Fraunces" : "Georgia",
+              fontFamily: "Fraunces",
               fontWeight: 600,
               color: text,
               lineHeight: 1.1,
@@ -129,16 +121,14 @@ export default async function OGImage({
     ),
     {
       ...size,
-      fonts: fraunces
-        ? [
-            {
-              name: "Fraunces",
-              data: fraunces,
-              style: "normal" as const,
-              weight: 600 as const,
-            },
-          ]
-        : [],
+      fonts: [
+        {
+          name: "Fraunces",
+          data: fraunces,
+          style: "normal",
+          weight: 600,
+        },
+      ],
     }
   );
 }
