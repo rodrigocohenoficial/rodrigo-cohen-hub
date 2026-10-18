@@ -93,12 +93,12 @@ export default function FormItera() {
           preencha o cadastro pra abrir sua conta.
         </p>
 
-        <div className="rounded-xl border border-dashed border-line bg-bone/60 py-5 mb-7 flex flex-col items-center gap-2">
-          <span className="text-[12px] tracking-[0.12em] uppercase text-muted">
+        <div className="rounded-xl bg-[#0B0B0B] py-5 mb-7 flex flex-col items-center gap-2">
+          <span className="text-[12px] tracking-[0.12em] uppercase text-[#9A9A9A]">
             Procure este botão
           </span>
-          <span className="inline-block bg-[#161616] text-[#FBF26A] font-semibold text-[15px] px-5 py-2.5 rounded-lg">
-            Abrir conta
+          <span className="inline-block bg-[#FBF26A] text-[#111111] font-semibold text-[15px] px-5 py-2.5 rounded-lg">
+            Abrir minha conta
           </span>
         </div>
 
