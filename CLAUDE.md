@@ -4,7 +4,7 @@
 
 ## Contexto
 
-Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional, analista CNPI, embaixador B3 e Santander. Cobre todo tipo de investimento. **Meta nº 1: máxima indexação e citação por IA e busca.**
+Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional, analista CNPI, embaixador B3, sócio co-fundador da Itera Investimentos (XP). Cobre todo tipo de investimento. **Meta nº 1: máxima indexação e citação por IA e busca.**
 
 ## Design
 
@@ -24,7 +24,8 @@ Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional
 
 ## Parceiros
 
-- **Santander** = corretagem zero sem RLP, segurança, suporte rápido, plataforma grátis.
+- **Itera Investimentos / XP** = Rodrigo é sócio co-fundador da Itera. Abertura de conta passa pela página `/itera`.
+- **Nunca** citar Santander ou Toro (parceria encerrada).
 - **B3** = melhor amiga do trader, educação e transparência.
 
 ## Artigos

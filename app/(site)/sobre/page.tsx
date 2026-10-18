@@ -5,15 +5,13 @@ import { authorSchema } from "@/lib/schema";
 import { AUTHOR } from "@/lib/author";
 
 const ROBOS_COHEN_URL = "https://robosb3.tradernation.com.br";
-const TORO_URL =
-  "https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen";
 const AMAZON_BOOK_URL =
   "https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X";
 const QG_WHATSAPP_URL =
   "https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t";
 
 export const metadata: Metadata = {
-  title: "Sobre Rodrigo Cohen — Trader, CNPI, Embaixador B3 e Santander",
+  title: "Sobre Rodrigo Cohen — Trader, CNPI, Embaixador B3 e sócio da Itera",
   description: AUTHOR.description,
 };
 
@@ -43,7 +41,7 @@ export default function SobrePage() {
           </Link>
           <nav className="nav-links" aria-label="Links principais">
             <a href="#robos">Robôs Cohen</a>
-            <a href="#toro">Toro</a>
+            <a href="#itera">Itera</a>
             <a href="#qg">QG</a>
           </nav>
         </header>
@@ -59,7 +57,7 @@ export default function SobrePage() {
             <div className="hero-bio" aria-label="Bio institucional">
               <p>
                 Sou Rodrigo Cohen. Engenheiro, Analista CNPI-T, embaixador
-                oficial da B3 e do Santander. Pioneiro em automação de trading
+                oficial da B3 e sócio co-fundador da Itera Investimentos. Pioneiro em automação de trading
                 no Brasil desde 2012. Fundador da Trader Nation, com 61 mil
                 alunos.
               </p>
@@ -102,7 +100,8 @@ export default function SobrePage() {
           <span>26 anos de mercado</span>
           <span>61 mil alunos</span>
           <span>Analista CNPI-T EM-1409</span>
-          <span>Embaixador B3 e Santander</span>
+          <span>Embaixador B3</span>
+          <span>Sócio co-fundador da Itera Investimentos</span>
           <span>Eleito mais influente em 2020 (Anbima)</span>
           <span>Pioneiro em automação no Brasil</span>
         </section>
@@ -137,32 +136,27 @@ export default function SobrePage() {
           </div>
         </section>
 
-        {/* TORO */}
+        {/* ITERA */}
         <section
           className="content-section quiet-section"
-          id="toro"
-          aria-labelledby="toro-title"
+          id="itera"
+          aria-labelledby="itera-title"
         >
           <div className="quiet-card">
-            <p className="eyebrow">Toro/Santander</p>
-            <h2 id="toro-title">
-              Pra operar com estrutura, escolhi a Toro.
+            <p className="eyebrow">Itera Investimentos · XP</p>
+            <h2 id="itera-title">
+              Pra investir com estrutura, ajudei a fundar a Itera.
             </h2>
             <p>
-              Depois de 26 anos no mercado, sei que corretora importa. Custo,
-              execução, plataforma e segurança definem se você opera com vantagem
-              ou desvantagem. Indico a Toro/Santander — corretagem zero, Profit
-              Pro grátis, segurança institucional.
+              Depois de 26 anos no mercado, sei que onde você investe importa.
+              Execução, atendimento e segurança definem se você opera com
+              vantagem ou desvantagem. Por isso sou sócio co-fundador da Itera
+              Investimentos, com a estrutura da XP.
             </p>
-            <a
-              className="text-link"
-              href={TORO_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Abrir conta na Toro pelo meu link oficial
+            <Link className="text-link" href="/itera">
+              Abrir minha conta pela Itera
               <ArrowUpRight aria-hidden="true" />
-            </a>
+            </Link>
           </div>
         </section>
 
