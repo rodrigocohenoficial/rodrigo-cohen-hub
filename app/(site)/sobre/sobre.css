@@ -242,6 +242,16 @@
   background: rgba(214, 176, 94, 0.08);
 }
 
+/* Produto ainda não lançado: parece botão, mas não clica */
+.pagina-sobre .btn-em-breve,
+.pagina-sobre .btn-em-breve:hover {
+  cursor: default;
+  opacity: 0.6;
+  border-color: rgba(214, 176, 94, 0.34);
+  background: rgba(247, 241, 231, 0.04);
+  transform: none;
+}
+
 /* ---- CREDENTIAL STRIP ---- */
 
 .pagina-sobre .credential-strip {

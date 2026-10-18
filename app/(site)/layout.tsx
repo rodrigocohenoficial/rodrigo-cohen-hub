@@ -77,7 +77,7 @@ export default function SiteLayout({
                   <a href="https://www.youtube.com/@RodrigoCohenOficial" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">YouTube</a>
                 </li>
                 <li>
-                  <a href="https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">QG WhatsApp</a>
+                  <a href="https://chat.whatsapp.com/K2ujwO1rRXBINAC0NEp4wQ" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">QG WhatsApp</a>
                 </li>
               </ul>
             </div>
@@ -107,7 +107,7 @@ export default function SiteLayout({
               </span>
               <ul className="space-y-2">
                 <li>
-                  <a href="https://robosb3.tradernation.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Robôs Cohen</a>
+                  <span>Robôs Cohen <span className="text-brass">(em breve)</span></span>
                 </li>
                 <li>
                   <Link href="/itera" className="hover:text-evergreen transition-colors">Itera Investimentos</Link>
@@ -138,7 +138,7 @@ export default function SiteLayout({
           </div>
 
           <div className="text-center pt-6 border-t border-line">
-            &copy; {new Date().getFullYear()} Rodrigo Cohen &middot; Menos tela. Mais vida.
+            {`© ${new Date().getFullYear()} Rodrigo Cohen · Menos tela. Mais vida.`}
           </div>
         </div>
       </footer>
