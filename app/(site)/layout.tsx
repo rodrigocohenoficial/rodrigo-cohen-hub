@@ -1,0 +1,147 @@
+import Link from "next/link";
+
+const PILARES_NAV = [
+  { slug: "day-trade", label: "Day Trade" },
+  { slug: "investir", label: "Investir" },
+  { slug: "primeiro-passo", label: "Primeiro Passo" },
+  { slug: "mente", label: "Mente" },
+  { slug: "macro-cripto-ia", label: "Macro & Cripto" },
+  { slug: "vida", label: "Vida" },
+  { slug: "sobre", label: "Sobre" },
+  { slug: "contato", label: "Contato" },
+];
+
+export default function SiteLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <header className="sticky top-0 z-50 bg-bone/86 backdrop-blur-[10px] border-b border-line">
+        <div className="max-w-[1180px] mx-auto px-7 flex items-center justify-between h-[68px]">
+          <Link href="/" className="flex items-baseline gap-2.5">
+            <span className="font-serif font-semibold text-[22px] text-evergreen">
+              Rodrigo Cohen
+            </span>
+            <span className="text-[11px] tracking-[0.14em] uppercase text-muted hidden sm:inline">
+              Menos tela. Mais vida.
+            </span>
+          </Link>
+
+          <nav className="hidden lg:flex gap-[26px] text-[14.5px] font-medium text-ink">
+            {PILARES_NAV.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/${p.slug}`}
+                className="py-1.5 border-b-2 border-transparent transition-colors duration-200 hover:text-evergreen hover:border-brass"
+              >
+                {p.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <div className="w-[34px] h-[34px] border border-line rounded-full grid place-items-center text-muted bg-paper">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M21 21l-4.3-4.3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1">{children}</main>
+
+      <footer className="py-12 border-t border-line text-muted text-[13.5px]">
+        <div className="max-w-[1180px] mx-auto px-7">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
+            {/* Redes */}
+            <div>
+              <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                Redes
+              </span>
+              <ul className="space-y-2">
+                <li>
+                  <a href="https://instagram.com/rodrigocohenoficial" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Instagram</a>
+                </li>
+                <li>
+                  <a href="https://www.youtube.com/@RodrigoCohenOficial" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">YouTube</a>
+                </li>
+                <li>
+                  <a href="https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">QG WhatsApp</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contato */}
+            <div>
+              <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                Contato
+              </span>
+              <ul className="space-y-2">
+                <li>
+                  <a href="https://wa.me/5521996730588" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">WhatsApp comercial</a>
+                </li>
+                <li>
+                  <a href="mailto:cohen@rodrigocohen.com.br" className="hover:text-evergreen transition-colors">cohen@rodrigocohen.com.br</a>
+                </li>
+                <li>
+                  <Link href="/contato" className="hover:text-evergreen transition-colors">Página de contato</Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Parceiros */}
+            <div>
+              <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                Parceiros
+              </span>
+              <ul className="space-y-2">
+                <li>
+                  <a href="https://robosb3.tradernation.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Robôs Cohen</a>
+                </li>
+                <li>
+                  <a href="https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Toro/Santander</a>
+                </li>
+                <li>
+                  <a href="https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Livro</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Navegação */}
+            <div>
+              <span className="block text-[11px] tracking-[0.14em] uppercase font-semibold text-brass mb-3">
+                Navegação
+              </span>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/sobre" className="hover:text-evergreen transition-colors">Sobre</Link>
+                </li>
+                <li>
+                  <Link href="/ferramentas" className="hover:text-evergreen transition-colors">Ferramentas</Link>
+                </li>
+                <li>
+                  <Link href="/contato" className="hover:text-evergreen transition-colors">Contato</Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="text-center pt-6 border-t border-line">
+            &copy; {new Date().getFullYear()} Rodrigo Cohen &middot; Menos tela. Mais vida.
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
