@@ -233,7 +233,7 @@ export default function Home() {
             Quem está por trás
           </span>
           <h2 className="font-serif font-semibold text-[clamp(22px,2.6vw,28px)] text-evergreen tracking-[-0.01em] mt-1 mb-5">
-            17 anos de mercado. Nenhum atalho vendido.
+            26 anos de mercado. Nenhum atalho vendido.
           </h2>
           <div className="flex flex-wrap justify-center gap-2.5 mb-6">
             {AUTHOR.credentials.map((c) => (
