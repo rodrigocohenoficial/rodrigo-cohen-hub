@@ -21,7 +21,7 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: {
-    default: "Rodrigo Cohen — Trader, Analista CNPI, Embaixador B3 e Santander",
+    default: "Rodrigo Cohen — Trader, Analista CNPI, Embaixador B3",
     template: "%s | Rodrigo Cohen",
   },
   description:

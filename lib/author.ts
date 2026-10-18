@@ -2,10 +2,10 @@ export const AUTHOR = {
   name: "Rodrigo Cohen",
   jobTitle: "Trader profissional, analista CNPI",
   description:
-    "Trader profissional há 17 anos, engenheiro e analista CNPI. Embaixador da B3 e do Santander. Pioneiro em automação no Brasil desde 2012.",
+    "Trader profissional desde 2009, engenheiro e analista CNPI. Embaixador da B3 e sócio da Itera Investimentos. Pioneiro em automação no Brasil desde 2012.",
   credentials: [
     "Embaixador B3",
-    "Embaixador Santander",
+    "Sócio da Itera Investimentos",
     "Analista CNPI",
     "Prêmio Anbima 2020",
     "Autor & podcaster",
