@@ -4,11 +4,9 @@ import { ArrowUpRight, MessageCircle } from "lucide-react";
 import { authorSchema } from "@/lib/schema";
 import { AUTHOR } from "@/lib/author";
 
-const ROBOS_COHEN_URL = "https://robosb3.tradernation.com.br";
 const AMAZON_BOOK_URL =
   "https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X";
-const QG_WHATSAPP_URL =
-  "https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t";
+const QG_WHATSAPP_URL = "https://chat.whatsapp.com/K2ujwO1rRXBINAC0NEp4wQ";
 
 export const metadata: Metadata = {
   title: "Sobre Rodrigo Cohen — Trader, CNPI, Embaixador B3 e sócio da Itera",
@@ -69,15 +67,9 @@ export default function SobrePage() {
               <a className="btn btn-primary" href="#qg">
                 Entrar no meu QG
               </a>
-              <a
-                className="btn btn-secondary"
-                href={ROBOS_COHEN_URL}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Conhecer os Robôs Cohen
-                <ArrowUpRight aria-hidden="true" />
-              </a>
+              <span className="btn btn-secondary btn-em-breve">
+                Robôs Cohen · em breve
+              </span>
             </div>
           </div>
           <figure
@@ -121,18 +113,10 @@ export default function SobrePage() {
           <div className="section-body">
             <p>
               Carteira automatizada operando WIN, WDO, BTC e Ouro. Onboarding
-              individual. Suporte humano. Sistema que eu uso na minha conta há 13
-              anos.
+              individual. Suporte humano. Sistema que eu uso na minha conta desde
+              2012.
             </p>
-            <a
-              className="btn btn-primary"
-              href={ROBOS_COHEN_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Conhecer os Robôs Cohen
-              <ArrowUpRight aria-hidden="true" />
-            </a>
+            <span className="btn btn-secondary btn-em-breve">Em breve</span>
           </div>
         </section>
 

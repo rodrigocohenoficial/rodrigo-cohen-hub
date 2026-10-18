@@ -42,7 +42,7 @@ const REDES = [
   {
     nome: "QG no WhatsApp",
     descricao: "Comunidade gratuita com alertas, ideias e troca entre traders.",
-    href: "https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t",
+    href: "https://chat.whatsapp.com/K2ujwO1rRXBINAC0NEp4wQ",
     icon: MessageCircle,
   },
 ];
