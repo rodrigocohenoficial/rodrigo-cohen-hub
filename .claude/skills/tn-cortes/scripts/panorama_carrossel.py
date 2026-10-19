@@ -23,6 +23,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.abspath(os.path.join(AQUI, "..", "assets"))
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 DIAS = ["SEG", "TER", "QUA", "QUI", "SEX", "SÁB", "DOM"]
+NOMES = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
 esc = lambda s: html.escape(str(s), quote=False)
 br = lambda v: f"{v:,.0f}".replace(",", ".")
 br1 = lambda v: f"{v:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
@@ -125,7 +126,7 @@ def num(v, casas=0):
     return br(v) if casas == 0 else f"{v:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
-def slide_mapa(w, nome, casas, n, total):
+def slide_mapa(w, nome, casas, n, total, quando="ontem"):
     if not w.get("fech"):
         return None
     dia = dt.date.fromisoformat(w["data"]).strftime("%d/%m")
@@ -138,7 +139,7 @@ def slide_mapa(w, nome, casas, n, total):
              ("Tempo acima da VWAP", f'{w["pct_tempo_acima_vwap"]}%') if w.get("pct_tempo_acima_vwap") is not None else None]
     chips = "".join(f'<span class="dado"><i>{esc(a)}</i>{b}</span>' for a, b in [x for x in dados if x])
     return f"""<span class="tag">{esc(nome)} · MAPA DO DIA</span>
-<h1 class="h1m">Os níveis de ontem do <mark>{esc(w.get("ticker", nome))}</mark></h1>
+<h1 class="h1m">Os níveis de {quando} do <mark>{esc(w.get("ticker", nome))}</mark></h1>
 <div class="painel mapa"><p class="gt">pregão {dia} · fonte B3</p>{mapa_svg(w)}</div>
 <div class="dados">{chips}</div>
 <p class="glos"><b>POC</b> preço mais negociado · <b>VAH/VAL</b> limites da área de valor (70% do volume) · <b>VWAP</b> preço médio ponderado</p>
@@ -158,6 +159,9 @@ def main():
     data_txt = f"{DIAS[hoje.weekday()]} {hoje.strftime('%d/%m')}"
     est = ibov(yahoo, hoje)
     win, wdo = hist.get("WIN") or {}, hist.get("WDO") or {}
+    # "ontem" só quando o último pregão foi mesmo ontem; na segunda (ou depois de feriado) vira "sexta", "quinta"...
+    ult = dt.date.fromisoformat(win["data"]) if win.get("data") else hoje - dt.timedelta(days=1)
+    quando = "ontem" if (hoje - ult).days == 1 else NOMES[ult.weekday()]
     total = 7
 
     # 1. Gancho: sequência do Ibov (3+ dias na mesma direção) com a estatística real; senão, a manchete do QG
@@ -181,8 +185,8 @@ def main():
     r1, r2 = round(est["rompe_um"] * 100), round(est["rompe_ambos"] * 100)
     niveis = ""
     if win.get("max"):
-        niveis = (f'<div class="duo"><div class="lvl up"><i>MÁXIMA DE ONTEM</i>{br(win["max"])}</div>'
-                  f'<div class="lvl dn"><i>MÍNIMA DE ONTEM</i>{br(win["min"])}</div></div>'
+        niveis = (f'<div class="duo"><div class="lvl up"><i>MÁXIMA DE {quando.upper()}</i>{br(win["max"])}</div>'
+                  f'<div class="lvl dn"><i>MÍNIMA DE {quando.upper()}</i>{br(win["min"])}</div></div>'
                   f'<p class="q">Qual dos dois o {esc(win.get("ticker", "WIN"))} rompe primeiro?</p>')
     s2 = f"""<span class="tag">O NÚMERO DO DIA</span>
 <h1 class="h1m">Mas tem um número que acerta quase sempre.</h1>
@@ -192,8 +196,8 @@ def main():
 <p class="rod">{est["pregoes"]} pregões do Ibovespa (10 anos, Yahoo Finance). Estatística, não é palpite.</p>
 <span class="pag">2/{total}</span>"""
 
-    s3 = slide_mapa(win, "WIN", 0, 3, total)
-    s4 = slide_mapa(wdo, "WDO", 1, 4, total)
+    s3 = slide_mapa(win, "WIN", 0, 3, total, quando)
+    s4 = slide_mapa(wdo, "WDO", 1, 4, total, quando)
 
     # 5. Lá fora e juros (texto do QG)
     fora = []
@@ -206,11 +210,11 @@ def main():
             fora.append(f'<span class="chip">{esc(l)}</span>')
     juros = "".join(f"<p>{esc(l)}</p>" for l in pega(sec, "JUROS")[:2])
     ontem = "".join(f"<p>{esc(l)}</p>" for l in pega(sec, "ONTEM", "SEXTA", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA")[:2])
-    s5 = f"""<span class="tag">LÁ FORA E JUROS</span>
+    s5 = f"""<span class="tag">{"LÁ FORA E JUROS" if juros else "LÁ FORA"}</span>
 <h1 class="h1m">{esc(manchete)}.</h1>
-<div class="painel lista"><h2>Ontem aqui</h2>{ontem}</div>
+<div class="painel lista"><h2>{"Ontem" if quando == "ontem" else quando.capitalize()} aqui</h2>{ontem}</div>
 <div class="chips">{"".join(fora)}</div>
-<div class="painel lista j"><h2>Juros</h2>{juros}</div>
+{f'<div class="painel lista j"><h2>Juros</h2>{juros}</div>' if juros else ""}
 <span class="pag">5/{total}</span>"""
 
     # 6. Fluxo dos investidores (B3). Sem fonte confirmada, o slide vira "quanto o mercado anda" (decisão do Rodrigo em 16/10)
@@ -226,9 +230,9 @@ def main():
     else:
         a = est["amp20"]
         pts = f'≈ {br(round(a * win["fech"] / 5) * 5)} pts no {esc(win.get("ticker", "WIN"))}' if win.get("fech") else ""
-        ontem = (f'<div class="fx"><i>Ontem no {esc(win.get("ticker", "WIN"))}</i><b>{br(win["amplitude"])} pts</b></div>'
+        ontem = (f'<div class="fx"><i>{quando.capitalize()} no {esc(win.get("ticker", "WIN"))}</i><b>{br(win["amplitude"])} pts</b></div>'
                  if win.get("amplitude") else "")
-        ante = (f'<div class="fx"><i>Anteontem</i><b>{br(win["amplitude_ant"])} pts</b></div>' if win.get("amplitude_ant") else "")
+        ante = (f'<div class="fx"><i>{"Anteontem" if quando == "ontem" or not win.get("data_ant") else NOMES[dt.date.fromisoformat(win["data_ant"]).weekday()].capitalize()}</i><b>{br(win["amplitude_ant"])} pts</b></div>' if win.get("amplitude_ant") else "")
         s6 = f"""<span class="tag">QUANTO O MERCADO ANDA</span>
 <h1 class="h1m">Da máxima à mínima, o Ibov anda em média:</h1>
 <div class="painel big"><p class="mega">{str(round(a * 100, 1)).replace(".", ",")}%</p>
