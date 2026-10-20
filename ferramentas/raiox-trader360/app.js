@@ -511,9 +511,9 @@
         </div>
       </div>` : `
       <div class="card" style="text-align:center">
-        <div class="rotulo">Próximo encontro</div>
-        <h3>Dia 21: Aula 1 · Mindset</h3>
-        <p style="color:var(--muted);margin:10px 0 0">Na aula, eu abro o Raio-X da turma inteira. Guarde o link desta página.</p>
+        <div class="rotulo">Encontros da Trader 360</div>
+        <h3>Terças e quintas, 19h</h3>
+        <p style="color:var(--muted);margin:10px 0 0">No último encontro, dia 12/11, você refaz o Raio-X e compara com este. Guarde o link desta página.</p>
       </div>`;
 
     tela(`
