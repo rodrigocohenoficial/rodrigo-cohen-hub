@@ -1,0 +1,641 @@
+{
+ "duration": 45.8,
+ "language": "pt",
+ "words": [
+  {
+   "word": "5",
+   "start": 0.17,
+   "end": 0.37
+  },
+  {
+   "word": "operações,",
+   "start": 0.37,
+   "end": 1.17
+  },
+  {
+   "word": "100%",
+   "start": 1.47,
+   "end": 2.75
+  },
+  {
+   "word": "de",
+   "start": 2.75,
+   "end": 3.023
+  },
+  {
+   "word": "acerto,",
+   "start": 3.023,
+   "end": 3.663
+  },
+  {
+   "word": "20",
+   "start": 4.103,
+   "end": 4.523
+  },
+  {
+   "word": "contratos,",
+   "start": 4.523,
+   "end": 5.043
+  },
+  {
+   "word": "R$ 1.240,",
+   "start": 5.123,
+   "end": 5.803
+  },
+  {
+   "word": "isso",
+   "start": 5.803,
+   "end": 6.343
+  },
+  {
+   "word": "aí",
+   "start": 6.343,
+   "end": 6.543
+  },
+  {
+   "word": "hoje,",
+   "start": 6.543,
+   "end": 6.883
+  },
+  {
+   "word": "ontem",
+   "start": 7.003,
+   "end": 7.283
+  },
+  {
+   "word": "R$ 2.000,",
+   "start": 7.757,
+   "end": 8.137
+  },
+  {
+   "word": "fiz",
+   "start": 8.497,
+   "end": 8.657
+  },
+  {
+   "word": "aqui",
+   "start": 8.657,
+   "end": 8.877
+  },
+  {
+   "word": "6",
+   "start": 8.877,
+   "end": 9.277
+  },
+  {
+   "word": "operações,",
+   "start": 9.277,
+   "end": 10.037
+  },
+  {
+   "word": "83%",
+   "start": 10.237,
+   "end": 11.597
+  },
+  {
+   "word": "de",
+   "start": 11.597,
+   "end": 11.737
+  },
+  {
+   "word": "acerto,",
+   "start": 11.737,
+   "end": 11.957
+  },
+  {
+   "word": "eu",
+   "start": 12.137,
+   "end": 12.137
+  },
+  {
+   "word": "peguei",
+   "start": 12.137,
+   "end": 12.277
+  },
+  {
+   "word": "na",
+   "start": 12.277,
+   "end": 12.357
+  },
+  {
+   "word": "hora",
+   "start": 12.357,
+   "end": 12.457
+  },
+  {
+   "word": "da",
+   "start": 12.457,
+   "end": 12.557
+  },
+  {
+   "word": "notícia,",
+   "start": 12.557,
+   "end": 13.057
+  },
+  {
+   "word": "infelizmente,",
+   "start": 13.057,
+   "end": 13.937
+  },
+  {
+   "word": "vamos",
+   "start": 14.417,
+   "end": 14.557
+  },
+  {
+   "word": "ver",
+   "start": 14.557,
+   "end": 14.637
+  },
+  {
+   "word": "como",
+   "start": 14.637,
+   "end": 14.777
+  },
+  {
+   "word": "é",
+   "start": 14.777,
+   "end": 14.857
+  },
+  {
+   "word": "que",
+   "start": 14.857,
+   "end": 14.917
+  },
+  {
+   "word": "está",
+   "start": 14.917,
+   "end": 15.097
+  },
+  {
+   "word": "o",
+   "start": 15.097,
+   "end": 15.43
+  },
+  {
+   "word": "mês",
+   "start": 15.43,
+   "end": 15.81
+  },
+  {
+   "word": "até",
+   "start": 15.81,
+   "end": 16.23
+  },
+  {
+   "word": "o",
+   "start": 16.23,
+   "end": 16.35
+  },
+  {
+   "word": "momento,",
+   "start": 16.35,
+   "end": 16.77
+  },
+  {
+   "word": "o",
+   "start": 17.31,
+   "end": 17.41
+  },
+  {
+   "word": "mês",
+   "start": 17.41,
+   "end": 17.59
+  },
+  {
+   "word": "a",
+   "start": 17.59,
+   "end": 17.69
+  },
+  {
+   "word": "gente",
+   "start": 17.69,
+   "end": 17.77
+  },
+  {
+   "word": "fez",
+   "start": 17.77,
+   "end": 17.99
+  },
+  {
+   "word": "55",
+   "start": 17.99,
+   "end": 18.57
+  },
+  {
+   "word": "operações,",
+   "start": 18.57,
+   "end": 19.41
+  },
+  {
+   "word": "89,9%",
+   "start": 19.637,
+   "end": 20.737
+  },
+  {
+   "word": "de",
+   "start": 20.737,
+   "end": 20.917
+  },
+  {
+   "word": "acerto.",
+   "start": 20.917,
+   "end": 21.337
+  },
+  {
+   "word": "E",
+   "start": 21.337,
+   "end": 21.557
+  },
+  {
+   "word": "o",
+   "start": 21.557,
+   "end": 21.877
+  },
+  {
+   "word": "nosso",
+   "start": 21.877,
+   "end": 22.317
+  },
+  {
+   "word": "robozinho,",
+   "start": 22.317,
+   "end": 23.597
+  },
+  {
+   "word": "que",
+   "start": 23.737,
+   "end": 23.777
+  },
+  {
+   "word": "é",
+   "start": 23.777,
+   "end": 23.897
+  },
+  {
+   "word": "muito",
+   "start": 23.897,
+   "end": 24.117
+  },
+  {
+   "word": "melhor",
+   "start": 24.117,
+   "end": 24.377
+  },
+  {
+   "word": "que",
+   "start": 24.377,
+   "end": 24.577
+  },
+  {
+   "word": "eu,",
+   "start": 24.577,
+   "end": 24.737
+  },
+  {
+   "word": "não",
+   "start": 24.817,
+   "end": 24.917
+  },
+  {
+   "word": "parou",
+   "start": 24.917,
+   "end": 25.277
+  },
+  {
+   "word": "o",
+   "start": 25.277,
+   "end": 25.417
+  },
+  {
+   "word": "dia",
+   "start": 25.417,
+   "end": 25.557
+  },
+  {
+   "word": "ainda,",
+   "start": 25.557,
+   "end": 25.877
+  },
+  {
+   "word": "mas",
+   "start": 26.057,
+   "end": 26.297
+  },
+  {
+   "word": "R$ 1.550,",
+   "start": 26.297,
+   "end": 27.163
+  },
+  {
+   "word": "acertou",
+   "start": 27.523,
+   "end": 27.803
+  },
+  {
+   "word": "todo",
+   "start": 27.803,
+   "end": 28.043
+  },
+  {
+   "word": "esse",
+   "start": 28.043,
+   "end": 28.283
+  },
+  {
+   "word": "R$ 10,",
+   "start": 28.283,
+   "end": 28.563
+  },
+  {
+   "word": "que",
+   "start": 28.703,
+   "end": 28.863
+  },
+  {
+   "word": "eu",
+   "start": 28.863,
+   "end": 28.923
+  },
+  {
+   "word": "tenho",
+   "start": 28.923,
+   "end": 29.003
+  },
+  {
+   "word": "que",
+   "start": 29.003,
+   "end": 29.063
+  },
+  {
+   "word": "ver",
+   "start": 29.063,
+   "end": 29.163
+  },
+  {
+   "word": "o",
+   "start": 29.163,
+   "end": 29.243
+  },
+  {
+   "word": "que",
+   "start": 29.243,
+   "end": 29.243
+  },
+  {
+   "word": "aconteceu",
+   "start": 29.243,
+   "end": 29.583
+  },
+  {
+   "word": "aqui,",
+   "start": 29.583,
+   "end": 29.843
+  },
+  {
+   "word": "deve",
+   "start": 30.283,
+   "end": 30.403
+  },
+  {
+   "word": "ter",
+   "start": 30.403,
+   "end": 30.503
+  },
+  {
+   "word": "sido",
+   "start": 30.503,
+   "end": 30.663
+  },
+  {
+   "word": "muito",
+   "start": 30.663,
+   "end": 30.863
+  },
+  {
+   "word": "rápido,",
+   "start": 30.863,
+   "end": 31.223
+  },
+  {
+   "word": "Tamo",
+   "start": 31.363,
+   "end": 31.763
+  },
+  {
+   "word": "junto,",
+   "start": 31.763,
+   "end": 32.083
+  },
+  {
+   "word": "dá",
+   "start": 32.283,
+   "end": 32.423
+  },
+  {
+   "word": "tempo",
+   "start": 32.423,
+   "end": 32.683
+  },
+  {
+   "word": "de",
+   "start": 32.683,
+   "end": 32.763
+  },
+  {
+   "word": "você",
+   "start": 32.763,
+   "end": 32.923
+  },
+  {
+   "word": "entrar",
+   "start": 32.923,
+   "end": 33.123
+  },
+  {
+   "word": "na",
+   "start": 33.123,
+   "end": 33.263
+  },
+  {
+   "word": "mentoria",
+   "start": 33.263,
+   "end": 33.643
+  },
+  {
+   "word": "ainda",
+   "start": 33.643,
+   "end": 33.943
+  },
+  {
+   "word": "360,",
+   "start": 33.943,
+   "end": 34.623
+  },
+  {
+   "word": "digita",
+   "start": 35.223,
+   "end": 35.383
+  },
+  {
+   "word": "aqui",
+   "start": 35.383,
+   "end": 35.503
+  },
+  {
+   "word": "embaixo",
+   "start": 35.503,
+   "end": 35.783
+  },
+  {
+   "word": "360,",
+   "start": 35.783,
+   "end": 36.263
+  },
+  {
+   "word": "que",
+   "start": 37.043,
+   "end": 37.283
+  },
+  {
+   "word": "você",
+   "start": 37.283,
+   "end": 37.483
+  },
+  {
+   "word": "vai",
+   "start": 37.483,
+   "end": 37.603
+  },
+  {
+   "word": "ser",
+   "start": 37.603,
+   "end": 37.763
+  },
+  {
+   "word": "muito",
+   "start": 37.763,
+   "end": 38.023
+  },
+  {
+   "word": "bem-vindo,",
+   "start": 38.023,
+   "end": 38.563
+  },
+  {
+   "word": "te",
+   "start": 38.763,
+   "end": 38.883
+  },
+  {
+   "word": "espero",
+   "start": 38.883,
+   "end": 39.223
+  },
+  {
+   "word": "lá,",
+   "start": 39.223,
+   "end": 39.443
+  },
+  {
+   "word": "bora,",
+   "start": 39.743,
+   "end": 40.043
+  },
+  {
+   "word": "todo",
+   "start": 40.323,
+   "end": 40.443
+  },
+  {
+   "word": "dia,",
+   "start": 40.443,
+   "end": 40.823
+  },
+  {
+   "word": "a",
+   "start": 41.023,
+   "end": 41.163
+  },
+  {
+   "word": "gente",
+   "start": 41.163,
+   "end": 41.363
+  },
+  {
+   "word": "está",
+   "start": 41.363,
+   "end": 41.743
+  },
+  {
+   "word": "na",
+   "start": 41.743,
+   "end": 41.883
+  },
+  {
+   "word": "luta",
+   "start": 41.883,
+   "end": 42.063
+  },
+  {
+   "word": "do",
+   "start": 42.063,
+   "end": 42.163
+  },
+  {
+   "word": "mercado,",
+   "start": 42.163,
+   "end": 42.543
+  },
+  {
+   "word": "graças",
+   "start": 42.723,
+   "end": 42.943
+  },
+  {
+   "word": "a",
+   "start": 42.943,
+   "end": 43.043
+  },
+  {
+   "word": "Deus",
+   "start": 43.043,
+   "end": 43.043
+  },
+  {
+   "word": "com",
+   "start": 43.043,
+   "end": 43.183
+  },
+  {
+   "word": "responsabilidade,",
+   "start": 43.183,
+   "end": 44.183
+  },
+  {
+   "word": "fazendo",
+   "start": 44.603,
+   "end": 44.843
+  },
+  {
+   "word": "a",
+   "start": 44.843,
+   "end": 44.923
+  },
+  {
+   "word": "galera",
+   "start": 44.923,
+   "end": 45.123
+  },
+  {
+   "word": "virar",
+   "start": 45.123,
+   "end": 45.423
+  },
+  {
+   "word": "chave.",
+   "start": 45.423,
+   "end": 45.699
+  }
+ ]
+}
