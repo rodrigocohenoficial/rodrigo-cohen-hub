@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preview carrossel B3</title>
+<style>
+  body { margin: 0; padding: 24px; background: #E9ECEF; font-family: Inter, system-ui, sans-serif; color: #0F1419; }
+  h1 { font-size: 20px; margin: 0 0 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  figure { margin: 0; }
+  img { width: 100%; aspect-ratio: 3 / 4; display: block; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.15); background: #fff; }
+  figcaption { font-size: 13px; color: #536471; margin-top: 6px; }
+</style></head>
+<body>
+<h1>Preview do carrossel (ordem de postagem)</h1>
+<div class="grid" id="grid"></div>
+<script>
+  // Lista slide-01.png, slide-02.png... até não achar o próximo.
+  const grid = document.getElementById('grid');
+  (function add(n) {
+    const nome = 'slide-' + String(n).padStart(2, '0') + '.png';
+    const img = new Image();
+    img.onload = () => {
+      const f = document.createElement('figure');
+      f.append(img);
+      const c = document.createElement('figcaption'); c.textContent = nome; f.append(c);
+      grid.append(f);
+      add(n + 1);
+    };
+    img.src = nome;
+  })(1);
+</script>
+</body></html>
