@@ -174,9 +174,25 @@ def main():
         rodape = f'{est["casos"]} casos desde 2016 · base: Ibovespa'
     else:
         gancho, sub, rodape = esc(manchete) + ".", "O que mexe no mercado antes da abertura.", ""
+    # índice da capa com os números reais dos slides seguintes (preenche o vazio à esquerda da foto)
+    # com a estatística da sequência o subtítulo é longo: o índice fica só com os níveis e a agenda
+    longo = bool(rodape)
+    ind = [] if longo else ["O número que acerta quase sempre"]
+    for w, nome, casas in ((win, "WIN", 0), (wdo, "WDO", 1)):
+        if w.get("max") and w.get("min"):
+            ind.append(f'{nome} <b class="up">{num(w["max"], casas)}</b> · <b class="dn">{num(w["min"], casas)}</b>')
+    fora1 = next(iter(pega(sec, "LÁ FORA")), "")
+    if fora1 and not longo:
+        ind.append(f"Lá fora: {esc(fora1)}")
+    ag1 = next(iter(pega(sec, "AGENDA")), "")
+    ag1 = re.sub(r"\s*🚨+|\s*\(horário eu confirmo na sala\)", "", ag1).strip()
+    if ag1:
+        ind.append(f"Agenda: {esc(re.sub(r'^(\d{1,2}h\d{0,2}):?\s+', r'\1 · ', ag1))}")
+    indice = "".join(f"<li>{x}</li>" for x in ind)
     s1 = f"""<span class="tag"><img src="file://{ASSETS}/logo-tn.jpg">PANORAMA 8H30 · {data_txt}</span>
 <h1 class="hook">{gancho}</h1>
-<p class="sub">{sub}</p>
+<div class="col1"><p class="sub">{sub}</p>
+<div class="painel indice"><h2>Hoje no carrossel · níveis de {quando}</h2><ol>{indice}</ol></div></div>
 <div class="foto f1"><img src="file://{ASSETS}/foto-mc.jpg"><span class="vivo">● AO VIVO 8H30</span></div>
 <p class="rod">{esc(rodape)}</p>
 <span class="arrasta">ARRASTA →</span>"""
@@ -232,7 +248,7 @@ def main():
         pts = f'≈ {br(round(a * win["fech"] / 5) * 5)} pts no {esc(win.get("ticker", "WIN"))}' if win.get("fech") else ""
         ontem = (f'<div class="fx"><i>{quando.capitalize()} no {esc(win.get("ticker", "WIN"))}</i><b>{br(win["amplitude"])} pts</b></div>'
                  if win.get("amplitude") else "")
-        ante = (f'<div class="fx"><i>{"Anteontem" if quando == "ontem" or not win.get("data_ant") else NOMES[dt.date.fromisoformat(win["data_ant"]).weekday()].capitalize()}</i><b>{br(win["amplitude_ant"])} pts</b></div>' if win.get("amplitude_ant") else "")
+        ante = (f'<div class="fx"><i>{"Anteontem" if not win.get("data_ant") or (hoje - dt.date.fromisoformat(win["data_ant"])).days == 2 else NOMES[dt.date.fromisoformat(win["data_ant"]).weekday()].capitalize()}</i><b>{br(win["amplitude_ant"])} pts</b></div>' if win.get("amplitude_ant") else "")
         s6 = f"""<span class="tag">QUANTO O MERCADO ANDA</span>
 <h1 class="h1m">Da máxima à mínima, o Ibov anda em média:</h1>
 <div class="painel big"><p class="mega">{str(round(a * 100, 1)).replace(".", ",")}%</p>
@@ -275,7 +291,7 @@ def main():
         saidas.append(base + ".png")
     gancho_txt = re.sub("<[^>]+>", "", gancho)
     legenda = (f"{gancho_txt} {re.sub('<[^>]+>', '', sub).strip()}\n"
-               f"No carrossel: o número que mais se repete na abertura, o mapa do WIN e do WDO, lá fora, juros e a agenda.\n"
+               f"No carrossel: o número que mais se repete na abertura, o mapa do WIN e do WDO, lá fora{', juros' if juros else ''} e a agenda.\n"
                f"A leitura completa é ao vivo, às 8h30. Link na bio.\n"
                f"Conteúdo educacional, não é recomendação.")
     print(json.dumps({"slides": saidas, "legenda": legenda, "ibov": est}, ensure_ascii=False))

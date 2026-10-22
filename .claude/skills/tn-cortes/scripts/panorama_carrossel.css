@@ -2,7 +2,7 @@
 h1.hook{top:140px;width:990px;font-size:96px;line-height:1.02}
 .sub{position:absolute;left:44px;top:500px;width:560px;font-size:38px;line-height:1.25;font-weight:600;color:#C9D4CD}
 .sub b{color:#F2C14E;font-weight:900;font-size:44px}
-.foto.f1{top:440px;right:40px;width:380px;height:470px;transform:rotate(5deg)}
+.foto.f1{top:460px;right:36px;width:400px;height:560px;transform:rotate(5deg)}
 .rod{position:absolute;left:44px;right:44px;bottom:150px;font-size:20px;color:#7E8C84}
 .arrasta{position:absolute;right:60px;bottom:60px;transform:rotate(-4deg);background:#F2C14E;color:#0B0F0D;font-weight:900;font-size:34px;padding:14px 26px;border-radius:12px;box-shadow:6px 6px 0 #000}
 .pag{position:absolute;right:44px;bottom:40px;font-size:24px;font-weight:800;color:#6E7A72}
@@ -48,3 +48,9 @@ h1.h1m{top:130px;width:990px;font-size:58px}
 .foto.f7{top:120px;right:40px;width:320px;height:390px;transform:rotate(5deg)}
 h1.hook mark{white-space:nowrap}
 .painel.fluxo.f2{top:780px;transform:rotate(1deg)}
+.col1{position:absolute;left:44px;top:500px;width:570px;display:flex;flex-direction:column;gap:40px}
+.col1 .sub{position:static;width:auto;font-size:42px}
+.col1 .sub b{font-size:48px}
+.painel.indice{position:relative;left:auto;right:auto;padding:24px 28px;transform:rotate(-1.5deg)}
+.painel.indice ol{padding-left:34px;display:flex;flex-direction:column;gap:18px;font-size:36px;font-weight:700;line-height:1.22}
+.painel.indice li::marker{color:#F2C14E;font-weight:900}
