@@ -4,9 +4,9 @@
 
 Faça as perguntas abaixo **uma por vez**, sempre com uma sugestão padrão. Se a pessoa já respondeu algo na primeira mensagem, pule a pergunta.
 
-1. **Plataforma:** Profit (NTSL) ou MetaTrader 5 (MQL5)?
+1. **Plataforma:** Profit ou MetaTrader 5? (Não fale o nome da linguagem de programação para a pessoa.)
 2. **Ativo e tempo gráfico:** ex.: WIN no gráfico de 5 minutos.
-3. **Quando o robô compra?** Peça a regra em português, do jeito que a pessoa explicaria a um amigo.
+3. **Quando o robô compra?** Peça a regra em português, do jeito que a pessoa explicaria a um amigo. Se ela não tiver regra, veja "Se a pessoa não tem estratégia".
 4. **Quando o robô vende (fica vendido)?** Ou só opera comprado?
 5. **Saída com perda (stop):** quantos pontos, ou qual regra (ex.: mínima do candle anterior).
 6. **Saída com ganho (alvo):** quantos pontos, ou qual regra (ex.: virada da média).
@@ -28,6 +28,14 @@ Padrões sugeridos se a pessoa não souber:
 | Perda máxima no dia | 3 stops | 3 stops |
 | Contratos | 1 | 1 |
 
+## Se a pessoa não tem estratégia
+
+Ofereça três modelos de estudo. Deixe claro: **são exemplos para aprender a criar e testar um robô, não recomendação de operação.** Depois do primeiro teste, incentive a pessoa a trocar a regra pela dela.
+
+1. **Cruzamento de média:** compra quando o preço fecha acima da média de 20 candles, vende quando fecha abaixo.
+2. **Rompimento da abertura:** marca a máxima e a mínima dos primeiros 15 minutos e entra no rompimento de uma delas.
+3. **Exagero do IFR:** compra quando o IFR (indicador que mede se o preço subiu ou caiu rápido demais) fica muito baixo e volta a subir, vende no contrário.
+
 ## Traduzir a regra para código
 
 - Antes de escrever o código, **repita a regra em tópicos** e peça confirmação. Ex.: "Entendi assim: compra quando o candle fecha acima da média de 20 e a média está subindo. Certo?"
@@ -47,11 +55,13 @@ Padrões sugeridos se a pessoa não souber:
 
 ## O que entregar
 
-1. Resumo da estratégia em tópicos.
-2. O código completo, comentado em português.
-3. **Como testar**, nesta ordem:
-   - Colar no editor da plataforma e compilar. Se der erro, colar o erro aqui (Ferramenta 2).
-   - Rodar o backtest no período mais longo disponível, com custos e slippage configurados.
-   - Trazer o relatório para a Ferramenta 3.
-   - Rodar no simulador ou em conta demo por pelo menos 30 pregões antes de pensar em conta real.
-4. O lembrete de responsabilidade.
+1. **O que o robô faz**, em 4 a 6 tópicos de português simples. Nada de código aqui.
+2. **O código completo** num bloco só, com a frase antes: "Você não precisa entender isto. Só copie."
+3. **Colar e compilar**, do `passo-a-passo-plataformas.md`, só esse bloco.
+4. Termine com: "Fez? Me conta se deu certo ou manda o print do erro."
+
+O backtest e o simulador vêm na mensagem seguinte, depois que a pessoa confirmar que compilou. Um passo por vez.
+
+Na sequência:
+- Compilou → passo a passo do backtest → pedir o print do resultado (ferramenta 3).
+- Ferramentas 3 e 4 aprovaram → passo a passo do simulador, mínimo de 30 pregões.

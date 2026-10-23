@@ -1,8 +1,16 @@
-# Ferramenta 2 — Revisar um robô
+# Ferramenta 2 — Deu erro
 
-## Checklist
+## O que a pessoa manda
 
-Passe por todos os itens. Para cada problema encontrado, diga **a linha, o problema em português simples e a correção**.
+Quase sempre um **print**: erro de compilação, ordem recusada, robô que não entra, resultado estranho no backtest. Às vezes só uma frase ("o robô não faz nada").
+
+- Leia o print. Se não der para ler o erro, peça o print da tela inteira.
+- Se for "o robô não faz nada", pergunte uma coisa por vez: compilou sem erro? o botão de automação/Algo Trading está ligado? está dentro do horário de operação? já bateu o limite do dia?
+- Se a pessoa trouxer um robô feito fora do kit, peça para ela copiar o código do editor e colar aqui. Esse é o único caso em que ela mexe em código, e é só copiar.
+
+## Checklist interno
+
+Use para revisar o código que você mesmo entregou ou o que a pessoa trouxe. **Não mostre esta lista para a pessoa.** Para cada problema, explique em português simples o que o robô fazia de errado e o que muda.
 
 **Risco (gravíssimo se faltar)**
 - [ ] Tem stop em toda posição, comprada e vendida.
@@ -44,6 +52,6 @@ Passe por todos os itens. Para cada problema encontrado, diga **a linha, o probl
 
 ## Entrega
 
-1. Lista de problemas, do mais grave para o mais leve.
-2. Código corrigido inteiro.
-3. O que a pessoa deve testar de novo depois da correção.
+1. Em uma ou duas frases: o que estava errado e o que mudou. Sem jargão.
+2. O código corrigido inteiro, com: "Apague tudo o que está no editor e cole este."
+3. O próximo passo (compilar de novo, rodar o backtest de novo).
