@@ -1,13 +1,17 @@
 """Carrossel "Panorama 8h30" da @tradernationoficial (7 slides, visual escuro do card Panorama).
 
-Uso: python3 panorama_carrossel.py <dia-qg.json> <historico-qg.json> <ibov-yahoo.json> <pasta-saida> [fluxo.json|-]
+Uso: python3 panorama_carrossel.py <dia-qg.json> <historico-qg.json> <ibov-yahoo.json> <pasta-saida> [fluxo.json|-] [--fora fora.json] [--alerta "frase"]
   dia-qg.json        dias/<hoje> do painel do QG (mensagem "manha": manchete, ontem, juros, lá fora, agenda, antes de clicar)
   historico-qg.json  historico/<último pregão> do QG: WIN e WDO com máx, mín, fech, abertura, VWAP, POC, VAH, VAL, pontos
   ibov-yahoo.json    https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP?range=10y&interval=1d (curl -A 'Mozilla/5.0')
   fluxo.json         opcional: {"data": "AAAA-MM-DD", "fonte": "B3", "linhas": [{"nome": "Estrangeiro", "valor": "+R$ 1,2 bi"}, ...]}
                      sem arquivo, o slide do fluxo sai marcado como "fonte em validação" e sem número
+  fora.json          opcional: saída do fora.py (EWZ, ADRs e S&P futuro no pré-mercado de NY). Com ele, o slide 5 mostra
+                     o Brasil lá fora com número, e um EWZ andando 2% ou mais vira o gancho da capa
+  --alerta           opcional: frase do Rodrigo pro dia (ex.: "Muito cuidado no dia de hoje."), em destaque na capa,
+                     no topo do "antes de clicar" e na 2ª linha da legenda
 
-Slides: 1 gancho (estatística de sequência do Ibov ou a manchete do QG) · 2 rehook (rompimento da máx/mín de ontem)
+Slides: 1 gancho (EWZ com 2%+ no pré-mercado, estatística de sequência do Ibov ou a manchete do QG) · 2 rehook (rompimento da máx/mín de ontem)
         3 mapa do WIN · 4 mapa do WDO · 5 lá fora e juros · 6 fluxo · 7 agenda + sala ao vivo.
 Toda probabilidade sai de 10 anos de Ibovespa (Yahoo), recalculada a cada rodada. Nada é inventado: sem dado, o bloco some.
 """
@@ -146,11 +150,28 @@ def slide_mapa(w, nome, casas, n, total, quando="ontem"):
 <span class="pag">{n}/{total}</span>"""
 
 
+def pct(v):
+    return ("+" if v >= 0 else "−") + br1(abs(v)) + "%"
+
+
 def main():
-    hoje_doc, hist = doc(sys.argv[1]), doc(sys.argv[2])
-    yahoo = json.load(open(sys.argv[3]))
-    pasta = sys.argv[4]
-    fluxo = doc(sys.argv[5]) if len(sys.argv) > 5 else {}
+    args = sys.argv[1:]
+    fora_dados = {}
+    if "--fora" in args:
+        i = args.index("--fora")
+        fora_dados = json.load(open(args[i + 1]))
+        del args[i:i + 2]
+    alerta = ""
+    if "--alerta" in args:
+        i = args.index("--alerta")
+        alerta = args[i + 1].strip()
+        del args[i:i + 2]
+    hoje_doc, hist = doc(args[0]), doc(args[1])
+    yahoo = json.load(open(args[2]))
+    pasta = args[3]
+    fluxo = doc(args[4]) if len(args) > 4 else {}
+    ny = {x["simbolo"]: x for x in fora_dados.get("itens", [])}
+    ewz = ny.get("EWZ")
     os.makedirs(pasta, exist_ok=True)
     hoje = dt.date.fromisoformat(hoje_doc["data"])
     msg = next(m for m in hoje_doc["mensagens"] if m.get("slot") == "manha")
@@ -164,8 +185,18 @@ def main():
     quando = "ontem" if (hoje - ult).days == 1 else NOMES[ult.weekday()]
     total = 7
 
-    # 1. Gancho: sequência do Ibov (3+ dias na mesma direção) com a estatística real; senão, a manchete do QG
-    if est["seq"] >= 3 and est["sobe"] is not None:
+    # 1. Gancho: EWZ andando 2%+ no pré-mercado de NY (o primeiro preço do Brasil no dia); senão, sequência do Ibov
+    # (3+ dias na mesma direção) com a estatística real; senão, a manchete do QG
+    longo = False
+    if ewz and abs(ewz["var"]) >= 2:
+        gancho = f'A bolsa brasileira em Nova York {"cai" if ewz["var"] < 0 else "sobe"} <mark>{br1(abs(ewz["var"]))}%</mark> antes da abertura.'
+        adrs = [f'{x["nome"].split(" (")[0]} <b class="{"dn" if x["var"] < 0 else "up"}">{pct(x["var"])}</b>'
+                for k in ("PBR", "ITUB") if (x := ny.get(k))]
+        sub = f'É o EWZ, no pré-mercado. {" e ".join(adrs) + " em NY. " if adrs else ""}O mini índice abre às 9h.'
+        rodape = ""  # a fonte vai no slide 5; o subtítulo já é longo, o índice perde a linha do "número que acerta"
+        longo = True
+    elif est["seq"] >= 3 and est["sobe"] is not None:
+        longo = True
         verbo = "caiu" if est["dir"] < 0 else "subiu"
         p = round(est["sobe"] * 100)
         gancho = f'O Ibov {verbo} <mark>{est["seq"]} dias seguidos.</mark>'
@@ -176,19 +207,23 @@ def main():
         gancho, sub, rodape = esc(manchete) + ".", "O que mexe no mercado antes da abertura.", ""
     # índice da capa com os números reais dos slides seguintes (preenche o vazio à esquerda da foto)
     # com a estatística da sequência o subtítulo é longo: o índice fica só com os níveis e a agenda
-    longo = bool(rodape)
     ind = [] if longo else ["O número que acerta quase sempre"]
     for w, nome, casas in ((win, "WIN", 0), (wdo, "WDO", 1)):
         if w.get("max") and w.get("min"):
             ind.append(f'{nome} <b class="up">{num(w["max"], casas)}</b> · <b class="dn">{num(w["min"], casas)}</b>')
     fora1 = next(iter(pega(sec, "LÁ FORA")), "")
-    if fora1 and not longo:
+    if ewz and not longo:
+        ind.append(f'EWZ em NY <b class="{"dn" if ewz["var"] < 0 else "up"}">{pct(ewz["var"])}</b>')
+    elif fora1 and not longo:
         ind.append(f"Lá fora: {esc(fora1)}")
     ag1 = next(iter(pega(sec, "AGENDA")), "")
     ag1 = re.sub(r"\s*🚨+|\s*\(horário eu confirmo na sala\)", "", ag1).strip()
     if ag1:
         ind.append(f"Agenda: {esc(re.sub(r'^(\d{1,2}h\d{0,2}):?\s+', r'\1 · ', ag1))}")
     indice = "".join(f"<li>{x}</li>" for x in ind)
+    if alerta:
+        sub += f' <b class="alerta">{esc(alerta)}</b>'
+
     s1 = f"""<span class="tag"><img src="file://{ASSETS}/logo-tn.jpg">PANORAMA 8H30 · {data_txt}</span>
 <h1 class="hook">{gancho}</h1>
 <div class="col1"><p class="sub">{sub}</p>
@@ -226,7 +261,21 @@ def main():
             fora.append(f'<span class="chip">{esc(l)}</span>')
     juros = "".join(f"<p>{esc(l)}</p>" for l in pega(sec, "JUROS")[:2])
     ontem = "".join(f"<p>{esc(l)}</p>" for l in pega(sec, "ONTEM", "SEXTA", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA")[:2])
-    s5 = f"""<span class="tag">{"LÁ FORA E JUROS" if juros else "LÁ FORA"}</span>
+    if ny:
+        # com número de NY, o slide mostra o Brasil lá fora; o texto do QG fica nos chips e no juro (1 linha)
+        linhas = "".join(f'<div class="fx"><i>{esc(x["nome"])}</i><b class="{"dn" if x["var"] < 0 else "up"}">{pct(x["var"])}</b></div>'
+                         for x in ny.values())
+        juros1 = "".join(f"<p>{esc(l)}</p>" for l in pega(sec, "JUROS")[:1])
+        # o S&P futuro do QG é de outro horário: com o número de NY na tela, sai dos chips pra não mostrar dois valores
+        fora_sem_sp = [c for c in fora if "S&amp;P" not in c and "S&P" not in c] if "ES=F" in ny else fora
+        s5 = f"""<span class="tag">LÁ FORA</span>
+<h1 class="h1m">O Brasil lá fora, antes da abertura.</h1>
+<div class="painel fluxo ny"><p class="gt">pré-mercado de Nova York às {esc(fora_dados.get("hora"))} · contra o último fechamento · Yahoo Finance</p>{linhas}</div>
+<div class="chips ny">{"".join(fora_sem_sp[:3])}</div>
+{f'<div class="painel lista j ny"><h2>Juros</h2>{juros1}</div>' if juros1 else ""}
+<span class="pag">5/{total}</span>"""
+    else:
+        s5 = f"""<span class="tag">{"LÁ FORA E JUROS" if juros else "LÁ FORA"}</span>
 <h1 class="h1m">{esc(manchete)}.</h1>
 <div class="painel lista"><h2>{"Ontem" if quando == "ontem" else quando.capitalize()} aqui</h2>{ontem}</div>
 <div class="chips">{"".join(fora)}</div>
@@ -264,7 +313,9 @@ def main():
         a = re.sub(r"\s*🚨+|\s*\(horário eu confirmo na sala\)", "", a).strip()
         m = re.match(r"^(\d{1,2}h\d{0,2})\s+(.*)$", a)
         ag += f'<li class="{"forte" if forte else ""}"><span>{esc(m.group(1) if m else "hoje")}</span>{esc(m.group(2) if m else a)}</li>'
-    antes = "".join(f"<li>{esc(re.sub(r'^\d+\.\s*', '', l))}</li>" for l in pega(sec, "ANTES DE CLICAR")[:3])
+    antes = "".join(f"<li>{esc(re.sub(r'^\d+\.\s*', '', l))}</li>" for l in pega(sec, "ANTES DE CLICAR")[:2 if alerta else 3])
+    if alerta:
+        antes = f'<li class="alerta">{esc(alerta)}</li>' + antes
     s7 = f"""<span class="tag">AGENDA E SALA AO VIVO</span>
 <div class="painel agenda7"><h2>Agenda de hoje</h2><ul>{ag}</ul></div>
 <div class="painel antes"><h2>Antes de clicar</h2><ol>{antes}</ol></div>
@@ -290,8 +341,9 @@ def main():
         os.remove(base + ".full.png")
         saidas.append(base + ".png")
     gancho_txt = re.sub("<[^>]+>", "", gancho)
-    legenda = (f"{gancho_txt} {re.sub('<[^>]+>', '', sub).strip()}\n"
-               f"No carrossel: o número que mais se repete na abertura, o mapa do WIN e do WDO, lá fora{', juros' if juros else ''} e a agenda.\n"
+    sub_txt = re.sub('<[^>]+>', '', sub).replace(alerta, "").strip() if alerta else re.sub('<[^>]+>', '', sub).strip()
+    legenda = (f"{gancho_txt} {sub_txt}\n" + (f"{alerta}\n" if alerta else "") +
+               f"No carrossel: o número que mais se repete na abertura, o mapa do WIN e do WDO, {'o Brasil em Nova York' if ny else 'lá fora'}{', juros' if juros else ''} e a agenda.\n"
                f"A leitura completa é ao vivo, às 8h30. Link na bio.\n"
                f"Conteúdo educacional, não é recomendação.")
     print(json.dumps({"slides": saidas, "legenda": legenda, "ibov": est}, ensure_ascii=False))

@@ -143,9 +143,11 @@ números da B3/Yahoo, então nada aqui é escrito do zero.
    e encerre (feriado da B3 cai aqui também). Pegue também `historico/<data do último pregão>` com `out_dir` (na dúvida,
    `list historico` e use o mais recente antes de hoje): é dele que saem máx, mín, abertura, VWAP, POC, VAH, VAL e o gráfico.
 3. Histórico do Ibov: `curl -sS -A 'Mozilla/5.0' -o /tmp/.../ibov.json "https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP?range=10y&interval=1d"`.
-   `python3 scripts/panorama_carrossel.py <dias-hoje.json> <historico.json> <ibov.json> /tmp/.../car [fluxo.json]` → 7 PNGs + `legenda`:
-   1 gancho (sequência de 3+ dias do Ibov com a taxa real do dia seguinte; sem sequência, a manchete do QG) · 2 rehook (% de pregões
-   que rompem a máx ou a mín de ontem + os dois níveis do WIN) · 3 mapa do WIN · 4 mapa do WDO · 5 lá fora e juros ·
+   Brasil lá fora (decisão do Rodrigo em 26/10): `python3 scripts/fora.py /tmp/.../fora.json` → EWZ, Petrobras, Itaú e Vale (ADRs)
+   e S&P futuro no pré-mercado de NY, em % contra o último fechamento (Yahoo).
+   `python3 scripts/panorama_carrossel.py <dias-hoje.json> <historico.json> <ibov.json> /tmp/.../car [fluxo.json|-] --fora /tmp/.../fora.json` → 7 PNGs + `legenda`:
+   1 gancho (EWZ andando 2%+ no pré-mercado; senão, sequência de 3+ dias do Ibov com a taxa real do dia seguinte; senão, a manchete do QG) · 2 rehook (% de pregões
+   que rompem a máx ou a mín de ontem + os dois níveis do WIN) · 3 mapa do WIN · 4 mapa do WDO · 5 o Brasil lá fora (EWZ, ADRs, S&P futuro) e juros ·
    6 fluxo dos investidores **só com fonte B3 confirmada** (`fluxo.json`); sem fonte, o slide 6 vira "quanto o mercado anda"
    (amplitude média de 20 pregões) — nunca publique fluxo sem número real (decisão de 16/10) · 7 agenda, antes de clicar e sala ao vivo.
    Toda probabilidade é estatística de 10 anos de Ibovespa recalculada na hora: nunca opinião, nunca "meu cenário", nunca placar

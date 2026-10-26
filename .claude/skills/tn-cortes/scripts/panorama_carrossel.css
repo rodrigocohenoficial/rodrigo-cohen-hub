@@ -54,3 +54,12 @@ h1.hook mark{white-space:nowrap}
 .painel.indice{position:relative;left:auto;right:auto;padding:24px 28px;transform:rotate(-1.5deg)}
 .painel.indice ol{padding-left:34px;display:flex;flex-direction:column;gap:18px;font-size:36px;font-weight:700;line-height:1.22}
 .painel.indice li::marker{color:#F2C14E;font-weight:900}
+.painel.fluxo.ny{gap:12px;padding:22px 34px 26px}
+.painel.fluxo.ny .gt{font-size:22px;color:#7E8C84;margin:0}
+.painel.fluxo.ny .fx{padding-bottom:12px}
+.painel.fluxo.ny .fx i{font-size:36px}
+.painel.fluxo.ny .fx b{font-size:48px}
+.chips.ny{top:880px}
+.painel.lista.j.ny{top:1010px}
+.sub b.alerta,li.alerta{color:#FF5C5C;font-weight:900}
+.sub b.alerta{display:block;margin-top:14px}
