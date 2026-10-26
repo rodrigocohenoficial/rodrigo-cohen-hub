@@ -20,6 +20,20 @@ cd kits && zip -r robo-do-zero.zip robo-do-zero -x "*/__pycache__/*"
 
 O caminho exato do menu muda com o tempo. Se não achar, procure por "Skills" nas configurações.
 
+### Prompt de largada (vai na DM e na página de download)
+
+> Quero criar meu primeiro robô com o Robô do Zero. Nunca programei. Me guia passo a passo.
+
+Atalhos para depois:
+
+- **Já tem estratégia:** "Robô do Zero: uso o [Profit / MetaTrader 5] e quero um robô que [explique a estratégia do seu jeito]."
+- **Deu erro:** "Robô do Zero: deu erro." + print da tela.
+- **Meu robô presta?:** "Robô do Zero: meu robô presta?" + print do resultado do backtest.
+- **Quanto posso perder?:** "Robô do Zero: tenho R$ [valor]. Quanto posso perder com esse robô?"
+- **Ficha:** "Robô do Zero: gera a ficha do meu robô."
+
+Começar a frase com "Robô do Zero" garante que o Claude use a skill.
+
 ### Roteiro de teste
 
 Teste como um trader que **nunca programou**. Rode cada prompt numa conversa nova e anote onde a pessoa travaria.
