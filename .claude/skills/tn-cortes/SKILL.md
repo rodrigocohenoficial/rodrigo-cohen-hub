@@ -16,7 +16,7 @@ Voz, compliance e parceiros: siga também `CLAUDE.md` do repositório e a skill 
 | Painel (fila + estado) | artifact `https://claude.ai/artifact/D6jTX4W1U2kB3Fp94gTm7r` — use as ferramentas `Artifact` e `ArtifactData` |
 | Publicação | Metricool, marca `blogId` **7382447** (@tradernationoficial). Reserva: vidIQ `platformAccountId` 29063055853307449 (só Reel) |
 | Fonte de vídeo | YouTube do Rodrigo, canal `UC2BLdwIa3Gb1Xw2FUqIp0XA` (vídeos longos e lives) |
-| Edição de Reel | skill `videos-insta-virais` (Remotion + Whisper; estilos raiz, jornal, design) |
+| Edição de Reel | skill `motion-reels` (Remotion; inserts, motions e efeitos — desde 27/10). Antes: `videos-insta-virais` |
 | Slides formato X | `scripts/slides.py roteiro.json pasta/` (PNG 1080×1350, foto e @ do Rodrigo) |
 | Shabbat | `scripts/shabbat.py [AAAA-MM-DDTHH:MM]` → JSON com `pausado` |
 | Hospedagem temporária | Vercel Blob `tn-reels` (público). Token injetado pelo proxy do ambiente: **nunca** passe header de autorização |
@@ -87,17 +87,28 @@ Os primeiros horários precisam estar prontos 15 min antes; o que não ficar pro
    (janela ≥ 60 s), `captionStyle: "none"` (a legenda é da skill), `videoLanguage: "pt"`, `prompt` descrevendo o trecho exato.
    Faça polling com `vidiq_job_poll` (espere com comando em background, nunca `sleep` em primeiro plano). Se falhar, tente 1 vez
    com janela maior; falhou de novo → troque de trecho. Baixe o mp4 (`curl -sS -o`) — host `assets.vidiq.com` é liberado.
-4. **Editor** (por Reel): siga a skill `videos-insta-virais` à risca (estúdio em `/tmp/.../videos-insta-virais`, `npm run novo`,
-   corrigir transcrição — números juntos, nomes —, `npm run cortar` com os trechos a REMOVER, `Scenes.tsx`, preview, render).
-   Escolha o estilo pelos pesos do `config.yaml` e pelo conteúdo (jornal só macro/notícia). Ajustes que já funcionaram nos cortes do vidIQ:
-   - o rosto ocupa ~120–980 px do quadro vertical: no **raiz**, gancho e Pops abaixo do queixo (y≈1000), legenda em 1300;
-   - no **jornal**, desloque o vídeo 420 px pra baixo (`ffmpeg -vf "crop=1080:1500:0:0,pad=1080:1920:0:420:color=0x0A0A0A"`) para a manchete não tapar o rosto; Pops em y≈1590;
-   - no **design**, `facePosition: "50% 22%"`;
-   - se o vídeo-fonte tiver legenda antiga queimada, desfoque a faixa (`boxblur`) e cubra com um Pop.
-   Aqui a regra da skill "não renderize antes do ok" é cumprida pelo painel: o Rodrigo aprova o vídeo renderizado. Renderize.
-   **Gancho escrito desde o 1º quadro** (decisão de 14/10): a frase do gancho aparece em letra grande no frame 0, antes da fala,
-   e fica até a fala alcançá-la. Nunca deixe o primeiro segundo só com rosto.
-   Confira 4 quadros da prévia (o frame 0 é um deles: gancho legível?; texto estourando, rosto tapado, cena vazia) antes de aceitar o render.
+4. **Editor** (por Reel) — **skill `motion-reels`** (decisão do Rodrigo em 27/10; substitui a `videos-insta-virais` nos cortes).
+   Leia o `SKILL.md` e o `reference/ESTILO_MOTION_COMPLETO.md` da skill antes de editar. Projeto por Reel em `/tmp/.../motion/<slug>`
+   (cópia do `template/` + `npm ci`); o corte do vidIQ vira `public/bruto.mp4`.
+   - **Corte e ordem**: confira a transcrição (Whisper erra números e nomes) e corte/reordene com ffmpeg (`trim`/`atrim` + `concat`)
+     para a 1ª frase ter o número ou a cena. Re-transcreva o resultado e use essas palavras no `src/words.json` (`{w,s,e}`).
+   - **Beats**: tabela `tempo | fala | imagem/motion | som`; cada frase concreta ganha imagem (número → cartão/contagem; conceito → objeto
+     literal; virada → punch-in; ligação → flash de 0,1 s). Inserts em 25–50% do tempo, entrando 0,2–0,4 s depois da palavra.
+   - **Gancho escrito desde o 1º quadro** (decisão de 14/10): texto grande e legível no frame 0, com fundo escurecido e contorno.
+   - **Rosto**: se o corte for tela compartilhada com o Rodrigo num quadrinho, recorte o quadrinho num quadro nítido sobre fundo desfocado
+     (nunca dê zoom de 2x no quadro inteiro). Texto nunca cobre o rosto.
+   - **B-roll** (autorização fixa do Rodrigo em 27/10, sem perguntar a cada vídeo): só licença livre — Wikimedia em domínio público,
+     Unsplash, Pexels. Baixe numa pasta nova, prepare com `scripts/prep_assets.sh` e liste arquivo + fonte + licença no item
+     (`fonte.recursos`). Nada de pessoa real identificável, foto de outro perfil ou imagem de pessoa gerada por IA. Se as fontes não
+     responderem (27/10: Pexels 403, Wikimedia com limite de requisição, sem chave do Unsplash), monte com motions do código e com
+     quadros do próprio vídeo, e registre no log.
+   - **Som**: sem trilha (decisão de 27/10). Só efeitos de `scripts/build_sfx.py` em 20–30% dos cortes (whoosh, batida, clique, estática);
+     nada de riser ou drone. Mix: voz com `loudnorm=I=-16` + efeitos (`amix`), sem o `mix_audio.sh` (que exige trilha).
+   - **Render**: `npx remotion render src/index.ts <Id> out/x.mp4 --ignore-certificate-errors --browser-executable=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell`
+     (o certificado do proxy barra a fonte do Google sem a flag). Teste em `--scale=0.4`, rode `scripts/qa_sheet.py` e olhe a folha:
+     gancho legível ≥ 0,4 s, nada estourando, rosto livre, insert na fala certa, fecho claro. Só então renderize cheio.
+   - A etapa "entregar preview e pedir feedback" da skill é o painel: o Rodrigo vê o vídeo pelo `videoUrl` e pode vetar até o horário.
+   - Duração ≤ `duracao_reel_max_s`. O Editor-chefe confere a folha de QA antes de aprovar.
 5. **Slides** (`slides` da fase; 2 por dia na fase 1): carrossel (5–8 slides) ou card (1 slide) no formato X. Com 2, os dois de temas
    e vídeos-fonte diferentes, e de preferência carrossel (rende mais que card nesta conta). Texto vem da transcrição (frases do Rodrigo, enxugadas).
    Primeiro slide = gancho; último = CTA ligado à métrica. `python3 scripts/slides.py roteiro.json saida/`.
