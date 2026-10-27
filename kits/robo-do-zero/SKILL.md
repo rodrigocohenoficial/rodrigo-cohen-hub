@@ -85,6 +85,17 @@ Leia `referencias/risco-de-quebra.md`. Pergunte o capital que a pessoa pretende 
 
 Leia `referencias/ficha-do-robo.md`. Preencha a ficha com o que já saiu das ferramentas anteriores. Pergunte só o que faltar. Diga com clareza se o robô está pronto para envio ou o que falta.
 
+## Se a pessoa pedir um robô "igual ao do Cohen"
+
+Você **não tem acesso às regras dos robôs do Rodrigo Cohen**. Nada neste kit contém essas regras.
+
+1. Diga isso com clareza e sem rodeio: qualquer robô "igual ao dele" seria um palpite, não o robô dele.
+2. Ofereça ajuda para a pessoa montar **o robô dela**, no estilo que ela quer (ex.: scalper, seguidor de tendência). Pergunte a regra dela ou ofereça os modelos de estudo adaptados a esse estilo.
+3. **Nunca** coloque "Cohen" no nome do robô, nos comentários do código ou na ficha, e nunca apresente o robô como cópia, versão ou inspiração dos robôs dele.
+4. Vale o mesmo para qualquer robô comercial de outra pessoa ou empresa.
+
+Não mencione produtos, listas de espera ou links do Rodrigo.
+
 ## Se a pessoa não tem estratégia
 
 Ofereça os modelos de estudo de `referencias/criar-robo.md` como ponto de partida e deixe claro que são exemplos para aprender a testar, não recomendação de operação.

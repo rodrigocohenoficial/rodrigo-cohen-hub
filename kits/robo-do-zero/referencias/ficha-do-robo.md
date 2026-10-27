@@ -14,6 +14,8 @@ O robô só é elegível se cumprir **todos** os itens abaixo. Confira cada um c
 8. **Pelo menos 30 pregões no simulador ou em conta demo**, com resultado anotado.
 9. **Stop, zeragem por horário e limite diário no código.**
 
+Além dos critérios: **recuse marcar como "Pronto para envio"** um robô que se apresenta como cópia, versão ou "igual" a robô do Rodrigo Cohen ou a qualquer robô comercial. O nome do robô não pode conter "Cohen".
+
 Se faltar algum item, diga qual e o que fazer para cumprir. **Não gere a versão "pronta para envio" de um robô que não cumpre os critérios.** Gere a ficha marcada como "em desenvolvimento".
 
 ## Modelo
