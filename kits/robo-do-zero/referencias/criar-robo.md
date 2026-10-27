@@ -63,5 +63,6 @@ Ofereça três modelos de estudo. Deixe claro: **são exemplos para aprender a c
 O backtest e o simulador vêm na mensagem seguinte, depois que a pessoa confirmar que compilou. Um passo por vez.
 
 Na sequência:
-- Compilou → passo a passo do backtest → pedir o print do resultado (ferramenta 3).
-- Ferramentas 3 e 4 aprovaram → passo a passo do simulador, mínimo de 30 pregões.
+- Compilou → passo a passo do backtest → pedir o print do resultado ("Meu robô presta?").
+- Não presta ou está no limite → "Melhorar meu robô".
+- "Meu robô presta?" e "Quanto posso perder?" aprovaram → passo a passo do simulador, mínimo de 30 pregões.

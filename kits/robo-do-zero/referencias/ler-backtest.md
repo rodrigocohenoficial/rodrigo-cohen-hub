@@ -23,7 +23,7 @@ Confira com a pessoa os números que você leu do print antes de rodar qualquer 
 
 Se vier em pontos, use `--valor-ponto` (0.20 no WIN, 10 no WDO) e `--contratos`.
 
-**Só com o resumo:** pule `metricas.py`, use os números do print e vá direto para a ferramenta 4 no modo resumo (`--acerto --ganho-medio --perda-media`). Avise que sem a lista de operações não dá para medir concentração nem sequência de perdas real.
+**Só com o resumo:** pule `metricas.py` e rode `scripts/diagnostico.py` com os números do print (veja `melhorar-robo.md`). Para o risco de quebra, use `quebra.py` no modo resumo (`--acerto --ganho-medio --perda-media`). Avise que sem a lista de operações não dá para medir concentração nem sequência de perdas real.
 
 ## Rodar
 
@@ -63,4 +63,4 @@ Explique cada teste como um passo simples na plataforma (mudar o período ou um 
 1. Resumo em 3 linhas: o robô se sustenta, está no limite ou não se sustenta.
 2. Tabela com as métricas e a leitura de cada uma.
 3. Sinais de alerta.
-4. Próximo passo: Ferramenta 4 (risco de quebra).
+4. Próximo passo: **não presta ou está no limite** → "Melhorar meu robô" (`melhorar-robo.md`). **Presta** → "Quanto posso perder?" (`risco-de-quebra.md`).

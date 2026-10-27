@@ -1,8 +1,8 @@
-# Ferramenta 5 — Ficha do robô
+# Ferramenta 6 — Ficha do robô
 
 ## Critérios para enviar ao Rodrigo
 
-O robô só é elegível se cumprir **todos** os itens abaixo. Confira cada um com os números das ferramentas 3 e 4. Não aceite número de memória: se faltar dado, peça.
+O robô só é elegível se cumprir **todos** os itens abaixo. Confira cada um com os números de "Meu robô presta?", "Melhorar meu robô" e "Quanto posso perder?". Não aceite número de memória: se faltar dado, peça.
 
 1. **200 operações ou mais** no backtest.
 2. **Pelo menos 2 anos** de histórico.
@@ -10,7 +10,7 @@ O robô só é elegível se cumprir **todos** os itens abaixo. Confira cada um c
 4. **Fator de lucro de 1,3 ou mais** depois dos custos.
 5. **Concentração abaixo de 50%** (os 5 melhores trades não fazem metade do lucro).
 6. **Teste fora da amostra feito**, com resultado positivo.
-7. **Risco de quebra abaixo de 5%** com o capital declarado (Ferramenta 4, quebra em 50%).
+7. **Risco de quebra abaixo de 5%** com o capital declarado ("Quanto posso perder?", quebra em 50%).
 8. **Pelo menos 30 pregões no simulador ou em conta demo**, com resultado anotado.
 9. **Stop, zeragem por horário e limite diário no código.**
 
@@ -51,8 +51,10 @@ Se faltar algum item, diga qual e o que fazer para cumprir. **Não gere a versã
 - **Resultado líquido:** · **Drawdown máximo:**
 - **Maior sequência de perdas:** · **Concentração (5 melhores):**
 
-## 4. Fora da amostra
-- **Período:** · **Resultado:** · **Fator de lucro:**
+## 4. Melhorias e prova final
+- **Diário de testes:** [tabela das rodadas de "Melhorar meu robô", ou "sem ajustes"]
+- **Teste de vizinhança:** [platô ou pico]
+- **Período de prova (fora da amostra):** · **Resultado:** · **Fator de lucro:**
 
 ## 5. Risco de quebra (10 mil simulações)
 - **Capital:** · **Contratos:**

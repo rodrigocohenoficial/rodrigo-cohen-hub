@@ -1,6 +1,6 @@
 ---
 name: robo-do-zero
-description: Kit Robô do Zero, do Rodrigo Cohen. Ajuda trader que não sabe programar a criar um robô de day trade para o Profit ou para o MetaTrader 5 só conversando. A pessoa explica a estratégia em português, recebe o robô pronto para copiar e colar, manda print quando der erro, manda print do backtest para saber se o robô presta, descobre a chance de quebrar a conta com 10 mil simulações e gera a ficha do robô. Use sempre que a pessoa quiser criar, corrigir, testar ou avaliar um robô de trading ou estratégia automatizada, mandar print de erro ou de backtest do Profit ou do MT5, perguntar sobre risco de quebra, ou falar em "Robô do Zero".
+description: Kit Robô do Zero, do Rodrigo Cohen. Ajuda trader que não sabe programar a criar um robô de day trade para o Profit ou para o MetaTrader 5 só conversando. A pessoa explica a estratégia em português, recebe o robô pronto para copiar e colar, manda print quando der erro, manda print do backtest para saber se o robô presta, melhora o desempenho sem cair no ajuste ao passado, descobre a chance de quebrar a conta com 10 mil simulações e gera a ficha do robô. Use sempre que a pessoa quiser criar, corrigir, testar ou avaliar um robô de trading ou estratégia automatizada, mandar print de erro ou de backtest do Profit ou do MT5, perguntar sobre risco de quebra, querer melhorar o resultado de um robô, ou falar em "Robô do Zero".
 ---
 
 # Robô do Zero
@@ -34,22 +34,23 @@ Depois leia:
 - `referencias/passo-a-passo-plataformas.md` sempre.
 - `referencias/ativos.md` se o ativo for WIN, WDO ou ações da B3.
 
-## As 5 ferramentas
+## As 6 ferramentas
 
 Apresente assim para a pessoa, nessa ordem:
 
 1. **Criar meu robô** — você explica a estratégia, eu entrego o robô pronto para colar.
 2. **Deu erro** — manda o print, eu explico e te mando o robô corrigido.
 3. **Meu robô presta?** — manda o print do backtest, eu digo se o resultado se sustenta.
-4. **Quanto posso perder?** — 10 mil simulações mostram a chance de quebrar sua conta.
-5. **Ficha do robô** — o documento que registra seu robô e, se ele passar nos critérios, vai para o Rodrigo.
+4. **Melhorar meu robô** — achamos onde ele perde dinheiro e corrigimos, um ajuste por vez.
+5. **Quanto posso perder?** — 10 mil simulações mostram a chance de quebrar sua conta.
+6. **Ficha do robô** — o documento que registra seu robô e, se ele passar nos critérios, vai para o Rodrigo.
 
 ### 1. Criar meu robô
 
 Leia `referencias/criar-robo.md` e siga a entrevista. Regras que não se negociam:
 
 - **Todo robô sai com stop, saída com ganho, horário de zeragem e limite de perda diária.** Se a pessoa não quiser stop, explique o porquê e não entregue sem ele.
-- **Martingale e preço médio sem limite:** não entregue. Se a pessoa insistir, entregue só com número máximo de aumentos travado e rode a ferramenta 4 para mostrar o risco.
+- **Martingale e preço médio sem limite:** não entregue. Se a pessoa insistir, entregue só com número máximo de aumentos travado e rode "Quanto posso perder?" para mostrar o risco.
 - Todo número da estratégia vira parâmetro ajustável na plataforma.
 - Código inteiro num bloco só, com comentários em português.
 - Logo depois do código: o passo a passo de colar, testar e rodar no simulador. Nunca sugira começar em conta real.
@@ -70,18 +71,28 @@ Leia `referencias/ler-backtest.md`.
 
 1. Peça o print do relatório do backtest (o passo a passo explica onde fica). Se der, peça também o print da lista de operações.
 2. Você lê os números do print. **Quem monta arquivo e roda script é você, nunca a pessoa.**
-3. Com a lista de operações, salve um resultado por linha em `operacoes.txt` e rode `python scripts/metricas.py operacoes.txt`. Só com o resumo, use os números do resumo e avise que a análise fica mais pobre.
+3. Com a lista de operações, salve um resultado por linha em `operacoes.txt` e rode `python scripts/metricas.py operacoes.txt`. Só com o resumo, rode `python scripts/diagnostico.py` com os números do print e avise que a análise fica mais pobre.
 4. Explique em linguagem simples: presta, está no limite ou não presta, e por quê.
+5. Não presta ou está no limite → ofereça "Melhorar meu robô". Presta → "Quanto posso perder?".
 
 **Nunca calcule as métricas de cabeça.** Use o script. Se um número do print estiver ilegível, pergunte em vez de chutar.
 
-### 4. Quanto posso perder?
+### 4. Melhorar meu robô
+
+Leia `referencias/melhorar-robo.md` e siga os 6 passos: separar treino e prova, diagnóstico com `scripts/diagnostico.py`, um ajuste por rodada com diário de testes, teste de vizinhança e a prova final num período que o robô nunca viu.
+
+- Comece por mudanças de **parâmetro** (a pessoa muda na janela da plataforma). Regra nova só depois, com o código inteiro de novo.
+- Toda mudança precisa de uma razão que caiba em uma frase. Nada de mexer em número até o resultado ficar bonito.
+- Depois de 6 a 8 rodadas sem melhora consistente, diga com honestidade que a ideia não mostra vantagem e ofereça outra.
+- Nunca prometa que o próximo ajuste vai resolver.
+
+### 5. Quanto posso perder?
 
 Leia `referencias/risco-de-quebra.md`. Pergunte o capital que a pessoa pretende usar e rode `python scripts/quebra.py` com as operações do backtest (ou com o resumo). Mostre a chance de quebrar, os cenários ruim, típico e bom, e quantos contratos dá para usar com risco aceitável.
 
 **Nunca invente esses números.** Todo número desta ferramenta sai do script.
 
-### 5. Ficha do robô
+### 6. Ficha do robô
 
 Leia `referencias/ficha-do-robo.md`. Preencha a ficha com o que já saiu das ferramentas anteriores. Pergunte só o que faltar. Diga com clareza se o robô está pronto para envio ou o que falta.
 
