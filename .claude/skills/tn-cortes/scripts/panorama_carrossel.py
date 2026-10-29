@@ -268,6 +268,8 @@ def main():
         juros1 = "".join(f"<p>{esc(l)}</p>" for l in pega(sec, "JUROS")[:1])
         # o S&P futuro do QG é de outro horário: com o número de NY na tela, sai dos chips pra não mostrar dois valores
         fora_sem_sp = [c for c in fora if "S&amp;P" not in c and "S&P" not in c] if "ES=F" in ny else fora
+        # aqui só cabe uma linha de chips acima do juro: frase longa do QG (ex.: petróleo) quebra e encavala
+        fora_sem_sp = [c for c in fora_sem_sp if len(re.sub(r"<[^>]+>", "", c)) <= 40]
         s5 = f"""<span class="tag">LÁ FORA</span>
 <h1 class="h1m">O Brasil lá fora, antes da abertura.</h1>
 <div class="painel fluxo ny"><p class="gt">pré-mercado de Nova York às {esc(fora_dados.get("hora"))} · contra o último fechamento · Yahoo Finance</p>{linhas}</div>
