@@ -4,7 +4,7 @@ import { lerHistorico, responder, saidaTransbordo } from "@/lib/sdr";
 
 // Chamado pelo ManyChat (passo "External Request") a cada mensagem do lead
 // no fluxo ITERA do Instagram. Variáveis na Vercel:
-// ANTHROPIC_API_KEY, SDR_TOKEN, SDR_PROMPT e, opcional, SDR_MODEL.
+// ANTHROPIC_API_KEY, SDR_TOKEN, SDR_PROMPT e, opcionais, SDR_MODEL e SDR_NOME.
 
 export const maxDuration = 15;
 

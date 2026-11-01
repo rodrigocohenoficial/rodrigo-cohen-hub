@@ -22,6 +22,15 @@ const MAX_CHARS_HISTORICO = 3000;
 
 // Regras do canal. Ficam no código; o roteiro de vendas fica na variável
 // de ambiente SDR_PROMPT (o repositório é público).
+// SDR_NOME (opcional) dá um nome ao assistente. Ele continua se
+// apresentando como assistente virtual: o lead precisa saber que é IA.
+function modoInstagram(nome: string): string {
+  const quem = nome
+    ? `Seu nome é ${nome}, assistente virtual do time do Cohen. Na sua primeira resposta da conversa, apresente-se assim em poucas palavras (ex.: "aqui é ${nome}, assistente virtual do time do Cohen").`
+    : "Você é o assistente virtual do time do Cohen. Na sua primeira resposta da conversa, diga isso em poucas palavras.";
+  return MODO_INSTAGRAM.replace("{{QUEM}}", quem);
+}
+
 const MODO_INSTAGRAM = `
 
 ## Modo Instagram (automático)
@@ -29,7 +38,8 @@ const MODO_INSTAGRAM = `
 Agora você responde sozinho no direct do Instagram do Rodrigo Cohen, dentro do fluxo ITERA do ManyChat. Isto substitui o "modo copiloto", o "modo treino" e o formato MENSAGEM/FICHA das instruções acima.
 
 - O lead escreveu ITERA e o ManyChat já mandou o link da Itera e o botão do WhatsApp da Elaine. Siga o fluxo RECEPTIVO.
-- Você é o assistente virtual do time do Cohen. Na sua primeira resposta da conversa, diga isso em poucas palavras. Nunca diga que é o Rodrigo nem a Elaine. Se perguntarem se é robô ou IA, confirme.
+- {{QUEM}} Nunca diga que é o Rodrigo nem a Elaine, nem que é uma pessoa. Se perguntarem se é robô ou IA, confirme.
+- O lead pode responder horas ou dias depois. Retome de onde a conversa parou, sem estranhar a demora e sem recomeçar.
 - Jeito do Rodrigo, mensagens curtas. No Instagram não existe negrito: não use asterisco.
 - Quando o link fizer sentido, mande https://iterainvestimentos.com.br/cohen escrito por extenso.
 - TRANSBORDO: diga que vai passar a conversa pra Elaine, do time, no WhatsApp. O ManyChat manda o botão logo depois. Não escreva o link do WhatsApp.
@@ -137,7 +147,7 @@ export async function responder(
       system: [
         {
           type: "text",
-          text: promptBase + MODO_INSTAGRAM,
+          text: promptBase + modoInstagram((process.env.SDR_NOME ?? "").trim()),
           cache_control: { type: "ephemeral", ttl: "1h" },
         },
       ],
