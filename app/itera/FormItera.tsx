@@ -97,8 +97,8 @@ export default function FormItera() {
           <span className="text-[12px] tracking-[0.12em] uppercase text-muted">
             Procure este botão
           </span>
-          <span className="inline-block bg-[#161616] text-[#FBF26A] font-semibold text-[15px] px-5 py-2.5 rounded-lg">
-            Abrir conta
+          <span className="inline-block bg-[#FEF133] text-[#0A0A0A] font-semibold text-[15px] px-5 py-2.5 rounded-lg">
+            Abrir minha conta
           </span>
         </div>
 
