@@ -1,6 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { NextRequest } from "next/server";
-import { lerHistorico, responder, saidaTransbordo } from "@/lib/sdr";
+import {
+  lerHistorico,
+  responder,
+  saidaEspera,
+  saidaFollowupPadrao,
+  saidaTransbordo,
+} from "@/lib/sdr";
 
 // Chamado pelo ManyChat (passo "External Request") a cada mensagem do lead
 // no fluxo ITERA do Instagram. Variáveis na Vercel:
@@ -47,7 +53,11 @@ export async function POST(request: NextRequest) {
   const followup =
     typeof corpo.followup === "string" ? corpo.followup.trim().slice(0, 40) : "";
   const turnos = lerHistorico(corpo.historico);
-  if (mensagem && !followup) turnos.push({ r: "u", t: mensagem });
+  // Histórico terminando em mensagem do lead = a última tentativa falhou.
+  const jaFalhou = turnos.at(-1)?.r === "u";
+  const ultima = turnos.at(-1);
+  const repetida = ultima?.r === "u" && ultima.t === mensagem;
+  if (mensagem && !followup && !repetida) turnos.push({ r: "u", t: mensagem });
   if (!turnos.length) turnos.push({ r: "u", t: "ITERA" });
 
   try {
@@ -55,7 +65,11 @@ export async function POST(request: NextRequest) {
     console.log("[sdr]", saida.etapa, saida.transbordo === "sim" ? saida.motivo : "");
     return Response.json(saida);
   } catch (err) {
-    console.error("[sdr] falha", err);
-    return Response.json(saidaTransbordo(turnos, "o SDR não respondeu a tempo"));
+    console.error("[sdr] falha", jaFalhou ? "(2a vez)" : "", err);
+    if (followup) return Response.json(saidaFollowupPadrao(turnos));
+    if (jaFalhou) {
+      return Response.json(saidaTransbordo(turnos, "o SDR não respondeu a tempo"));
+    }
+    return Response.json(saidaEspera(turnos));
   }
 }

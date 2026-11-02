@@ -15,6 +15,8 @@ export type SaidaSdr = {
   motivo: string;
   etapa: string;
   historico: string;
+  // "sim" quando a resposta demorou: o ManyChat chama o SDR de novo na hora.
+  repetir: "sim" | "nao";
 };
 
 const MAX_TURNOS = 16;
@@ -40,7 +42,7 @@ Agora você responde sozinho no direct do Instagram do Rodrigo Cohen, dentro do 
 - O lead escreveu ITERA e o ManyChat já mandou o link da Itera, o botão do WhatsApp da Elaine e a pergunta "vc ja tem conta na XP Investimentos?". A primeira mensagem do lead que você recebe costuma ser a resposta a essa pergunta. Não repita a pergunta nem o link sem motivo. Siga o fluxo RECEPTIVO e, se ele já tem XP Investimentos, a seção "Já tem XP Investimentos".
 - {{QUEM}} Nunca diga que é o Rodrigo nem a Elaine, nem que é uma pessoa. Se perguntarem se é robô ou IA, confirme.
 - O lead pode responder horas ou dias depois. Retome de onde a conversa parou, sem estranhar a demora e sem recomeçar.
-- Jeito do Rodrigo, mensagens curtas. No Instagram não existe negrito: não use asterisco.
+- Jeito do Rodrigo, mensagens curtas. No máximo 2 mensagens por resposta, cada uma com até 3 linhas curtas (uns 300 caracteres no total). Se tiver muita coisa pra dizer, fale o mais importante e pergunte se ele quer saber mais. No Instagram não existe negrito: não use asterisco.
 - Quando o link fizer sentido, mande https://iterainvestimentos.com.br/cohen escrito por extenso.
 - TRANSBORDO: diga que vai chamar a Elaine, do time do Cohen, e que ela responde aqui mesmo no direct, de segunda a sexta em horário comercial. Não mande link de WhatsApp. Na hora de passar, não venda nada.
 - Conta aberta ou opt-out: responda curto e encerre.
@@ -130,6 +132,38 @@ export function saidaTransbordo(turnos: Turno[], motivo: string): SaidaSdr {
     motivo,
     etapa: "TRANSBORDO",
     historico: gravarHistorico([...turnos, { r: "a", t: texto }]),
+    repetir: "nao",
+  };
+}
+
+// Follow-up que falhou: manda um lembrete genérico em vez de nada.
+export function saidaFollowupPadrao(turnos: Turno[]): SaidaSdr {
+  const texto = "passando so pra nao deixar minha msg perdida aqui 😅\nficou alguma duvida?";
+  return {
+    resposta1: texto,
+    resposta2: "",
+    encerrar: "nao",
+    transbordo: "nao",
+    motivo: "",
+    etapa: "FOLLOWUP",
+    historico: gravarHistorico([...turnos, { r: "a", t: texto }]),
+    repetir: "nao",
+  };
+}
+
+// Resposta lenta: avisa o lead e pede ao ManyChat para tentar de novo. A
+// mensagem do lead fica no histórico sem resposta; se a próxima tentativa
+// também falhar, a rota faz o transbordo.
+export function saidaEspera(turnos: Turno[]): SaidaSdr {
+  return {
+    resposta1: "pera que ja te respondo",
+    resposta2: "",
+    encerrar: "nao",
+    transbordo: "nao",
+    motivo: "",
+    etapa: "ESPERA",
+    historico: gravarHistorico(turnos),
+    repetir: "sim",
   };
 }
 
@@ -149,10 +183,16 @@ export async function responder(
     else mensagensApi.push({ role: "user", content: aviso });
   }
 
+  const model = process.env.SDR_MODEL || "claude-sonnet-5-5";
   const resposta = await client.beta.messages.create(
     {
-      model: process.env.SDR_MODEL || "claude-opus-5-5",
-      max_tokens: 2000,
+      model,
+      max_tokens: 1000,
+      // No Sonnet, sem raciocínio prévio: responde bem mais rápido, e o
+      // ManyChat corta a requisição em 10 s.
+      ...(model.startsWith("claude-sonnet")
+        ? { thinking: { type: "between_tools" as const } }
+        : {}),
       betas: ["server-side-fallback-2026-07-01"],
       fallbacks: "default",
       system: [
@@ -203,5 +243,6 @@ export async function responder(
       ...turnos,
       { r: "a", t: mensagens.join("\n") },
     ]),
+    repetir: "nao",
   };
 }
