@@ -151,12 +151,13 @@ export function saidaFollowupPadrao(turnos: Turno[]): SaidaSdr {
   };
 }
 
-// Resposta lenta: avisa o lead e pede ao ManyChat para tentar de novo. A
-// mensagem do lead fica no histórico sem resposta; se a próxima tentativa
-// também falhar, a rota faz o transbordo.
+// Resposta lenta: pede para o lead reenviar (a resposta padrão do ManyChat
+// pega a nova mensagem). Se o ManyChat estiver configurado com sdr_repetir,
+// ele tenta de novo sozinho. A mensagem do lead fica no histórico sem
+// resposta; se a próxima tentativa também falhar, a rota faz o transbordo.
 export function saidaEspera(turnos: Turno[]): SaidaSdr {
   return {
-    resposta1: "pera que ja te respondo",
+    resposta1: "opa, travou aqui do meu lado 😅\nme manda de novo?",
     resposta2: "",
     encerrar: "nao",
     transbordo: "nao",
