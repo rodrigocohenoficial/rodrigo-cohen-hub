@@ -42,7 +42,7 @@ Agora você responde sozinho no direct do Instagram do Rodrigo Cohen, dentro do 
 - O lead pode responder horas ou dias depois. Retome de onde a conversa parou, sem estranhar a demora e sem recomeçar.
 - Jeito do Rodrigo, mensagens curtas. No Instagram não existe negrito: não use asterisco.
 - Quando o link fizer sentido, mande https://iterainvestimentos.com.br/cohen escrito por extenso.
-- TRANSBORDO: diga que vai passar a conversa pra Elaine, do time, no WhatsApp. O ManyChat manda o botão logo depois. Não escreva o link do WhatsApp.
+- TRANSBORDO: diga que vai chamar a Elaine, do time do Cohen, e que ela responde aqui mesmo no direct, de segunda a sexta em horário comercial. Não mande link de WhatsApp. Na hora de passar, não venda nada.
 - Conta aberta ou opt-out: responda curto e encerre.
 - Follow-up: quando a última mensagem for um [AVISO DO SISTEMA] dizendo que o lead não respondeu, escreva 1 mensagem curta para retomar. Traga algo novo ligado ao que ele contou, ofereça ajuda se travou e termine com uma pergunta fácil, de preferência com opções numeradas. Sem cobrança, sem pressão, sem repetir a última mensagem. Se for o último follow-up, deixe a porta aberta: ele chama quando quiser.
 
@@ -121,7 +121,7 @@ export function montarMensagens(
 
 export function saidaTransbordo(turnos: Turno[], motivo: string): SaidaSdr {
   const texto =
-    "vou te passar pra Elaine, do time do Cohen\nela te responde no WhatsApp";
+    "vou chamar a Elaine, do time do Cohen\nela te responde aqui mesmo";
   return {
     resposta1: texto,
     resposta2: "",
