@@ -22,12 +22,12 @@ const MAX_CHARS_HISTORICO = 3000;
 
 // Regras do canal. Ficam no código; o roteiro de vendas fica na variável
 // de ambiente SDR_PROMPT (o repositório é público).
-// SDR_NOME (opcional) dá um nome ao assistente. Ele continua se
-// apresentando como assistente virtual: o lead precisa saber que é IA.
+// SDR_NOME (opcional) dá um nome ao assistente. Ele se apresenta como
+// "assistente do time do Cohen" e confirma que é IA se o lead perguntar.
 function modoInstagram(nome: string): string {
   const quem = nome
-    ? `Seu nome é ${nome}, assistente virtual do time do Cohen. Na sua primeira resposta da conversa, apresente-se assim em poucas palavras (ex.: "aqui é ${nome}, assistente virtual do time do Cohen").`
-    : "Você é o assistente virtual do time do Cohen. Na sua primeira resposta da conversa, diga isso em poucas palavras.";
+    ? `Seu nome é ${nome}, assistente do time do Cohen. Na sua primeira resposta da conversa, apresente-se assim em poucas palavras (ex.: "aqui é ${nome}, assistente do time do Cohen").`
+    : 'Você é o assistente do time do Cohen. Na sua primeira resposta da conversa, apresente-se assim em poucas palavras (ex.: "aqui é o assistente do time do Cohen").';
   return MODO_INSTAGRAM.replace("{{QUEM}}", quem);
 }
 
@@ -42,8 +42,9 @@ Agora você responde sozinho no direct do Instagram do Rodrigo Cohen, dentro do 
 - O lead pode responder horas ou dias depois. Retome de onde a conversa parou, sem estranhar a demora e sem recomeçar.
 - Jeito do Rodrigo, mensagens curtas. No Instagram não existe negrito: não use asterisco.
 - Quando o link fizer sentido, mande https://iterainvestimentos.com.br/cohen escrito por extenso.
-- TRANSBORDO: diga que vai passar a conversa pra Elaine, do time, no WhatsApp. O ManyChat manda o botão logo depois. Não escreva o link do WhatsApp.
+- TRANSBORDO: diga que vai chamar a Elaine, do time do Cohen, e que ela responde aqui mesmo no direct, de segunda a sexta em horário comercial. Não mande link de WhatsApp. Na hora de passar, não venda nada.
 - Conta aberta ou opt-out: responda curto e encerre.
+- Follow-up: quando a última mensagem for um [AVISO DO SISTEMA] dizendo que o lead não respondeu, escreva 1 mensagem curta para retomar. Traga algo novo ligado ao que ele contou, ofereça ajuda se travou e termine com uma pergunta fácil, de preferência com opções numeradas. Sem cobrança, sem pressão, sem repetir a última mensagem. Se for o último follow-up, deixe a porta aberta: ele chama quando quiser.
 
 Responda só no formato JSON pedido:
 - mensagens: 1 ou 2 mensagens curtas, na ordem de envio.
@@ -120,7 +121,7 @@ export function montarMensagens(
 
 export function saidaTransbordo(turnos: Turno[], motivo: string): SaidaSdr {
   const texto =
-    "vou te passar pra Elaine, do time do Cohen\nela te responde no WhatsApp";
+    "vou chamar a Elaine, do time do Cohen\nela te responde aqui mesmo";
   return {
     resposta1: texto,
     resposta2: "",
@@ -137,7 +138,17 @@ export async function responder(
   promptBase: string,
   turnos: Turno[],
   nome: string,
+  followup = "",
 ): Promise<SaidaSdr> {
+  // No follow-up, o aviso vai só para esta chamada: não entra no histórico.
+  const mensagensApi = montarMensagens(turnos, nome);
+  if (followup) {
+    const aviso = `[AVISO DO SISTEMA, não é o lead] O lead não respondeu há ${followup}. Escreva o follow-up.`;
+    const ultima = mensagensApi[mensagensApi.length - 1];
+    if (ultima?.role === "user") ultima.content = `${ultima.content}\n${aviso}`;
+    else mensagensApi.push({ role: "user", content: aviso });
+  }
+
   const resposta = await client.beta.messages.create(
     {
       model: process.env.SDR_MODEL || "claude-opus-5-5",
@@ -155,7 +166,7 @@ export async function responder(
         effort: "low",
         format: { type: "json_schema", schema: SCHEMA },
       },
-      messages: montarMensagens(turnos, nome),
+      messages: mensagensApi,
     },
     { timeout: 8500, maxRetries: 0 },
   );
