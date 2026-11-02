@@ -19,7 +19,8 @@ function lerCorpo(bruto: string): Record<string, unknown> | null {
     const nome = bruto.match(/"nome"\s*:\s*"([^"]*)"/)?.[1];
     const mensagem = bruto.match(/"mensagem"\s*:\s*"([\s\S]*)"\s*}\s*$/)?.[1];
     if (mensagem === undefined) return null;
-    return { mensagem: mensagem.replace(/\\n/g, "\n"), historico, nome };
+    const followup = bruto.match(/"followup"\s*:\s*"([^"]*)"/)?.[1];
+    return { mensagem: mensagem.replace(/\\n/g, "\n"), historico, nome, followup };
   }
 }
 
@@ -42,12 +43,15 @@ export async function POST(request: NextRequest) {
     typeof corpo.mensagem === "string" ? corpo.mensagem.trim().slice(0, 2000) : "";
   const nome =
     typeof corpo.nome === "string" ? corpo.nome.trim().slice(0, 60) : "";
+  // "followup" (ex.: "3 horas") pede um lembrete para o lead que sumiu.
+  const followup =
+    typeof corpo.followup === "string" ? corpo.followup.trim().slice(0, 40) : "";
   const turnos = lerHistorico(corpo.historico);
-  if (mensagem) turnos.push({ r: "u", t: mensagem });
+  if (mensagem && !followup) turnos.push({ r: "u", t: mensagem });
   if (!turnos.length) turnos.push({ r: "u", t: "ITERA" });
 
   try {
-    const saida = await responder(new Anthropic(), promptBase, turnos, nome);
+    const saida = await responder(new Anthropic(), promptBase, turnos, nome, followup);
     console.log("[sdr]", saida.etapa, saida.transbordo === "sim" ? saida.motivo : "");
     return Response.json(saida);
   } catch (err) {
