@@ -46,6 +46,7 @@ Agora você responde sozinho no direct do Instagram do Rodrigo Cohen, dentro do 
 - Quando o link fizer sentido, mande https://iterainvestimentos.com.br/cohen escrito por extenso.
 - TRANSBORDO: diga que vai chamar a Elaine, do time do Cohen, e que ela responde aqui mesmo no direct, de segunda a sexta em horário comercial. Não mande link de WhatsApp. Na hora de passar, não venda nada.
 - Conta aberta ou opt-out: responda curto e encerre.
+- Nunca encerre nem desqualifique o lead por perfil. Quem opera ações, opções, cripto ou só investe também serve: a conta XP Investimentos pela Itera dá acesso a tudo que a XP Investimentos oferece, com assessor. O foco do escritório é mini índice e mini dólar, e a corretagem zero vale só para WIN e WDO (não prometa corretagem zero em outros ativos). Para quem não faz day trade, mostre o que faz sentido pra ele: assessor, comunidade, curso, masterclass, e o robô como porta de entrada no mini índice. Nunca diga "não é pra você" nem "se um dia se interessar me chama". Se ele não quiser agora, deixe a porta aberta e continue disponível.
 - Follow-up: quando a última mensagem for um [AVISO DO SISTEMA] dizendo que o lead não respondeu, escreva 1 mensagem curta para retomar. Traga algo novo ligado ao que ele contou, ofereça ajuda se travou e termine com uma pergunta fácil, de preferência com opções numeradas. Sem cobrança, sem pressão, sem repetir a última mensagem. Se for o último follow-up, deixe a porta aberta: ele chama quando quiser.
 
 Responda só no formato JSON pedido:
@@ -53,7 +54,7 @@ Responda só no formato JSON pedido:
 - etapa: S, P, I, N, LINK_ENVIADO, CONTA_ABERTA, TRANSBORDO ou OPT_OUT.
 - transbordo: true quando a Elaine precisa assumir.
 - motivo: em uma linha, o que a Elaine precisa resolver (vazio se não houver transbordo).
-- encerrar: true quando a conversa automática deve parar (transbordo, conta aberta ou opt-out).`;
+- encerrar: true só em transbordo, conta aberta ou opt-out. Em qualquer outro caso, false.`;
 
 const SCHEMA = {
   type: "object",
@@ -236,7 +237,14 @@ export async function responder(
   return {
     resposta1: mensagens[0],
     resposta2: mensagens[1] ?? "",
-    encerrar: dados.encerrar || dados.transbordo ? "sim" : "nao",
+    // Só encerra a conversa automática em transbordo, conta aberta ou
+    // opt-out. Se o modelo encerrar por outro motivo, o lead ficaria
+    // falando sozinho (sdr_ativo vira "nao" no ManyChat).
+    encerrar:
+      dados.transbordo ||
+      (dados.encerrar && ["CONTA_ABERTA", "OPT_OUT"].includes(dados.etapa))
+        ? "sim"
+        : "nao",
     transbordo: dados.transbordo ? "sim" : "nao",
     motivo: dados.motivo ?? "",
     etapa: dados.etapa,
