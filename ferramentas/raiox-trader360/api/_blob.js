@@ -1,7 +1,7 @@
 import { put, get, list, del } from "@vercel/blob";
 
-// "turma" = alunos da Trader 360; "publico" = diagnóstico aberto (leads).
-const PASTAS = { turma: "respostas/", publico: "leads/" };
+// "turma" = alunos da Trader 360; "publico" = diagnóstico aberto (leads); "planos" = Plano de Trade.
+const PASTAS = { turma: "respostas/", publico: "leads/", planos: "planos/" };
 const pasta = (origem) => PASTAS[origem] || PASTAS.turma;
 
 export async function salvar(registro) {
