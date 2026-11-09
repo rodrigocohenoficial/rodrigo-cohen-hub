@@ -374,15 +374,24 @@
           <div class="num destaque"><div class="r">Matemática média</div><div class="v">${sinal(media)} R</div><div class="s">por trade</div></div>
           <div class="num"><div class="r">Ganham dinheiro</div><div class="v">${pos} de ${ps.length}</div><div class="s">com os números que deram</div></div>
         </div>
-        <div class="rolagem"><table class="lista"><tr><th>Nome</th><th>Contratos</th><th>Risco</th><th>Acerto · payoff</th><th>R por trade</th><th>Para depois de</th><th>Padrão</th><th>Regra</th></tr>
+        <div class="rolagem"><table class="lista"><tr><th>Nome</th><th>Contratos</th><th>Risco</th><th>Acerto · payoff</th><th>R por trade</th><th>Para depois de</th><th>Padrão</th><th>Regra</th><th></th></tr>
         ${ps.map((p) => { const x = p.plano; return `<tr><td>${esc(p.nome)}</td><td>${x.contratos}</td><td>${fmt(x.riscoPct, 2)}%</td><td>${fmt(x.acerto, 0)}% · ${fmt(x.payoff, 2)}</td>
-          <td class="${x.eR > 0 ? "pos" : "neg"}">${sinal(x.eR)}</td><td>${x.limiteStops} stops</td><td>${esc(nomePad(x.padrao))}</td><td>${esc(x.regra)}</td></tr>`; }).join("")}
+          <td class="${x.eR > 0 ? "pos" : "neg"}">${sinal(x.eR)}</td><td>${x.limiteStops} stops</td><td>${esc(nomePad(x.padrao))}</td><td>${esc(x.regra)}</td><td><button class="link" data-apagar="${esc(p.id)}">apagar</button></td></tr>`; }).join("")}
         </table></div>
         <div class="acoes"><button class="btn sec" onclick="location.reload()">Atualizar</button></div>`;
     } catch (err) {
       app.innerHTML = '<div class="card"><h2>Não deu para carregar.</h2><p class="sub">Confira a chave do link.</p></div>';
     }
   }
+
+  // Apagar um plano da lista (teste ou envio repetido).
+  app.addEventListener("click", async (e) => {
+    const id = e.target.dataset && e.target.dataset.apagar;
+    if (!id || !params.get("k")) return;
+    if (!confirm("Apagar este plano?")) return;
+    await fetch("/api/respostas?k=" + encodeURIComponent(params.get("k")) + "&id=" + encodeURIComponent(id), { method: "DELETE" });
+    lista(params.get("k"));
+  });
 
   if (params.get("k")) lista(params.get("k"));
   else render();
