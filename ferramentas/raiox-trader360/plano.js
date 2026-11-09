@@ -246,7 +246,7 @@
       <h4>O que eu opero</h4>
       <ul>
         <li>${setups.length ? esc(setups.join(", ")) : "Defina pelo menos um setup"}. Só a favor da média de 8 sobre a 20.</li>
-        <li>Alvo de no mínimo 2 vezes o risco. Se não paga, não tem trade.</li>
+        <li>Gatilho, stop e alvo definidos antes do clique. Se a minha matemática não fecha positiva, não tem trade.</li>
       </ul>
       <h4>Quando eu paro</h4>
       <ul>
