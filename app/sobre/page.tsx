@@ -13,7 +13,7 @@ const QG_WHATSAPP_URL =
   "https://chat.whatsapp.com/Flt7YVYtMrY0JgXF6C1rA3?mode=gi_t";
 
 export const metadata: Metadata = {
-  title: "Sobre Rodrigo Cohen — Trader, CNPI, Embaixador B3 e Santander",
+  title: "Sobre Rodrigo Cohen — Trader, CNPI, Embaixador B3",
   description: AUTHOR.description,
 };
 
@@ -59,7 +59,7 @@ export default function SobrePage() {
             <div className="hero-bio" aria-label="Bio institucional">
               <p>
                 Sou Rodrigo Cohen. Engenheiro, Analista CNPI-T, embaixador
-                oficial da B3 e do Santander. Pioneiro em automação de trading
+                oficial da B3. Pioneiro em automação de trading
                 no Brasil desde 2012. Fundador da Trader Nation, com 61 mil
                 alunos.
               </p>
@@ -102,7 +102,7 @@ export default function SobrePage() {
           <span>26 anos de mercado</span>
           <span>61 mil alunos</span>
           <span>Analista CNPI-T EM-1409</span>
-          <span>Embaixador B3 e Santander</span>
+          <span>Embaixador B3</span>
           <span>Eleito mais influente em 2020 (Anbima)</span>
           <span>Pioneiro em automação no Brasil</span>
         </section>

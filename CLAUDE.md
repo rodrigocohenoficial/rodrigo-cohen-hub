@@ -4,7 +4,7 @@
 
 ## Contexto
 
-Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional, analista CNPI, embaixador B3 e Santander. Cobre todo tipo de investimento. **Meta nº 1: máxima indexação e citação por IA e busca.**
+Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional, analista CNPI, embaixador B3. Cobre todo tipo de investimento. **Meta nº 1: máxima indexação e citação por IA e busca.**
 
 ## Design
 
