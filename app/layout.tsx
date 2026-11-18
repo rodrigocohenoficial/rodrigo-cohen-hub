@@ -151,9 +151,6 @@ export default function RootLayout({
                     <a href="https://robosb3.tradernation.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Robôs Cohen</a>
                   </li>
                   <li>
-                    <a href="https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Toro/Santander</a>
-                  </li>
-                  <li>
                     <a href="https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X" target="_blank" rel="noopener noreferrer" className="hover:text-evergreen transition-colors">Livro</a>
                   </li>
                 </ul>

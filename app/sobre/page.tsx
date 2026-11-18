@@ -5,8 +5,6 @@ import { authorSchema } from "@/lib/schema";
 import { AUTHOR } from "@/lib/author";
 
 const ROBOS_COHEN_URL = "https://robosb3.tradernation.com.br";
-const TORO_URL =
-  "https://mkt.toroinvestimentos.com.br/influencer/rodrigo-cohen";
 const AMAZON_BOOK_URL =
   "https://www.amazon.com.br/vida-n%C3%A3o-tem-simulador-ensinar/dp/658848514X";
 const QG_WHATSAPP_URL =
@@ -43,7 +41,6 @@ export default function SobrePage() {
           </Link>
           <nav className="nav-links" aria-label="Links principais">
             <a href="#robos">Robôs Cohen</a>
-            <a href="#toro">Toro</a>
             <a href="#qg">QG</a>
           </nav>
         </header>
@@ -132,35 +129,6 @@ export default function SobrePage() {
               rel="noreferrer"
             >
               Conhecer os Robôs Cohen
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-          </div>
-        </section>
-
-        {/* TORO */}
-        <section
-          className="content-section quiet-section"
-          id="toro"
-          aria-labelledby="toro-title"
-        >
-          <div className="quiet-card">
-            <p className="eyebrow">Toro/Santander</p>
-            <h2 id="toro-title">
-              Pra operar com estrutura, escolhi a Toro.
-            </h2>
-            <p>
-              Depois de 26 anos no mercado, sei que corretora importa. Custo,
-              execução, plataforma e segurança definem se você opera com vantagem
-              ou desvantagem. Indico a Toro/Santander — corretagem zero, Profit
-              Pro grátis, segurança institucional.
-            </p>
-            <a
-              className="text-link"
-              href={TORO_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Abrir conta na Toro pelo meu link oficial
               <ArrowUpRight aria-hidden="true" />
             </a>
           </div>

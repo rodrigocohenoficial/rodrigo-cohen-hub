@@ -24,7 +24,6 @@ Hub de autoridade de Rodrigo Cohen (rodrigocohen.com.br) — trader profissional
 
 ## Parceiros
 
-- **Santander** = corretagem zero sem RLP, segurança, suporte rápido, plataforma grátis.
 - **B3** = melhor amiga do trader, educação e transparência.
 
 ## Artigos
