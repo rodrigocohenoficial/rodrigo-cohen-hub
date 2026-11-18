@@ -59,7 +59,7 @@ Sem imagem de IA. Slide sem imagem só com justificativa explícita na entrega.
 
 ### Compliance da parceria B3
 - B3 = melhor amiga do trader, instituição séria, educação e transparência. **Nunca** associar a cassino, jogo, aposta ou especulação.
-- Publi: `#publi` na legenda + lembrar o Rodrigo de ativar "parceria paga" com a B3 no Instagram + alinhar com o compliance da B3 antes de postar.
+- Publi (decisão do Rodrigo): **não** marcar "parceria paga" no Instagram e não lembrar disso. A legenda termina sempre com exatamente esta linha, e nenhuma outra hashtag: `#DayTradenaB3 #publi #parceria #B3`
 - Nada de recomendação de compra/venda ou promessa de ganho. "Muda o seu processo", não "muda o seu resultado".
 - Disclaimer na **legenda** (não no slide; o rodapé `fonte:` é só pra fonte de dado) sempre que citar ativo ou produto: `Rodrigo Cohen, Analista CNPI. Conteúdo educacional, não é recomendação de investimento.`
 - Não reproduzir logo da B3 como elemento gráfico da arte. Logo só aparece se estiver dentro de um print oficial.
@@ -74,7 +74,7 @@ Sem imagem de IA. Slide sem imagem só com justificativa explícita na entrega.
 ### Legenda
 - **Nunca copia os slides.** Traz cena, bastidor ou dado que não está na arte.
 - Estrutura: abertura forte → o que não cabia no slide → pergunta que puxa comentário → CTA (o CTA emocional mora aqui, não no slide).
-- Fecha com disclaimer CNPI (quando cabível), `#publi` e poucas hashtags do assunto.
+- Fecha com disclaimer CNPI (quando cabível) e, por último, a linha `#DayTradenaB3 #publi #parceria #B3`. Nenhuma outra hashtag.
 
 ### Output
 - Pasta: `<diretório de trabalho>/carrosseis-b3/<YYYY-MM-DD>-<slug>/vN/`. N = próxima versão livre.
@@ -87,5 +87,5 @@ Sem imagem de IA. Slide sem imagem só com justificativa explícita na entrega.
 3. `legenda.txt` via `SendUserFile`.
 4. O que você mudou por conta própria e por quê.
 5. Riscos editoriais ou de compliance que sobraram, uma linha cada.
-6. Lembrete: postar terça 19h, ativar parceria paga com a B3.
+6. Lembrete: postar na quarta.
 7. Fontes em links.
